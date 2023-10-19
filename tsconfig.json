@@ -25,6 +25,7 @@
       "@components/*": ["./src/components/*"],
       "@reducers/*": ["./src/redux/reducers/*"],
       "$types/*": ["./src/types/*"],
+      "@redux/*": ["./src/redux/*"],
       "@/*": ["./src/*"]
     }
   },
