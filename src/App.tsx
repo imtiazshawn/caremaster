@@ -5,7 +5,7 @@ import store from "@redux/store";
 function App() {
   return (
     <Provider store={store}>
-      <div>Starts here</div>
+      <div className="text-gray-200">Starts here</div>
     </Provider>
   );
 }

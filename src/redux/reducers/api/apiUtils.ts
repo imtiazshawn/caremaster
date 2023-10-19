@@ -6,7 +6,7 @@ const getTokenFromLocalStorage = () => {
 
 export const getBaseQuery = (url: string) => {
   const token = getTokenFromLocalStorage();
-  const baseUrl = `${process.env.CAREMASTER_BACKEND_URL}/api/${url}`;
+  const baseUrl = `${import.meta.env.CAREMASTER_BACKEND_URL}/api/${url}`;
   return fetchBaseQuery({
     baseUrl,
     prepareHeaders: (headers) => {
