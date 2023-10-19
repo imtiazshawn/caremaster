@@ -41,7 +41,7 @@ module.exports = {
     "block-scoped-var": "error",
     "no-unsafe-optional-chaining": "error",
     "no-template-curly-in-string": "error",
-    "simple-import-sort/imports": "error",
+    "simple-import-sort/imports": "off",
     "no-empty-pattern": "error",
     "no-implicit-coercion": "error",
     "no-unused-expressions": [
@@ -58,7 +58,7 @@ module.exports = {
       { props: "never", children: "never" },
     ],
     "@typescript-eslint/no-non-null-assertion": "off", // This is actually useful sometimes
-    "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/consistent-type-imports": "off",
     "@typescript-eslint/type-annotation-spacing": "error",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-explicit-any": "off",
