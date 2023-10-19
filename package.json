@@ -8,7 +8,12 @@
     "tsc": "tsc --noEmit --watch",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "jest",
+    "lint:quiet": "eslint . --ext ts,tsx --quiet  --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
+    "lint:report": "eslint --output-file eslint_report.json --format json . --ext ts,tsx",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.7",
