@@ -1,4 +1,4 @@
-name: Eslint and Typescript checks
+name: Checks
 # Only runs on pull request
 on:
   pull_request:
@@ -35,7 +35,7 @@ jobs:
           prettier_options: --write **/*.{js,jsx,ts,tsx}
           only_changed: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
-  linter_and_typescript:
+  linter-and-typescript:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
