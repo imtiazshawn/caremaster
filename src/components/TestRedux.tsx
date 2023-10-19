@@ -25,8 +25,8 @@ export const TestRedux = () => {
   const user = useUser();
 
   return (
-    <div className="text-gray-200">
-      <div className="text-2xl">{user?.email}</div>
+    <div className='flex text-gray-200'>
+      <div className='text-2xl'>{user?.email}</div>
     </div>
   );
 };

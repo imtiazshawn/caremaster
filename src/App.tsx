@@ -5,10 +5,9 @@ import store from "@redux/store";
 import { Provider } from "react-redux";
 
 function App() {
-  const test = "prettier";
   return (
     <Provider store={store}>
-      <div className='text-gray-200'>Starts here</div>
+      <div className='text-gray-200'>Lets rock, Starts here</div>
       <TestRedux />
     </Provider>
   );
