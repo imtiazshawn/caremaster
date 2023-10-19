@@ -1,8 +1,9 @@
 import react from "@vitejs/plugin-react";
+import path from "path";
 import { defineConfig } from "vite";
 import checker from "vite-plugin-checker";
+
 import tsconfig from "./tsconfig.json";
-import path from "path";
 
 const getAliasesFromTsConfig = () => {
   const { paths } = tsconfig.compilerOptions;
