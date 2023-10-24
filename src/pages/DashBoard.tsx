@@ -38,7 +38,7 @@ export const Dashboard = () => {
       <CustomFlexBox sx={{ gap: 2 }}>
         <DashboardCard
           label='Service Users'
-          value={4}
+          value={50}
         />
         <DashboardCard
           label='Care Workers'
