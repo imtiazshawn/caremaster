@@ -1,14 +1,25 @@
 import "@/App.css";
 
-import { TestRedux } from "@components/TestRedux";
+import { PageLayout } from "@components/PageLayout";
 import store from "@redux/store";
 import { Provider } from "react-redux";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import { Dashboard } from "./pages/DashBoard";
 
 function App() {
   return (
     <Provider store={store}>
-      <div className='text-gray-200'>Lets rock, Starts here</div>
-      <TestRedux />
+      <PageLayout>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path='/'
+              element={<Dashboard />}
+            />
+          </Routes>
+        </BrowserRouter>
+      </PageLayout>
     </Provider>
   );
 }
