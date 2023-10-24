@@ -36,41 +36,50 @@ export const Navbar = () => {
   const { pathname } = useLocation();
   return (
     <CustomColumn sx={{ my: 20, gap: 1 }}>
-      {navLinks.map(({ route, icon, label }) => (
-        <Link
-          key={route}
-          to={route}
-        >
-          <IconButton
+      {navLinks.map(({ route, icon, label }) => {
+        const isActive = pathname === route;
+        return (
+          <Link
             key={route}
-            sx={{
-              p: 1,
-              px: 5,
-              borderRadius: 2,
-              width: "100%",
-              backgroundColor: "transparent",
-              ":hover": {
-                backgroundColor: "#F7F7FB",
-              },
-              ...(pathname === route && {
-                backgroundColor: "#e3e3e3",
-              }),
-            }}
+            to={route}
           >
-            <CustomFlexBox
+            <IconButton
+              key={route}
               sx={{
-                gap: 1,
-                justifyContent: "left",
-                alignItems: "center",
+                p: 1,
+                px: 5,
+                borderRadius: 2,
+                borderTopLeftRadius: 0,
+                borderBottomLeftRadius: 0,
+                borderLeft: "4px solid transparent",
                 width: "100%",
+                backgroundColor: "transparent",
+                ":hover": {
+                  backgroundColor: "#F7F7FB",
+                },
+                ...(isActive && {
+                  backgroundColor: "#e3e3e3",
+                }),
+                ...(isActive && {
+                  borderLeft: "4px solid #3f51b5",
+                }),
               }}
             >
-              {icon}
-              {label}
-            </CustomFlexBox>
-          </IconButton>
-        </Link>
-      ))}
+              <CustomFlexBox
+                sx={{
+                  gap: 1,
+                  justifyContent: "left",
+                  alignItems: "center",
+                  width: "100%",
+                }}
+              >
+                {icon}
+                {label}
+              </CustomFlexBox>
+            </IconButton>
+          </Link>
+        );
+      })}
     </CustomColumn>
   );
 };
