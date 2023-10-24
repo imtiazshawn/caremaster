@@ -12,3 +12,11 @@ export const CustomColumn = styled("div")({
   display: "flex",
   flexDirection: "column",
 });
+
+export const FullColumn = styled(CustomColumn)({
+  height: "100%",
+});
+
+export const FullRow = styled(CustomFlexBox)({
+  width: "100%",
+});

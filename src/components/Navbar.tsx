@@ -2,11 +2,13 @@ import { Dashboard } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 
+import { COLORS } from "@/shared/constants/colors";
+
 import { CustomColumn, CustomFlexBox } from "./common";
 
 const navLinks = [
   {
-    route: "/dashboard",
+    route: "/",
     icon: <Dashboard />,
     label: "Dashboard",
   },
@@ -40,9 +42,10 @@ const navLinks = [
 export const Navbar = () => {
   const { pathname } = useLocation();
   return (
-    <CustomColumn sx={{ my: 20, gap: 1 }}>
+    <CustomColumn sx={{ py: 14, gap: 1, backgroundColor: COLORS.WHITE }}>
       {navLinks.map(({ route, icon, label }) => {
-        const isActive = pathname === route;
+        const isActive =
+          pathname === route || (pathname === "/" && route === "/dashboard");
         return (
           <Link
             key={route}
@@ -51,7 +54,7 @@ export const Navbar = () => {
             <IconButton
               key={route}
               sx={{
-                p: 1,
+                p: 1.5,
                 px: 5,
                 borderRadius: 2,
                 borderTopLeftRadius: 0,
@@ -67,6 +70,9 @@ export const Navbar = () => {
                 }),
                 ...(isActive && {
                   borderLeft: "4px solid #3f51b5",
+                }),
+                ...(isActive && {
+                  fontWeight: "600",
                 }),
               }}
             >

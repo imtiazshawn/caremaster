@@ -16,14 +16,6 @@ module.exports = {
     "object-merge",
   ],
   rules: {
-    "no-unused-vars": [
-      "error",
-      {
-        ignoreRestSiblings: true,
-        args: "all",
-        argsIgnorePattern: "^_",
-      },
-    ],
     // Would be nice to enable later, but there are some current issues: https://github.com/eslint/eslint/issues/12156
     // "quotes": ["error", "double"]
     "no-restricted-imports": [

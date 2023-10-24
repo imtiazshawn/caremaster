@@ -1,18 +1,49 @@
 import { CustomBox, CustomFlexBox } from "@components/common";
 import { Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+
+const DashboardCard = ({
+  label,
+  value: propValue,
+}: {
+  value: number;
+  label: string;
+}) => {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(
+      () => {
+        if (value >= propValue) {
+          clearInterval(interval);
+          return;
+        }
+        setValue((value) => value + 1);
+      },
+      (1 / propValue) * 100,
+    );
+    return () => clearInterval(interval);
+  }, [propValue, value]);
+
+  return (
+    <CustomBox className='h-[200px] w-[320px] items-center justify-center rounded-xl bg-white p-4 text-center shadow-lg'>
+      <Typography variant='h1'>{value}</Typography>
+      <Typography variant='h5'>{label}</Typography>
+    </CustomBox>
+  );
+};
 
 export const Dashboard = () => {
   return (
     <div className='p-40'>
       <CustomFlexBox sx={{ gap: 2 }}>
-        <CustomBox className='h-[200px] w-[200px] items-center justify-center rounded-2xl bg-white p-4 text-center shadow-lg'>
-          <Typography variant='h1'>4</Typography>
-          <Typography variant='h5'>Service Users</Typography>
-        </CustomBox>
-        <CustomBox className='h-[200px] w-[200px] items-center justify-center rounded-2xl bg-white p-4 text-center shadow-lg'>
-          <Typography variant='h1'>7</Typography>
-          <Typography variant='h5'>Care Workers</Typography>
-        </CustomBox>
+        <DashboardCard
+          label='Service Users'
+          value={4}
+        />
+        <DashboardCard
+          label='Care Workers'
+          value={7}
+        />
       </CustomFlexBox>
     </div>
   );

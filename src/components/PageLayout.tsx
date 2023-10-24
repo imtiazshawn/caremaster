@@ -1,26 +1,34 @@
 import { ReactNode } from "react";
 
-import { CustomBox, CustomGrid } from "./common";
+import { COLORS } from "@/shared/constants/colors";
+
+import { CustomBox, CustomGrid, FullColumn } from "./common";
 import { Navbar } from "./Navbar";
+import { TopHeader } from "./TopHeader";
 
 export const PageLayout: React.FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <CustomGrid
-      sx={{
-        gridTemplateColumns: "270px 1fr",
-        height: "100vh",
-      }}
-    >
-      <Navbar />
-      <CustomBox
+    <FullColumn sx={{ height: "100vh", backgroundColor: COLORS.BACKGROUND }}>
+      <CustomGrid
         sx={{
-          backgroundColor: "#F7F7FB",
+          gridTemplateColumns: "270px 1fr",
+          height: "100%",
         }}
       >
-        {children}
-      </CustomBox>
-    </CustomGrid>
+        <Navbar />
+        <FullColumn>
+          <TopHeader />
+          <CustomBox
+            sx={{
+              height: "100%",
+            }}
+          >
+            {children}
+          </CustomBox>
+        </FullColumn>
+      </CustomGrid>
+    </FullColumn>
   );
 };
