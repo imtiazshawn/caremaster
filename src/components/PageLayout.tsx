@@ -14,7 +14,13 @@ export const PageLayout: React.FC<{ children?: ReactNode }> = ({
       }}
     >
       <Navbar />
-      <CustomBox>{children}</CustomBox>
+      <CustomBox
+        sx={{
+          backgroundColor: "#F7F7FB",
+        }}
+      >
+        {children}
+      </CustomBox>
     </CustomGrid>
   );
 };

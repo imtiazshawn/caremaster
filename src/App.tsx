@@ -10,16 +10,20 @@ import { Dashboard } from "./pages/DashBoard";
 function App() {
   return (
     <Provider store={store}>
-      <PageLayout>
-        <BrowserRouter>
+      <BrowserRouter>
+        <PageLayout>
           <Routes>
             <Route
               path='/'
               element={<Dashboard />}
             />
+            <Route
+              path='/dashboard'
+              element={<Dashboard />}
+            />
           </Routes>
-        </BrowserRouter>
-      </PageLayout>
+        </PageLayout>
+      </BrowserRouter>
     </Provider>
   );
 }
