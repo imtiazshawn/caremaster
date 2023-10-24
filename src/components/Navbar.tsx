@@ -16,6 +16,11 @@ const navLinks = [
     label: "Daily Tasks",
   },
   {
+    route: "/service-workers",
+    icon: <Dashboard />,
+    label: "Service Workers",
+  },
+  {
     route: "/rota",
     icon: <Dashboard />,
     label: "Rota",
@@ -71,6 +76,7 @@ export const Navbar = () => {
                   justifyContent: "left",
                   alignItems: "center",
                   width: "100%",
+                  fontSize: "1.2rem",
                 }}
               >
                 {icon}

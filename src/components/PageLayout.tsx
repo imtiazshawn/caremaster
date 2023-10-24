@@ -9,7 +9,7 @@ export const PageLayout: React.FC<{ children?: ReactNode }> = ({
   return (
     <CustomGrid
       sx={{
-        gridTemplateColumns: "250px 1fr",
+        gridTemplateColumns: "270px 1fr",
         height: "100vh",
       }}
     >
