@@ -18,9 +18,9 @@ const navLinks = [
     label: "Daily Tasks",
   },
   {
-    route: "/service-workers",
+    route: "/service-users",
     icon: <Dashboard />,
-    label: "Service Workers",
+    label: "Service Users",
   },
   {
     route: "/rota",
