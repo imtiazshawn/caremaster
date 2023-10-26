@@ -1,4 +1,12 @@
-import { Dashboard } from "@mui/icons-material";
+import { ReactComponent as Calender } from "@assets/calender.svg";
+import { ReactComponent as Chart } from "@assets/chart.svg";
+import { ReactComponent as Dashboard } from "@assets/dashboard.svg";
+import { ReactComponent as Info } from "@assets/info-circle.svg";
+import { ReactComponent as Logout } from "@assets/logout.svg";
+import { ReactComponent as ProfileUser } from "@assets/profile-user.svg";
+import { ReactComponent as Settings } from "@assets/settings.svg";
+import { ReactComponent as TwoUsers } from "@assets/two-users.svg";
+import { ReactComponent as User } from "@assets/user.svg";
 import { IconButton } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 
@@ -6,46 +14,99 @@ import { COLORS } from "@/shared/constants/colors";
 
 import { CustomColumn, CustomFlexBox } from "./common";
 
-const navLinks = [
+type NavLink = {
+  route: string;
+  icon: React.FunctionComponent<React.SVGAttributes<SVGElement>>;
+  label: string;
+};
+
+const navLinks: (NavLink | "separator" | "spacer")[] = [
   {
     route: "/",
-    icon: <Dashboard />,
+    icon: Dashboard,
     label: "Dashboard",
   },
   {
     route: "/daily-tasks",
-    icon: <Dashboard />,
+    icon: Calender,
     label: "Daily Tasks",
   },
   {
     route: "/service-users",
-    icon: <Dashboard />,
+    icon: TwoUsers,
     label: "Service Users",
   },
   {
-    route: "/rota",
-    icon: <Dashboard />,
-    label: "Rota",
+    route: "/care-workers",
+    icon: ProfileUser,
+    label: "Care Workers",
   },
   {
+    route: "/rota",
+    icon: Chart,
+    label: "Rota",
+  },
+  "separator",
+  {
     route: "/profile",
-    icon: <Dashboard />,
+    icon: User,
     label: "Profile",
   },
   {
     route: "/settings",
-    icon: <Dashboard />,
+    icon: Settings,
     label: "Settings",
+  },
+  "spacer",
+  {
+    route: "/help",
+    icon: Info,
+    label: "Help",
+  },
+  {
+    route: "/logout",
+    icon: Logout,
+    label: "Logout",
   },
 ];
 
 export const Navbar = () => {
   const { pathname } = useLocation();
   return (
-    <CustomColumn sx={{ py: 14, gap: 1, backgroundColor: COLORS.WHITE }}>
-      {navLinks.map(({ route, icon, label }) => {
+    <CustomColumn sx={{ pb: 5, pt: 14, gap: 1, backgroundColor: COLORS.WHITE }}>
+      {navLinks.map((navLink, index) => {
+        if (navLink === "separator") {
+          return (
+            <CustomFlexBox
+              key={`${index}separator`}
+              sx={{
+                width: "100%",
+                my: 5,
+                borderTop: "1px solid #E3E3E3",
+              }}
+            />
+          );
+        }
+
+        if (navLink === "spacer") {
+          return (
+            <CustomFlexBox
+              key={`${index}spacer`}
+              sx={{
+                flex: 1,
+                flexBasis: 0,
+                width: "100%",
+                borderTop: "1px solid #E3E3E3",
+                opacity: 0.2,
+              }}
+            />
+          );
+        }
+
+        const { route, icon, label } = navLink;
         const isActive =
           pathname === route || (pathname === "/" && route === "/dashboard");
+        const Icon = icon;
         return (
           <Link
             key={route}
@@ -78,14 +139,17 @@ export const Navbar = () => {
             >
               <CustomFlexBox
                 sx={{
-                  gap: 1,
+                  gap: 1.5,
                   justifyContent: "left",
                   alignItems: "center",
                   width: "100%",
                   fontSize: "1.2rem",
                 }}
               >
-                {icon}
+                <Icon
+                  stroke={isActive ? "white" : COLORS.ICON_ACTIVE_COLOR}
+                  fill={isActive ? COLORS.ICON_ACTIVE_COLOR : "none"}
+                />
                 {label}
               </CustomFlexBox>
             </IconButton>

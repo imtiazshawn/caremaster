@@ -2,6 +2,7 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import { defineConfig } from "vite";
 import checker from "vite-plugin-checker";
+import svgr from "vite-plugin-svgr";
 
 import tsconfig from "./tsconfig.json";
 
@@ -21,9 +22,11 @@ const getAliasesFromTsConfig = () => {
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    svgr(),
     react(),
     checker({
       typescript: true,
+      overlay: false,
       eslint: {
         lintCommand: 'eslint "./src/**/*.{ts,tsx}"', // for example, lint .ts & .tsx
       },
