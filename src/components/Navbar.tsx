@@ -1,6 +1,8 @@
 import { ReactComponent as Calender } from "@assets/calender.svg";
 import { ReactComponent as Chart } from "@assets/chart.svg";
 import { ReactComponent as Dashboard } from "@assets/dashboard.svg";
+import { ReactComponent as Info } from "@assets/info-circle.svg";
+import { ReactComponent as Logout } from "@assets/logout.svg";
 import { ReactComponent as ProfileUser } from "@assets/profile-user.svg";
 import { ReactComponent as Settings } from "@assets/settings.svg";
 import { ReactComponent as TwoUsers } from "@assets/two-users.svg";
@@ -18,7 +20,7 @@ type NavLink = {
   label: string;
 };
 
-const navLinks: NavLink[] = [
+const navLinks: (NavLink | "separator" | "spacer")[] = [
   {
     route: "/",
     icon: Dashboard,
@@ -44,6 +46,7 @@ const navLinks: NavLink[] = [
     icon: Chart,
     label: "Rota",
   },
+  "separator",
   {
     route: "/profile",
     icon: User,
@@ -54,13 +57,53 @@ const navLinks: NavLink[] = [
     icon: Settings,
     label: "Settings",
   },
+  "spacer",
+  {
+    route: "/help",
+    icon: Info,
+    label: "Help",
+  },
+  {
+    route: "/logout",
+    icon: Logout,
+    label: "Logout",
+  },
 ];
 
 export const Navbar = () => {
   const { pathname } = useLocation();
   return (
-    <CustomColumn sx={{ py: 14, gap: 1, backgroundColor: COLORS.WHITE }}>
-      {navLinks.map(({ route, icon, label }) => {
+    <CustomColumn sx={{ pb: 5, pt: 14, gap: 1, backgroundColor: COLORS.WHITE }}>
+      {navLinks.map((navLink, index) => {
+        if (navLink === "separator") {
+          return (
+            <CustomFlexBox
+              key={`${index}separator`}
+              sx={{
+                width: "100%",
+                my: 5,
+                borderTop: "1px solid #E3E3E3",
+              }}
+            />
+          );
+        }
+
+        if (navLink === "spacer") {
+          return (
+            <CustomFlexBox
+              key={`${index}spacer`}
+              sx={{
+                flex: 1,
+                flexBasis: 0,
+                width: "100%",
+                borderTop: "1px solid #E3E3E3",
+                opacity: 0.2,
+              }}
+            />
+          );
+        }
+
+        const { route, icon, label } = navLink;
         const isActive =
           pathname === route || (pathname === "/" && route === "/dashboard");
         const Icon = icon;
