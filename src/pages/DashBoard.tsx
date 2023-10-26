@@ -42,7 +42,7 @@ export const Dashboard = () => {
         />
         <DashboardCard
           label='Care Workers'
-          value={7}
+          value={36}
         />
       </CustomFlexBox>
     </div>
