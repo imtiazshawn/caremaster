@@ -1,4 +1,10 @@
 {
+  "git": {
+    "deploymentEnabled": {
+      "stage": true,
+      "*": false
+    }
+  },
   "github": {
     "silent": true
   },
