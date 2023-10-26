@@ -1,4 +1,10 @@
-import { Dashboard } from "@mui/icons-material";
+import { ReactComponent as Calender } from "@assets/calender.svg";
+import { ReactComponent as Chart } from "@assets/chart.svg";
+import { ReactComponent as Dashboard } from "@assets/dashboard.svg";
+import { ReactComponent as ProfileUser } from "@assets/profile-user.svg";
+import { ReactComponent as Settings } from "@assets/settings.svg";
+import { ReactComponent as TwoUsers } from "@assets/two-users.svg";
+import { ReactComponent as User } from "@assets/user.svg";
 import { IconButton } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 
@@ -6,35 +12,46 @@ import { COLORS } from "@/shared/constants/colors";
 
 import { CustomColumn, CustomFlexBox } from "./common";
 
-const navLinks = [
+type NavLink = {
+  route: string;
+  icon: React.FunctionComponent<React.SVGAttributes<SVGElement>>;
+  label: string;
+};
+
+const navLinks: NavLink[] = [
   {
     route: "/",
-    icon: <Dashboard />,
+    icon: Dashboard,
     label: "Dashboard",
   },
   {
     route: "/daily-tasks",
-    icon: <Dashboard />,
+    icon: Calender,
     label: "Daily Tasks",
   },
   {
     route: "/service-users",
-    icon: <Dashboard />,
+    icon: TwoUsers,
     label: "Service Users",
   },
   {
+    route: "/care-workers",
+    icon: ProfileUser,
+    label: "Care Workers",
+  },
+  {
     route: "/rota",
-    icon: <Dashboard />,
+    icon: Chart,
     label: "Rota",
   },
   {
     route: "/profile",
-    icon: <Dashboard />,
+    icon: User,
     label: "Profile",
   },
   {
     route: "/settings",
-    icon: <Dashboard />,
+    icon: Settings,
     label: "Settings",
   },
 ];
@@ -46,6 +63,7 @@ export const Navbar = () => {
       {navLinks.map(({ route, icon, label }) => {
         const isActive =
           pathname === route || (pathname === "/" && route === "/dashboard");
+        const Icon = icon;
         return (
           <Link
             key={route}
@@ -78,14 +96,17 @@ export const Navbar = () => {
             >
               <CustomFlexBox
                 sx={{
-                  gap: 1,
+                  gap: 1.5,
                   justifyContent: "left",
                   alignItems: "center",
                   width: "100%",
                   fontSize: "1.2rem",
                 }}
               >
-                {icon}
+                <Icon
+                  stroke={isActive ? "white" : COLORS.ICON_ACTIVE_COLOR}
+                  fill={isActive ? COLORS.ICON_ACTIVE_COLOR : "none"}
+                />
                 {label}
               </CustomFlexBox>
             </IconButton>

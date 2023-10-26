@@ -124,7 +124,7 @@ module.exports = {
     "unicorn/prefer-module": "off", // Allow us to use __dirname and __filename
     "unicorn/no-negated-condition": "off",
     "unicorn/switch-case-braces": ["error", "avoid"],
-    "no-console": ["error", { allow: ["warn", "error"] }],
+    "no-console": ["warn", { allow: ["warn", "error"] }],
     "no-constant-binary-expression": "error",
 
     "no-else-return": "error",
