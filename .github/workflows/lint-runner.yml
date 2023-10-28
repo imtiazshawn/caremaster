@@ -60,6 +60,6 @@ jobs:
         uses: ataylorme/eslint-annotate-action@1.2.0
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          report-json: "apps/replo-editor/eslint_report.json"
+          report-json: "./eslint_report.json"
       - name: Run TypeScript checks
         run: yarn run tsc
