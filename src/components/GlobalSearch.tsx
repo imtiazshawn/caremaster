@@ -7,7 +7,7 @@ import { COLORS } from "@/shared/constants/colors";
 export const GlobalSearch: React.FC<{ sx?: SxProps }> = ({ sx }) => {
   return (
     <TextField
-      placeholder='Search'
+      placeholder='Search Here'
       sx={{
         backgroundColor: COLORS.WHITE,
         borderRadius: 20,

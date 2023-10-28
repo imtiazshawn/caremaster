@@ -5,6 +5,7 @@ import store from "@redux/store";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import { CareWorkers } from "./pages/CareWorkers";
 import { Dashboard } from "./pages/DashBoard";
 import { ServiceUsers } from "./pages/ServiceUsers";
 
@@ -25,6 +26,10 @@ function App() {
             <Route
               path='/service-users'
               element={<ServiceUsers />}
+            />
+            <Route
+              path='/care-workers'
+              element={<CareWorkers />}
             />
           </Routes>
         </PageLayout>

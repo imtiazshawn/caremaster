@@ -11,15 +11,17 @@ export type TableColumn<R extends GridValidRowModel = any, V = any, F = V> =
   | GridActionsColDef<R, V, F>
   | GridSingleSelectColDef<R, V, F>;
 
+export type TableProps<TItem extends GridValidRowModel> = {
+  rows: TItem[];
+  columns: TableColumn<TItem>[];
+  isLoading?: boolean;
+};
+
 export function Table<TItem extends GridValidRowModel>({
   rows,
   columns,
   isLoading = false,
-}: {
-  rows: TItem[];
-  columns: TableColumn<TItem>[];
-  isLoading?: boolean;
-}) {
+}: TableProps<TItem>) {
   return (
     <DataGrid
       columns={columns}

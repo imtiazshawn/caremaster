@@ -1,3 +1,5 @@
+import { ApiResponse } from ".";
+
 export type ServiceUser = {
   id: number | string;
   title: string;
@@ -57,19 +59,4 @@ export type ServiceUser = {
   health_tag: any[];
 };
 
-export type ServiceUsersResponse = {
-  status: "success";
-  response: {
-    totalData: number;
-    data: ServiceUser[];
-    totalPage: number;
-    previous: {
-      page: number;
-      limit: number;
-    };
-    next: {
-      page: number;
-      limit: number;
-    };
-  };
-};
+export type ServiceUsersResponse = ApiResponse<ServiceUser>;
