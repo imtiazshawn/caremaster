@@ -1,0 +1,65 @@
+name: Checks
+# Only runs on pull request
+on:
+  pull_request:
+    branches: [main]
+    types: [synchronize, opened, reopened]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+          # Make sure the value of GITHUB_TOKEN will not be persisted in repo's config
+          persist-credentials: false
+        # Note (Ovishek, 2023-02-20): Known issue with npm v9 and ubuntu latest version.
+        # Temp fix, more on here - https://github.com/creyD/prettier_action#problem-with-npm-v9-19022023
+      - name: Install npm v8
+        run: npm i -g npm@8
+      - name: Install Yarn
+        run: npm install -g yarn
+      - name: Install Prettier Tailwind Package
+        run: yarn add -D prettier-plugin-tailwindcss
+      - name: Prettify code
+        uses: creyD/prettier_action@v4.3
+        with:
+          prettier_options: --write **/*.{js,jsx,ts,tsx}
+          only_changed: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+  linter-and-typescript:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16.15.1"
+      - name: Cache node modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - name: Install Yarn
+        run: npm install -g yarn
+      - name: Install Modules
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: yarn
+      - name: Lint and generate lint report
+        run: yarn lint:report
+        continue-on-error: true
+      - name: Annotate Code Linting Results from report
+        uses: ataylorme/eslint-annotate-action@1.2.0
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          report-json: "./eslint_report.json"
+      - name: Run TypeScript checks
+        run: yarn run tsc
