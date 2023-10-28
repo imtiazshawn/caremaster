@@ -22,7 +22,6 @@ export const TopHeader = () => {
           alignItems: "center",
           width: "100%",
           fontSize: "1.2rem",
-          px: 4,
         }}
       >
         <GlobalSearch />

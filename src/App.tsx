@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Dashboard } from "./pages/DashBoard";
+import { ServiceUsers } from "./pages/ServiceUsers";
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
             <Route
               path='/dashboard'
               element={<Dashboard />}
+            />
+            <Route
+              path='/service-users'
+              element={<ServiceUsers />}
             />
           </Routes>
         </PageLayout>

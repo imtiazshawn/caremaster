@@ -1,9 +1,10 @@
 import { Search } from "@mui/icons-material";
-import { TextField } from "@mui/material";
+import { SxProps, TextField } from "@mui/material";
+import React from "react";
 
 import { COLORS } from "@/shared/constants/colors";
 
-export const GlobalSearch = () => {
+export const GlobalSearch: React.FC<{ sx?: SxProps }> = ({ sx }) => {
   return (
     <TextField
       placeholder='Search'
@@ -11,7 +12,9 @@ export const GlobalSearch = () => {
         backgroundColor: COLORS.WHITE,
         borderRadius: 20,
         width: "100%",
+        border: "1px solid #E0E0E0",
         flex: 1,
+        ...sx,
       }}
       InputProps={{
         startAdornment: (
@@ -24,6 +27,7 @@ export const GlobalSearch = () => {
             border: "none",
           },
           color: "black",
+          height: "100%",
         },
       }}
     />

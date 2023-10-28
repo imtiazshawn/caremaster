@@ -1,0 +1,75 @@
+export type ServiceUser = {
+  id: number | string;
+  title: string;
+  name: string;
+  preferred_name: string;
+  date_of_birth: string;
+  gender: string;
+  gender_at_birth: string;
+  pronoun: string;
+  address: string;
+  postcode: string;
+  latitude: string;
+  longitude: string;
+  region: string;
+  telephone: string;
+  mobile: string;
+  email: string;
+  dnar: string;
+  sexuality: string;
+  enrollment_status: string;
+  photo: null | string;
+  admission_date: string;
+  banding: string;
+  authority: string;
+  funeral_arrangement: string;
+  funeral_director: string;
+  nhs_number: string;
+  ni_number: string;
+  personal_id: string;
+  qr_code: string;
+  council_service_user_id: string;
+  council_care_provider_id: string;
+  service_type: string;
+  service_level: string;
+  marital_status: string;
+  religion: string;
+  ethnicity: string;
+  communication_preference: string;
+  emergency_rating: string;
+  key_safe_code: string;
+  access_details: string;
+  height: string;
+  weight: string;
+  bmi: string;
+  medical_history: string;
+  medicine_allergies: string;
+  oxygen: string;
+  on_catheter: string;
+  food_allergies: string;
+  nil_by_mouth: string;
+  main_diet: string;
+  special_diet: string;
+  diet_instruction: string;
+  is_active: true;
+  created_at: string;
+  updated_at: string;
+  health_tag: any[];
+};
+
+export type ServiceUsersResponse = {
+  status: "success";
+  response: {
+    totalData: number;
+    data: ServiceUser[];
+    totalPage: number;
+    previous: {
+      page: number;
+      limit: number;
+    };
+    next: {
+      page: number;
+      limit: number;
+    };
+  };
+};

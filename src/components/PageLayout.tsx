@@ -15,10 +15,12 @@ export const PageLayout: React.FC<{ children?: ReactNode }> = ({
         sx={{
           gridTemplateColumns: "270px 1fr",
           height: "100%",
+          gap: 5,
+          marginRight: "2em",
         }}
       >
         <Navbar />
-        <FullColumn>
+        <FullColumn sx={{ gap: 5, marginBottom: 10 }}>
           <TopHeader />
           <CustomBox
             sx={{

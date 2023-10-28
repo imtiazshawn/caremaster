@@ -1,4 +1,5 @@
 import { authApi } from "@reducers/api/authApi";
+import { serviceUsersApi } from "@reducers/api/serviceUsers";
 import { authReducer } from "@reducers/authSlice";
 import {
   Action,
@@ -11,12 +12,16 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 const rootReducer = combineReducers({
   auth: authReducer,
   [authApi.reducerPath]: authApi.reducer,
+  [serviceUsersApi.reducerPath]: serviceUsersApi.reducer,
 });
 
 const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware),
+    getDefaultMiddleware().concat([
+      authApi.middleware,
+      serviceUsersApi.middleware,
+    ]),
   devTools: import.meta.env.NODE_ENV !== "production",
 });
 
