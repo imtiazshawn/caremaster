@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import { COLORS } from "@/shared/constants/colors";
 
-import { CustomBox, CustomGrid, FullColumn } from "./common";
+import { Box, FullColumn, Grid } from "./common";
 import { Navbar } from "./Navbar";
 import { TopHeader } from "./TopHeader";
 
@@ -11,7 +11,7 @@ export const PageLayout: React.FC<{ children?: ReactNode }> = ({
 }) => {
   return (
     <FullColumn sx={{ height: "100vh", backgroundColor: COLORS.BACKGROUND }}>
-      <CustomGrid
+      <Grid
         sx={{
           gridTemplateColumns: "270px 1fr",
           height: "100%",
@@ -22,15 +22,15 @@ export const PageLayout: React.FC<{ children?: ReactNode }> = ({
         <Navbar />
         <FullColumn sx={{ gap: 5, marginBottom: 10 }}>
           <TopHeader />
-          <CustomBox
+          <Box
             sx={{
               height: "100%",
             }}
           >
             {children}
-          </CustomBox>
+          </Box>
         </FullColumn>
-      </CustomGrid>
+      </Grid>
     </FullColumn>
   );
 };

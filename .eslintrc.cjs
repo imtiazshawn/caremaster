@@ -40,7 +40,7 @@ module.exports = {
     "block-scoped-var": "error",
     "no-unsafe-optional-chaining": "error",
     "no-template-curly-in-string": "error",
-    "simple-import-sort/imports": "error",
+    "simple-import-sort/imports": "off",
     "no-empty-pattern": "error",
     "no-implicit-coercion": "error",
     "no-unused-expressions": [
@@ -78,7 +78,7 @@ module.exports = {
         },
       },
     ],
-    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/no-unused-vars": "warn",
     "react/jsx-key": "error",
     "react/display-name": "error",
     "@typescript-eslint/no-empty-function": "error", // would be nice to enable
@@ -205,6 +205,7 @@ module.exports = {
     "rest-spread-spacing": ["error", "never"],
     strict: ["error", "never"],
     "unicode-bom": ["error", "never"],
+    "unicorn/prefer-string-replace-all": "off",
     "use-isnan": "error",
     "valid-typeof": "error",
     "no-restricted-properties": [

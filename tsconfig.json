@@ -22,6 +22,7 @@
       "@reducers/*": ["./src/redux/reducers/*"],
       "$types/*": ["./src/types/*"],
       "@redux/*": ["./src/redux/*"],
+      "@common/*": ["./src/components/common/*"],
       "@assets/*": ["./src/assets/*"],
       "@/*": ["./src/*"]
     }

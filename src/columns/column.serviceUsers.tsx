@@ -2,7 +2,7 @@ import { TableColumn } from "@components/common/Table";
 import dayjs from "dayjs";
 
 import { ServiceUsersTableUnit } from "@/pages/ServiceUsers";
-
+import { Box } from "@components/common";
 const headerClassName = "bg-gray-100";
 const serviceUserColumns: TableColumn<ServiceUsersTableUnit>[] = [
   {
@@ -15,16 +15,21 @@ const serviceUserColumns: TableColumn<ServiceUsersTableUnit>[] = [
   {
     flex: 0.25,
     width: 230,
-    field: "food_allergies",
-    headerName: "Food Allergies",
+    field: "postcode",
+    headerName: "Post Code",
     headerClassName,
     sortable: false,
+    renderCell: (params) => {
+      return (
+        <Box sx={{ textTransform: "uppercase" }}>{params.row.postcode}</Box>
+      );
+    },
   },
   {
     flex: 0.25,
     width: 230,
-    field: "medicine_allergies",
-    headerName: "Medical Allergies",
+    field: "address",
+    headerName: "Address",
     headerClassName,
     sortable: false,
   },
@@ -36,7 +41,11 @@ const serviceUserColumns: TableColumn<ServiceUsersTableUnit>[] = [
     sortable: false,
     headerClassName,
     renderCell: (params) => {
-      return <div>{dayjs(params.row.created_at).format("MM/DD/YYYY")}</div>;
+      return (
+        <Box sx={{ textAlign: "center" }}>
+          {dayjs(params.row.created_at).format("MM/DD/YYYY")}
+        </Box>
+      );
     },
   },
   {
@@ -56,4 +65,5 @@ const serviceUserColumns: TableColumn<ServiceUsersTableUnit>[] = [
     sortable: false,
   },
 ];
+
 export default serviceUserColumns;

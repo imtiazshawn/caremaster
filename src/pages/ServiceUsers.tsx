@@ -1,4 +1,4 @@
-import { CustomFlexBox, FullColumn } from "@components/common";
+import { FlexBox, FullColumn } from "@components/common";
 import { Button } from "@components/common/Button";
 import { Table } from "@components/common/Table";
 import { GlobalSearch } from "@components/GlobalSearch";
@@ -8,12 +8,15 @@ import { useGetServiceUsersQuery } from "@reducers/api/serviceUsers";
 import serviceUserColumns from "@/columns/column.serviceUsers";
 import { COLORS } from "@/shared/constants/colors";
 
-import { getServiceUsersTableData } from "./utils";
+import AddServiceUserModal from "@components/AddServiceUserModal";
+import { useState } from "react";
+import { mapServiceUsersTableData } from "./utils";
 
 export type ServiceUsersTableUnit = {
   id: number | string;
   name: string;
-  preferred_name: string;
+  postcode: string;
+  address: string;
   food_allergies: string;
   medicine_allergies: string;
   created_at: string;
@@ -25,45 +28,50 @@ export type ServiceUsersTableUnit = {
 export const ServiceUsers = () => {
   const { data, isLoading } = useGetServiceUsersQuery(null);
 
-  const serviceUsers: ServiceUsersTableUnit[] = getServiceUsersTableData(
+  const serviceUsers: ServiceUsersTableUnit[] = mapServiceUsersTableData(
     data?.response.data ?? [],
   );
 
+  const [isOpenServiceUserModal, setIsOpenServiceUserModal] = useState(false);
+
   return (
-    <FullColumn
-      sx={{ gap: 2, background: COLORS.WHITE, p: 2, marginBottom: 2 }}
-    >
+    <FullColumn sx={{ background: COLORS.WHITE, p: 2, marginBottom: 2 }}>
+      <AddServiceUserModal
+        isOpen={isOpenServiceUserModal}
+        onClose={() => setIsOpenServiceUserModal(false)}
+      />
       <Typography
         variant='h5'
         sx={{ fontWeight: "bold" }}
       >
         Service Users
       </Typography>
-      <CustomFlexBox sx={{ height: "3em", gap: 2 }}>
+      <FlexBox sx={{ height: "3em", gap: 2 }}>
         <GlobalSearch />
         <Button
           variant='contained'
           className='rounded-md'
+          onClick={() => setIsOpenServiceUserModal(true)}
         >
           Add New Service User
         </Button>
-      </CustomFlexBox>
+      </FlexBox>
       <Table<ServiceUsersTableUnit>
         rows={serviceUsers}
         columns={serviceUserColumns}
         isLoading={isLoading}
       />
-      <CustomFlexBox sx={{ gap: 2, justifyContent: "space-between" }}>
-        <CustomFlexBox sx={{ gap: 2 }}>
+      <FlexBox sx={{ justifyContent: "space-between" }}>
+        <FlexBox>
           <Button variant='outlined'>Care Plan</Button>
           <Button variant='outlined'>Move To</Button>
           <Button variant='outlined'>Audit Log</Button>
-        </CustomFlexBox>
-        <CustomFlexBox sx={{ gap: 2 }}>
+        </FlexBox>
+        <FlexBox>
           <Button variant='contained'>Print</Button>
           <Button variant='contained'>Download Excel</Button>
-        </CustomFlexBox>
-      </CustomFlexBox>
+        </FlexBox>
+      </FlexBox>
     </FullColumn>
   );
 };

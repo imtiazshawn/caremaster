@@ -2,14 +2,14 @@ import { SvgIconComponent } from "@mui/icons-material";
 
 import { COLORS } from "@/shared/constants/colors";
 
-import { CustomFlexBox } from "./common";
+import { FlexBox } from "./common";
 
 export const CommonAvatar: React.FC<{ icon: SvgIconComponent }> = ({
   icon,
 }) => {
   const Icon = icon;
   return (
-    <CustomFlexBox
+    <FlexBox
       sx={{
         gap: 1,
         alignItems: "center",
@@ -25,6 +25,6 @@ export const CommonAvatar: React.FC<{ icon: SvgIconComponent }> = ({
           width: ".8em",
         }}
       />
-    </CustomFlexBox>
+    </FlexBox>
   );
 };

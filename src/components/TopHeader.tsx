@@ -8,14 +8,14 @@ import { Typography } from "@mui/material";
 
 import { COLORS } from "@/shared/constants/colors";
 
-import { CustomColumn, CustomFlexBox } from "./common";
+import { Column, FlexBox } from "./common";
 import { CommonAvatar } from "./CommonAvatar";
 import { GlobalSearch } from "./GlobalSearch";
 
 export const TopHeader = () => {
   return (
-    <CustomColumn sx={{ gap: 1, marginTop: 2 }}>
-      <CustomFlexBox
+    <Column sx={{ gap: 1, marginTop: 2 }}>
+      <FlexBox
         sx={{
           gap: 1,
           justifyContent: "space-between",
@@ -25,7 +25,7 @@ export const TopHeader = () => {
         }}
       >
         <GlobalSearch />
-        <CustomFlexBox
+        <FlexBox
           sx={{
             gap: 1,
             background: COLORS.WHITE,
@@ -36,7 +36,7 @@ export const TopHeader = () => {
         >
           <CommonAvatar icon={Notifications} />
           <CommonAvatar icon={Message} />
-          <CustomFlexBox sx={{ gap: 1, flex: 1, alignItems: "center" }}>
+          <FlexBox sx={{ gap: 1, flex: 1, alignItems: "center" }}>
             <CommonAvatar icon={AccountCircle} />
             <Typography
               variant='h6'
@@ -46,9 +46,9 @@ export const TopHeader = () => {
               John Doe
             </Typography>
             <KeyboardArrowDown className='cursor-pointer rounded-full hover:bg-slate-200' />
-          </CustomFlexBox>
-        </CustomFlexBox>
-      </CustomFlexBox>
-    </CustomColumn>
+          </FlexBox>
+        </FlexBox>
+      </FlexBox>
+    </Column>
   );
 };

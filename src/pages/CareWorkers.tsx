@@ -1,4 +1,4 @@
-import { CustomFlexBox, FullColumn } from "@components/common";
+import { FlexBox, FullColumn } from "@components/common";
 import { Button } from "@components/common/Button";
 import { Table } from "@components/common/Table";
 import { Text } from "@components/common/Text";
@@ -28,16 +28,14 @@ export const CareWorkers = () => {
   );
 
   return (
-    <FullColumn
-      sx={{ gap: 2, background: COLORS.WHITE, p: 2, marginBottom: 2 }}
-    >
+    <FullColumn sx={{ background: COLORS.WHITE, p: 2, marginBottom: 2 }}>
       <Text
         variant='h5'
         sx={{ fontWeight: "bold" }}
       >
         Care Workers
       </Text>
-      <CustomFlexBox sx={{ height: "3em", gap: 2 }}>
+      <FlexBox sx={{ height: "3em", gap: 2 }}>
         <GlobalSearch />
         <Button
           variant='contained'
@@ -45,21 +43,21 @@ export const CareWorkers = () => {
         >
           Add New Care Worker
         </Button>
-      </CustomFlexBox>
+      </FlexBox>
       <Table<ColumnWorkersTableUnit>
         rows={careWorkers}
         columns={careWorkerColumns}
         isLoading={isLoading}
       />
-      <CustomFlexBox sx={{ gap: 2, justifyContent: "space-between" }}>
-        <CustomFlexBox sx={{ gap: 2 }}>
+      <FlexBox sx={{ justifyContent: "space-between" }}>
+        <FlexBox>
           <Button variant='outlined'>Archive</Button>
-        </CustomFlexBox>
-        <CustomFlexBox sx={{ gap: 2 }}>
+        </FlexBox>
+        <FlexBox>
           <Button variant='contained'>Print</Button>
           <Button variant='contained'>Download Excel</Button>
-        </CustomFlexBox>
-      </CustomFlexBox>
+        </FlexBox>
+      </FlexBox>
     </FullColumn>
   );
 };

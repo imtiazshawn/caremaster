@@ -4,7 +4,7 @@ import { ServiceUser } from "$types/serviceUsers";
 import { ColumnWorkersTableUnit } from "./CareWorkers";
 import { ServiceUsersTableUnit } from "./ServiceUsers";
 
-export const getServiceUsersTableData = (
+export const mapServiceUsersTableData = (
   data: ServiceUser[],
 ): ServiceUsersTableUnit[] => {
   return data.map(
@@ -18,6 +18,8 @@ export const getServiceUsersTableData = (
       date_of_birth,
       banding,
       gender,
+      address,
+      postcode,
     }) => ({
       id,
       preferred_name,
@@ -28,6 +30,8 @@ export const getServiceUsersTableData = (
       date_of_birth,
       banding,
       gender,
+      address,
+      postcode,
     }),
   );
 };

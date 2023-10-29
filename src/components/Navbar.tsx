@@ -12,7 +12,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import { COLORS } from "@/shared/constants/colors";
 
-import { CustomColumn, CustomFlexBox } from "./common";
+import { Column, FlexBox } from "./common";
 
 type NavLink = {
   route: string;
@@ -73,11 +73,11 @@ const navLinks: (NavLink | "separator" | "spacer")[] = [
 export const Navbar = () => {
   const { pathname } = useLocation();
   return (
-    <CustomColumn sx={{ pb: 5, pt: 14, gap: 1, backgroundColor: COLORS.WHITE }}>
+    <Column sx={{ pb: 5, pt: 14, gap: 1, backgroundColor: COLORS.WHITE }}>
       {navLinks.map((navLink, index) => {
         if (navLink === "separator") {
           return (
-            <CustomFlexBox
+            <FlexBox
               key={`${index}separator`}
               sx={{
                 width: "100%",
@@ -90,7 +90,7 @@ export const Navbar = () => {
 
         if (navLink === "spacer") {
           return (
-            <CustomFlexBox
+            <FlexBox
               key={`${index}spacer`}
               sx={{
                 flex: 1,
@@ -137,7 +137,7 @@ export const Navbar = () => {
                 }),
               }}
             >
-              <CustomFlexBox
+              <FlexBox
                 sx={{
                   gap: 1.5,
                   justifyContent: "left",
@@ -151,11 +151,11 @@ export const Navbar = () => {
                   fill={isActive ? COLORS.ICON_ACTIVE_COLOR : "none"}
                 />
                 {label}
-              </CustomFlexBox>
+              </FlexBox>
             </IconButton>
           </Link>
         );
       })}
-    </CustomColumn>
+    </Column>
   );
 };

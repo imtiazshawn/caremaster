@@ -1,4 +1,4 @@
-import { CustomBox, CustomFlexBox } from "@components/common";
+import { Box, FlexBox } from "@components/common";
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
@@ -25,17 +25,17 @@ const DashboardCard = ({
   }, [propValue, value]);
 
   return (
-    <CustomBox className='h-[200px] w-[320px] items-center justify-center rounded-xl bg-white p-4 text-center shadow-lg'>
+    <Box className='h-[200px] w-[320px] items-center justify-center rounded-xl bg-white p-4 text-center shadow-lg'>
       <Typography variant='h1'>{value}</Typography>
       <Typography variant='h5'>{label}</Typography>
-    </CustomBox>
+    </Box>
   );
 };
 
 export const Dashboard = () => {
   return (
     <div className='p-40'>
-      <CustomFlexBox sx={{ gap: 2 }}>
+      <FlexBox>
         <DashboardCard
           label='Service Users'
           value={50}
@@ -44,7 +44,7 @@ export const Dashboard = () => {
           label='Care Workers'
           value={36}
         />
-      </CustomFlexBox>
+      </FlexBox>
     </div>
   );
 };
