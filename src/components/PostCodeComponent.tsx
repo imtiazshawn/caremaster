@@ -1,7 +1,7 @@
-import { Autocomplete } from "@mui/material";
+import { Autocomplete } from "@common/Autocomplete";
 import { useFetchAddresses } from "@reducers/api/postCodeApi";
 import { useState } from "react";
-import CustomTextField from "./common/CustomTextField";
+import TextField from "./common/TextField";
 
 type PostCodeComponentProps = {
   setAddress: (address: string) => void;
@@ -22,12 +22,12 @@ export const PostCodeComponent: React.FC<PostCodeComponentProps> = ({
 
   return (
     <div>
-      <Autocomplete
+      <Autocomplete<string, false>
         options={modifiedAddressList}
         value={searchKey}
         inputValue={searchKey}
         renderInput={(params) => (
-          <CustomTextField
+          <TextField
             {...params}
             name='postcode'
             label='Postcode'

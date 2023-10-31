@@ -1,4 +1,4 @@
-import { Box, FlexBox } from "@components/common";
+import { Box, FlexBox } from "@common/index";
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 

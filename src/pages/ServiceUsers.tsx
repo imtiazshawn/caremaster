@@ -1,6 +1,5 @@
-import { FlexBox, FullColumn } from "@components/common";
-import { Button } from "@components/common/Button";
-import { Table } from "@components/common/Table";
+import { Button } from "@common/Button";
+import { Table } from "@common/Table";
 import { GlobalSearch } from "@components/GlobalSearch";
 import { Typography } from "@mui/material";
 import { useGetServiceUsersQuery } from "@reducers/api/serviceUsers";
@@ -8,7 +7,8 @@ import { useGetServiceUsersQuery } from "@reducers/api/serviceUsers";
 import serviceUserColumns from "@/columns/column.serviceUsers";
 import { COLORS } from "@/shared/constants/colors";
 
-import AddServiceUserModal from "@components/AddServiceUserModal";
+import { FlexBox, FullColumn } from "@common/index";
+import AddServiceUserModal from "@components/modals/AddServiceUserModal";
 import { useState } from "react";
 import { mapServiceUsersTableData } from "./utils";
 

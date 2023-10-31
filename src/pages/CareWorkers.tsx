@@ -1,7 +1,7 @@
-import { FlexBox, FullColumn } from "@components/common";
-import { Button } from "@components/common/Button";
-import { Table } from "@components/common/Table";
-import { Text } from "@components/common/Text";
+import { Button } from "@common/Button";
+import { Table } from "@common/Table";
+import { Text } from "@common/Typography";
+import { FlexBox, FullColumn } from "@common/index";
 import { GlobalSearch } from "@components/GlobalSearch";
 import { useGetCareWorkersQuery } from "@reducers/api/careWorkers";
 

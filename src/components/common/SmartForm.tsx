@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactElement } from "react";
 import { Control } from "react-hook-form";
 
 import { Column, FlexBox } from ".";
@@ -6,47 +6,50 @@ import HookFormDateField from "./HookFormDateField";
 import HookFormSelect from "./HookFormSelect";
 import HookFormTextField from "./HookFormTextField";
 
-type Common<T> = {
+type Common = {
   label?: string;
-  name?: keyof T;
 };
 
-export type FormTemplate<T> = Common<T> &
+type Data = Record<string, any>;
+
+export type FormTemplate<T extends Data> = Common &
   (
     | {
         type: "text";
+        name: keyof T;
       }
     | {
+        name: keyof T;
         type: "date";
       }
     | {
         type: "select";
+        name: keyof T;
         options: string[];
       }
     | {
         type: "column";
+        name?: keyof T;
         items: FormTemplate<T>[];
       }
     | {
         type: "custom";
-        component: ReactNode;
+        name?: keyof T;
+        component: ReactElement;
       }
   );
 
-type CustomSmartFormProps = {
-  template: FormTemplate<any>[] | FormTemplate<any>;
+type SmartFormComponentType = <T extends Data>(props: {
+  template: FormTemplate<T>[] | FormTemplate<T>;
   control: Control<any>;
-};
+}) => JSX.Element | null;
 
-export const CustomSmartForm: React.FC<CustomSmartFormProps> = ({
-  template,
-  control,
-}) => {
+export const SmartForm: SmartFormComponentType = ({ template, control }) => {
   if (Array.isArray(template)) {
     return (
-      <Column sx={{ flexGrow: 1, gap: "32px" }}>
+      <Column sx={{ flexGrow: 1, gap: "2em" }}>
         {template.map((item, index) => (
-          <CustomSmartForm
+          <SmartForm
             key={index}
             control={control}
             template={item}
@@ -55,12 +58,14 @@ export const CustomSmartForm: React.FC<CustomSmartFormProps> = ({
       </Column>
     );
   }
+  const templateName = (template?.name ?? "") as string;
+
   switch (template.type) {
     case "text":
       return (
         <HookFormTextField
           control={control}
-          name={(template.name ?? "") as string}
+          name={templateName}
           label={template.label}
           fullWidth
           placeholder={template.label}
@@ -70,7 +75,7 @@ export const CustomSmartForm: React.FC<CustomSmartFormProps> = ({
       return (
         <HookFormSelect
           control={control}
-          name={(template.name ?? "") as string}
+          name={templateName}
           label={template.label}
           fullWidth
           options={template.options}
@@ -80,7 +85,7 @@ export const CustomSmartForm: React.FC<CustomSmartFormProps> = ({
       return (
         <HookFormDateField
           control={control}
-          name={(template.name ?? "") as string}
+          name={templateName}
           label={template.label}
           fullWidth
         />
@@ -90,11 +95,11 @@ export const CustomSmartForm: React.FC<CustomSmartFormProps> = ({
     case "column":
       return (
         <FlexBox
-          sx={{ flexGrow: 1, gap: "20px" }}
-          className='w-[100%]'
+          sx={{ flexGrow: 1, gap: "1.5em" }}
+          className='w-full'
         >
           {template.items.map((item, index) => (
-            <CustomSmartForm
+            <SmartForm
               key={index}
               control={control}
               template={item}

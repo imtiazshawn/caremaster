@@ -1,8 +1,8 @@
-import { TableColumn } from "@components/common/Table";
+import { TableColumn } from "@common/Table";
 import dayjs from "dayjs";
 
 import { ServiceUsersTableUnit } from "@/pages/ServiceUsers";
-import { Box } from "@components/common";
+import { Box } from "@common/index";
 const headerClassName = "bg-gray-100";
 const serviceUserColumns: TableColumn<ServiceUsersTableUnit>[] = [
   {

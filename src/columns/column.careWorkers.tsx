@@ -1,4 +1,4 @@
-import { TableColumn } from "@components/common/Table";
+import { TableColumn } from "@common/Table";
 import dayjs from "dayjs";
 
 import { ColumnWorkersTableUnit } from "@/pages/CareWorkers";

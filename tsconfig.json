@@ -11,22 +11,22 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
     "paths": {
+      "@common/*": ["./src/components/common/*"],
       "@components/*": ["./src/components/*"],
       "@reducers/*": ["./src/redux/reducers/*"],
       "$types/*": ["./src/types/*"],
       "@redux/*": ["./src/redux/*"],
-      "@common/*": ["./src/components/common/*"],
       "@assets/*": ["./src/assets/*"],
       "@/*": ["./src/*"]
     }
   },
   "include": ["src", "src/custom.d.ts"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "exclude": ["@mui/material"]
 }

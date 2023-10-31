@@ -3,13 +3,13 @@ import {
   FormHelperText,
   InputLabel,
   MenuItem,
-  Select,
-  SelectProps,
+  Select as MSelect,
+  SelectProps as MSelectProps,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { FC } from "react";
 
-const StyledSelect = styled(Select)<SelectProps>(({ theme }) => ({
+const StyledSelect = styled(MSelect)<MSelectProps>(({ theme }) => ({
   "& .MuiInputLabel-root": {
     position: "relative",
     transform: "none",
@@ -48,13 +48,13 @@ type ValuedOption = {
   value: string | number;
 };
 
-export type CustomSelectOption = string | ValuedOption;
+export type SelectOption = string | ValuedOption;
 
-export interface CustomSelectProps extends SelectProps {
+export interface SelectProps extends MSelectProps {
   helperText?: string;
-  options?: CustomSelectOption[];
+  options?: SelectOption[];
 }
-const CustomSelect: FC<CustomSelectProps> = ({
+const Select: FC<SelectProps> = ({
   fullWidth,
   label,
   error,
@@ -113,4 +113,4 @@ const CustomSelect: FC<CustomSelectProps> = ({
   </FormControl>
 );
 
-export default CustomSelect;
+export default Select;

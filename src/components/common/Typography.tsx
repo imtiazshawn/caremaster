@@ -100,3 +100,9 @@ export const ModalTitle: React.FC<TypographyProps> = ({ ...props }) => (
     {...props}
   />
 );
+
+export type TextProps = React.ComponentProps<typeof Typography>;
+
+export const Text: React.FC<TextProps> = ({ children, ...props }) => {
+  return <Typography {...props}>{children}</Typography>;
+};

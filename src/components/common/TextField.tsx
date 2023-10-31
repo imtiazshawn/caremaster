@@ -1,7 +1,11 @@
-import { TextField, TextFieldProps } from "@mui/material";
+import {
+  TextField as MTextField,
+  TextFieldProps as MTextFieldProps,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 
-const CustomTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
+export type TextFieldProps = MTextFieldProps;
+const TextField = styled(MTextField)<TextFieldProps>(({ theme }) => ({
   "& .MuiInputLabel-root": {
     position: "relative",
     transform: "none",
@@ -32,8 +36,8 @@ const CustomTextField = styled(TextField)<TextFieldProps>(({ theme }) => ({
   },
 }));
 
-CustomTextField.defaultProps = {
+TextField.defaultProps = {
   InputLabelProps: { shrink: true },
 };
 
-export default CustomTextField;
+export default TextField;

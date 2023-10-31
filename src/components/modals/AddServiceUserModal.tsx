@@ -4,18 +4,18 @@ import { useForm } from "react-hook-form";
 import { ServiceUserType } from "$types/serviceUser";
 
 import { serviceUserSchema } from "@/formSchemas/serviceUsers";
-import { Column, FlexBox } from "@components/common";
-import { XButton } from "@components/common/Button";
-import { LoadingButton } from "@components/common/LoadingButton";
-import { CustomSmartForm, FormTemplate } from "@components/common/SmartForm";
-import { ModalTitle } from "@components/common/Typography";
+import { XButton } from "@common/Button";
+import { LoadingButton } from "@common/LoadingButton";
+import { FormTemplate, SmartForm } from "@common/SmartForm";
+import { ModalTitle } from "@common/Typography";
+import { Column, FlexBox } from "@common/index";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   useCreateServiceUserMutation,
   useGetServiceUsersQuery,
 } from "@reducers/api/serviceUsers";
 import React from "react";
-import { PostCodeComponent } from "./PostCodeComponent";
+import { PostCodeComponent } from "../PostCodeComponent";
 
 const defaultValues = {
   name: "",
@@ -66,9 +66,9 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
     onClose?.();
   };
 
-  const handleFormSubmit = async (values: any) => {
+  const handleFormSubmit = (values: any) => {
     createServiceUser(values).then(() => {
-      onCloseHandler?.();
+      onCloseHandler();
       refetch();
     });
   };
@@ -99,7 +99,7 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
       <DialogContent>
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <Column>
-            <CustomSmartForm
+            <SmartForm
               template={ServiceUsersForm}
               control={control}
             />

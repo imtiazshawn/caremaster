@@ -1,4 +1,3 @@
-import { TextFieldProps } from "@mui/material";
 import { ChangeEvent, FC, useCallback } from "react";
 import {
   Control,
@@ -7,7 +6,7 @@ import {
   RegisterOptions,
 } from "react-hook-form";
 
-import CustomTextField from "./CustomTextField";
+import TextField, { TextFieldProps } from "./TextField";
 
 export interface HookFormTextFieldProps extends Omit<TextFieldProps, "name"> {
   name: string;
@@ -53,7 +52,7 @@ const HookFormTextField: FC<HookFormTextFieldProps> = ({
       defaultValue={defaultValue}
       rules={rules}
       render={({ field, fieldState: { error } }) => (
-        <CustomTextField
+        <TextField
           fullWidth={fullWidth}
           type={type}
           error={Boolean(error?.message)}

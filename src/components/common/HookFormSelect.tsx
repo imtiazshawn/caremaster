@@ -2,7 +2,7 @@ import { SelectChangeEvent, SelectProps } from "@mui/material";
 import { FC, useCallback } from "react";
 import { Control, Controller, ControllerRenderProps } from "react-hook-form";
 
-import CustomSelect, { CustomSelectOption } from "./CustomSelect";
+import Select, { SelectOption } from "./Select";
 
 export interface HookFormSelectProps
   extends Omit<SelectProps, "name" | "variant"> {
@@ -10,7 +10,7 @@ export interface HookFormSelectProps
   control: Control<any>;
   defaultValue?: string | number | string[] | number[];
   labelHint?: string;
-  options?: CustomSelectOption[];
+  options?: SelectOption[];
   variant?: "standard" | "outlined" | "filled" | undefined;
 }
 
@@ -39,7 +39,7 @@ const HookFormSelect: FC<HookFormSelectProps> = ({
       control={control}
       defaultValue={defaultValue}
       render={({ field, fieldState: { error } }) => (
-        <CustomSelect
+        <Select
           type={type}
           {...field}
           error={Boolean(error?.message)}
