@@ -8,6 +8,7 @@ import HookFormTextField from "./HookFormTextField";
 
 type Common = {
   label?: string;
+  required?: boolean;
 };
 
 type Data = Record<string, any>;
@@ -15,12 +16,16 @@ type Data = Record<string, any>;
 export type FormTemplate<T extends Data> = Common &
   (
     | {
-        type: "text";
         name: keyof T;
+        type: "text";
       }
     | {
         name: keyof T;
+        type: "password";
+      }
+    | {
         type: "date";
+        name: keyof T;
       }
     | {
         type: "select";
@@ -88,8 +93,22 @@ export const SmartForm: SmartFormComponentType = ({
           fullWidth={labelPosition === "top"}
           placeholder={template.label}
           sx={labelPosition === "left" ? styleLeftLabel : null}
+          required={template.required || false}
         />
       );
+    case "password":
+      return (
+        <HookFormTextField
+          control={control}
+          name={templateName}
+          label={template.label}
+          fullWidth
+          placeholder={template.label}
+          type='password'
+          required={template.required || false}
+        />
+      );
+
     case "select":
       return (
         <HookFormSelect
@@ -99,6 +118,7 @@ export const SmartForm: SmartFormComponentType = ({
           fullWidth={labelPosition === "top"}
           options={template.options}
           sx={labelPosition === "left" ? styleLeftLabel : null}
+          required={template.required || false}
         />
       );
     case "date":
@@ -109,6 +129,7 @@ export const SmartForm: SmartFormComponentType = ({
           label={template.label}
           fullWidth={labelPosition === "top"}
           sx={labelPosition === "left" ? styleLeftLabel : null}
+          required={template.required || false}
         />
       );
     case "custom":

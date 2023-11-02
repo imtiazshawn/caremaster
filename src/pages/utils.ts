@@ -1,4 +1,4 @@
-import { CareWorker } from "$types/careWorkers";
+import { CareWorkersResponse } from "$types/careWorkers";
 import { ServiceUser, ServiceUsersTableUnit } from "$types/serviceUsers";
 
 import { ColumnWorkersTableUnit } from "./CareWorkers";
@@ -36,17 +36,24 @@ export const mapServiceUsersTableData = (
 };
 
 export const getCareWorkersTableData = (
-  data: CareWorker[],
+  data: CareWorkersResponse["response"]["data"],
 ): ColumnWorkersTableUnit[] => {
   return data.map(
-    ({ id, name, created_at, date_of_birth, mobile, status, role }) => ({
+    ({
+      user: { id, phone, name, email },
+      created_at,
+      employment_status,
+      date_of_birth,
+    }) => ({
       id,
       name,
       created_at,
       date_of_birth,
-      mobile,
-      status,
-      role,
+      phone,
+      email,
+      status: employment_status,
+      // TODO: We have to replace actual role instead of empty string.
+      role: "",
     }),
   );
 };

@@ -23,7 +23,7 @@ const careWorkerColumns: TableColumn<ColumnWorkersTableUnit>[] = [
   {
     flex: 0.25,
     width: 230,
-    field: "mobile",
+    field: "phone",
     headerName: "Mobile Number",
     headerClassName,
     sortable: false,

@@ -8,15 +8,18 @@ import { useGetCareWorkersQuery } from "@reducers/api/careWorkers";
 import careWorkerColumns from "@/columns/column.careWorkers";
 import { COLORS } from "@/shared/constants/colors";
 
+import AddCareWorkerModal from "@components/modals/AddCareWorkerModal";
+import { useState } from "react";
 import { getCareWorkersTableData } from "./utils";
 
 export type ColumnWorkersTableUnit = {
   id: number | string;
   name: string;
   role: string;
-  created_at: string;
-  date_of_birth: string;
-  mobile: string;
+  created_at: Date;
+  date_of_birth: Date;
+  phone: string;
+  email: string;
   status: boolean | string;
 };
 
@@ -27,8 +30,13 @@ export const CareWorkers = () => {
     data?.response.data ?? [],
   );
 
+  const [isOpenCareWorkerModal, setIsOpenCareWorkerModal] = useState(false);
   return (
     <FullColumn sx={{ background: COLORS.WHITE, p: 2, marginBottom: 2 }}>
+      <AddCareWorkerModal
+        isOpen={isOpenCareWorkerModal}
+        onClose={() => setIsOpenCareWorkerModal(false)}
+      />
       <Text
         variant='h5'
         sx={{ fontWeight: "bold" }}
@@ -40,6 +48,7 @@ export const CareWorkers = () => {
         <Button
           variant='contained'
           className='rounded-md'
+          onClick={() => setIsOpenCareWorkerModal(true)}
         >
           Add New Care Worker
         </Button>
