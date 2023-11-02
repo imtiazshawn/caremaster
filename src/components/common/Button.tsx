@@ -12,9 +12,9 @@ export const XButton: React.FC<ButtonProps> = ({ sx, ...rest }) => {
       size='small'
       aria-label='delete'
       sx={{
-        height: "40px",
-        width: "40px",
-        minWidth: "40px",
+        height: "2.5rem",
+        width: "2.5rem",
+        minWidth: "2.5rem",
         backgroundColor: "#F8FAFC",
         ...sx,
       }}

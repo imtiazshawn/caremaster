@@ -42,7 +42,7 @@ const PersonProfileSegHeader = ({
       sx={{
         backgroundColor: "rgba(148, 163, 184, 0.14)",
         padding: 2,
-        height: "67px",
+        height: "4rem",
         justifyContent: "space-between",
         alignItems: "center",
       }}

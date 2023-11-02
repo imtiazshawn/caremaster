@@ -3,7 +3,7 @@ import { Typography, TypographyProps } from "@mui/material";
 export const H1: React.FC<TypographyProps> = ({ ...props }) => (
   <Typography
     variant='h1'
-    fontSize='32px'
+    fontSize='2rem'
     fontWeight={600}
     {...props}
   />
@@ -12,7 +12,7 @@ export const H1: React.FC<TypographyProps> = ({ ...props }) => (
 export const H2: React.FC<TypographyProps> = ({ ...props }) => (
   <Typography
     variant='h2'
-    fontSize='24px'
+    fontSize='1.5rem'
     fontWeight={600}
     {...props}
   />
@@ -21,7 +21,7 @@ export const H2: React.FC<TypographyProps> = ({ ...props }) => (
 export const H3: React.FC<TypographyProps> = ({ ...props }) => (
   <Typography
     variant='h3'
-    fontSize='20px'
+    fontSize='1.25rem'
     fontWeight={600}
     {...props}
   />
@@ -30,7 +30,7 @@ export const H3: React.FC<TypographyProps> = ({ ...props }) => (
 export const H4: React.FC<TypographyProps> = ({ ...props }) => (
   <Typography
     variant='h4'
-    fontSize='18px'
+    fontSize='1.125rem'
     lineHeight={1}
     fontWeight={500}
     {...props}
@@ -40,7 +40,7 @@ export const H4: React.FC<TypographyProps> = ({ ...props }) => (
 export const H5: React.FC<TypographyProps> = ({ ...props }) => (
   <Typography
     variant='h5'
-    fontSize='16px'
+    fontSize='1rem'
     fontWeight={500}
     {...props}
   />
@@ -49,7 +49,7 @@ export const H5: React.FC<TypographyProps> = ({ ...props }) => (
 export const H6: React.FC<TypographyProps> = ({ ...props }) => (
   <Typography
     variant='h6'
-    fontSize='14px'
+    fontSize='0.875rem'
     fontWeight={500}
     {...props}
   />
@@ -75,7 +75,7 @@ export const Small: React.FC<TypographyProps> = ({ ...props }) => (
   <Typography
     variant='body1'
     component='small'
-    fontSize='14px'
+    fontSize='0.875rem'
     {...props}
   />
 );
@@ -83,9 +83,9 @@ export const Small: React.FC<TypographyProps> = ({ ...props }) => (
 export const FormButtonText: React.FC<TypographyProps> = ({ ...props }) => (
   <Typography
     variant='button'
-    fontSize='15px'
+    fontSize='0.94rem'
     fontWeight={500}
-    lineHeight='26px'
+    lineHeight='1.625rem'
     textTransform='uppercase'
     {...props}
   />
@@ -93,9 +93,9 @@ export const FormButtonText: React.FC<TypographyProps> = ({ ...props }) => (
 
 export const ModalTitle: React.FC<TypographyProps> = ({ ...props }) => (
   <Typography
-    fontSize='18px'
+    fontSize='1.125rem'
     fontWeight={700}
-    lineHeight='25.2px'
+    lineHeight='1.575rem'
     textTransform='capitalize'
     {...props}
   />

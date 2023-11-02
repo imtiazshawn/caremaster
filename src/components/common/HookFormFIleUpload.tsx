@@ -44,13 +44,13 @@ export const HookFormFileUpload = ({
 
   return (
     <Row sx={{ gap: 0, alignItems: "center" }}>
-      <H5 width='200px'>{label}</H5>
+      <H5 width='12.5rem'>{label}</H5>
 
       {imgSrc && (
         <Box
           sx={{
-            height: "200px",
-            width: "200px",
+            height: "12.5rem",
+            width: "12.5rem",
             display: "flex",
           }}
         >

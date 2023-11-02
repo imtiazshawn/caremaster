@@ -14,7 +14,7 @@ const TextField = styled(MTextField)<TextFieldProps>(({ theme }) => ({
   },
   "& .MuiInputBase-root": {
     borderRadius: "12px",
-    height: "56px",
+    height: "3.5rem",
   },
   "& .MuiInputLabel-root.Mui-focused": {
     color: theme.palette.primary.main,

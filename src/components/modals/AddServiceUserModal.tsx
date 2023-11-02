@@ -78,7 +78,7 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
       sx={{
         "& .MuiPaper-root": {
           maxWidth: "100%",
-          width: "650px",
+          width: "40rem",
         },
       }}
       onClose={onCloseHandler}

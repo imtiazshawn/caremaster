@@ -34,13 +34,13 @@ export const EditServiceUser = () => {
 
   return (
     <FullColumn
-      sx={{ background: COLORS.WHITE, p: 2, gap: 0, marginBottom: 2 }}
+      sx={{ background: COLORS.WHITE, p: "1rem", gap: 0, marginBottom: "1em" }}
     >
       <TabContext value={tabValue}>
         <Tabs
           sx={{
             "& .MuiTabs-flexContainer": {
-              gap: "30px",
+              gap: "2rem",
             },
           }}
           value={tabValue}
@@ -57,7 +57,7 @@ export const EditServiceUser = () => {
               value={tab.value}
               sx={{
                 color: COLORS.TAB_INACTIVE_COLOR,
-                fontSize: "20px",
+                fontSize: "1.25rem",
                 fontWeight: "600",
                 textTransform: "none",
                 p: 0,

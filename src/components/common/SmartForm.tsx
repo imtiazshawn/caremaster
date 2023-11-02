@@ -49,7 +49,7 @@ const styleLeftLabel = {
   justifyContent: "space-between",
   alignItems: "center",
   "& .MuiFormLabel-root": {
-    width: "200px",
+    width: "12.5rem",
   },
   "& .MuiInputBase-root": {
     flexGrow: 1,
@@ -69,7 +69,7 @@ export const SmartForm: SmartFormComponentType = ({
 }) => {
   if (Array.isArray(template)) {
     return (
-      <Column sx={{ flexGrow: 1, gap: "2em" }}>
+      <Column sx={{ flexGrow: 1, gap: "1.5rem" }}>
         {template.map((item, index) => (
           <SmartForm
             key={index}
@@ -137,7 +137,7 @@ export const SmartForm: SmartFormComponentType = ({
     case "column":
       return (
         <FlexBox
-          sx={{ flexGrow: 1, gap: "1.5em" }}
+          sx={{ flexGrow: 1, gap: "1.5rem" }}
           className='w-full'
         >
           {template.items.map((item, index) => (

@@ -13,7 +13,7 @@
     sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
+  font-size: small;
   color-scheme: light dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -25,4 +25,8 @@
 body {
   background-color: white;
   color: black;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

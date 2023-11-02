@@ -17,11 +17,11 @@ const StyledSelect = styled(MSelect)<MSelectProps>(({ theme }) => ({
     fontWeight: "500",
     color: theme.palette.text.primary,
     borderRadius: "12px",
-    height: "56px",
+    height: "3.5rem",
   },
   "& .MuiInputBase-root": {
     borderRadius: "12px",
-    height: "56px",
+    height: "3.5rem",
   },
   "& .MuiInputLabel-root.Mui-focused": {
     color: theme.palette.primary.main,

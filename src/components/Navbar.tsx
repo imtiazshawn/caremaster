@@ -115,8 +115,8 @@ export const Navbar = () => {
             <IconButton
               key={route}
               sx={{
-                p: 1.5,
-                px: 5,
+                p: "0.75rem",
+                px: "2.5rem",
                 borderRadius: 2,
                 borderTopLeftRadius: 0,
                 borderBottomLeftRadius: 0,

@@ -9,7 +9,7 @@ const styleLeftLabel = {
   alignItems: "center",
   width: "100%",
   "& .MuiFormLabel-root": {
-    width: "200px",
+    width: "12.5rem",
   },
   "& .MuiInputBase-root": {
     flexGrow: 1,

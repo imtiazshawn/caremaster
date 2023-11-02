@@ -18,18 +18,18 @@ export const QRCodeComponent = ({ value, setValue, label }: Props) => {
 
   return (
     <Row sx={{ gap: 0, alignItems: "center" }}>
-      <H5 width='200px'>{label}</H5>
+      <H5 width='12.5rem'>{label}</H5>
       <Button
         variant='contained'
         className='rounded-md'
         onClick={generateQRCode}
-        sx={{ height: "35px", textTransform: "none" }}
+        sx={{ height: "2.2rem", textTransform: "none" }}
       >
         Generate QR Code
       </Button>
       <QRCode
         size={64}
-        style={{ marginLeft: "20px" }}
+        style={{ marginLeft: "1.25rem" }}
         value={value ?? ""}
       />
     </Row>
