@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { CareWorkers } from "./pages/CareWorkers";
 import { Dashboard } from "./pages/DashBoard";
+import { EditServiceUser } from "./pages/EditServiceUser";
 import { ServiceUsers } from "./pages/ServiceUsers";
 
 const queryClient = new QueryClient();
@@ -30,6 +31,10 @@ function App() {
               <Route
                 path='/service-users'
                 element={<ServiceUsers />}
+              />
+              <Route
+                path='/service-users/:id'
+                element={<EditServiceUser />}
               />
               <Route
                 path='/care-workers'

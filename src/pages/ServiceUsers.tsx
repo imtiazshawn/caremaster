@@ -7,32 +7,29 @@ import { useGetServiceUsersQuery } from "@reducers/api/serviceUsers";
 import serviceUserColumns from "@/columns/column.serviceUsers";
 import { COLORS } from "@/shared/constants/colors";
 
+import { ServiceUsersTableUnit } from "$types/serviceUsers";
 import { FlexBox, FullColumn } from "@common/index";
 import AddServiceUserModal from "@components/modals/AddServiceUserModal";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { mapServiceUsersTableData } from "./utils";
-
-export type ServiceUsersTableUnit = {
-  id: number | string;
-  name: string;
-  postcode: string;
-  address: string;
-  food_allergies: string;
-  medicine_allergies: string;
-  created_at: string;
-  date_of_birth: string;
-  banding: string;
-  gender: string;
-};
 
 export const ServiceUsers = () => {
   const { data, isLoading } = useGetServiceUsersQuery(null);
-
+  const navigate = useNavigate();
   const serviceUsers: ServiceUsersTableUnit[] = mapServiceUsersTableData(
-    data?.response.data ?? [],
+    data?.response?.data ?? [],
   );
 
   const [isOpenServiceUserModal, setIsOpenServiceUserModal] = useState(false);
+
+  const handleActionCallback = (dataId: string, actionType: string) => {
+    if (actionType === "edit") {
+      navigate(`/service-users/${dataId}`);
+    } else if (actionType === "delete") {
+      //
+    }
+  };
 
   return (
     <FullColumn sx={{ background: COLORS.WHITE, p: 2, marginBottom: 2 }}>
@@ -58,7 +55,7 @@ export const ServiceUsers = () => {
       </FlexBox>
       <Table<ServiceUsersTableUnit>
         rows={serviceUsers}
-        columns={serviceUserColumns}
+        columns={serviceUserColumns(handleActionCallback)}
         isLoading={isLoading}
       />
       <FlexBox sx={{ justifyContent: "space-between" }}>

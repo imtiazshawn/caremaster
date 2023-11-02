@@ -1,8 +1,7 @@
 import { CareWorker } from "$types/careWorkers";
-import { ServiceUser } from "$types/serviceUsers";
+import { ServiceUser, ServiceUsersTableUnit } from "$types/serviceUsers";
 
 import { ColumnWorkersTableUnit } from "./CareWorkers";
-import { ServiceUsersTableUnit } from "./ServiceUsers";
 
 export const mapServiceUsersTableData = (
   data: ServiceUser[],

@@ -1,8 +1,7 @@
 import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
 import { useForm } from "react-hook-form";
 
-import { ServiceUserType } from "$types/serviceUser";
-
+import { ServiceUser, ServiceUserDto } from "$types/serviceUsers";
 import { serviceUserSchema } from "@/formSchemas/serviceUsers";
 import { XButton } from "@common/Button";
 import { LoadingButton } from "@common/LoadingButton";
@@ -22,7 +21,7 @@ const defaultValues = {
   email: "",
   postcode: "",
   address: "",
-} as ServiceUserType;
+} as ServiceUser;
 
 type Props = {
   isOpen: boolean;
@@ -31,7 +30,7 @@ type Props = {
 };
 
 const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { handleSubmit, control, setValue, reset } = useForm<ServiceUserType>({
+  const { handleSubmit, control, setValue, reset } = useForm<ServiceUserDto>({
     defaultValues: defaultValues,
     resolver: yupResolver(serviceUserSchema),
   });
@@ -39,7 +38,7 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { refetch } = useGetServiceUsersQuery(null);
   const [createServiceUser, { isLoading }] = useCreateServiceUserMutation();
 
-  const ServiceUsersForm: FormTemplate<ServiceUserType>[] = [
+  const ServiceUsersOnboardingForm: FormTemplate<ServiceUser>[] = [
     {
       type: "text",
       label: "Name",
@@ -66,7 +65,7 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
     onClose?.();
   };
 
-  const handleFormSubmit = (values: any) => {
+  const handleFormSubmit = (values: ServiceUserDto) => {
     createServiceUser(values).then(() => {
       onCloseHandler();
       refetch();
@@ -100,7 +99,7 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <Column>
             <SmartForm
-              template={ServiceUsersForm}
+              template={ServiceUsersOnboardingForm}
               control={control}
             />
             <FlexBox sx={{ justifyContent: "flex-end" }}>

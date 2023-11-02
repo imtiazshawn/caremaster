@@ -39,12 +39,29 @@ export type FormTemplate<T extends Data> = Common &
       }
   );
 
+const styleLeftLabel = {
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  "& .MuiFormLabel-root": {
+    width: "200px",
+  },
+  "& .MuiInputBase-root": {
+    flexGrow: 1,
+  },
+};
+
 type SmartFormComponentType = <T extends Data>(props: {
   template: FormTemplate<T>[] | FormTemplate<T>;
   control: Control<any>;
+  labelPosition?: "left" | "top";
 }) => JSX.Element | null;
 
-export const SmartForm: SmartFormComponentType = ({ template, control }) => {
+export const SmartForm: SmartFormComponentType = ({
+  template,
+  control,
+  labelPosition,
+}) => {
   if (Array.isArray(template)) {
     return (
       <Column sx={{ flexGrow: 1, gap: "2em" }}>
@@ -53,6 +70,7 @@ export const SmartForm: SmartFormComponentType = ({ template, control }) => {
             key={index}
             control={control}
             template={item}
+            labelPosition={labelPosition}
           />
         ))}
       </Column>
@@ -67,8 +85,9 @@ export const SmartForm: SmartFormComponentType = ({ template, control }) => {
           control={control}
           name={templateName}
           label={template.label}
-          fullWidth
+          fullWidth={labelPosition === "top"}
           placeholder={template.label}
+          sx={labelPosition === "left" ? styleLeftLabel : null}
         />
       );
     case "select":
@@ -77,8 +96,9 @@ export const SmartForm: SmartFormComponentType = ({ template, control }) => {
           control={control}
           name={templateName}
           label={template.label}
-          fullWidth
+          fullWidth={labelPosition === "top"}
           options={template.options}
+          sx={labelPosition === "left" ? styleLeftLabel : null}
         />
       );
     case "date":
@@ -87,7 +107,8 @@ export const SmartForm: SmartFormComponentType = ({ template, control }) => {
           control={control}
           name={templateName}
           label={template.label}
-          fullWidth
+          fullWidth={labelPosition === "top"}
+          sx={labelPosition === "left" ? styleLeftLabel : null}
         />
       );
     case "custom":
@@ -103,6 +124,7 @@ export const SmartForm: SmartFormComponentType = ({ template, control }) => {
               key={index}
               control={control}
               template={item}
+              labelPosition={labelPosition}
             />
           ))}
         </FlexBox>

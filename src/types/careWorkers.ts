@@ -1,4 +1,4 @@
-import { ApiResponse } from ".";
+import { ApiResponseArray } from ".";
 
 // TODO: This is an approximate type.
 export type CareWorker = {
@@ -20,4 +20,4 @@ export type CareWorker = {
   updated_at: string;
 };
 
-export type CareWorkersResponse = ApiResponse<CareWorker>;
+export type CareWorkersResponse = ApiResponseArray<CareWorker>;

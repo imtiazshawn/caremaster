@@ -9,10 +9,12 @@ export const FlexBox = styled("div")({
   gap: "2em",
 });
 
-export const Column = styled("div")({
-  display: "flex",
+export const Column = styled(FlexBox)({
   flexDirection: "column",
-  gap: "2em",
+});
+
+export const Row = styled(FlexBox)({
+  flexDirection: "row",
 });
 
 export const FullColumn = styled(Column)({
