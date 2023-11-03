@@ -4,7 +4,7 @@ import { GlobalSearch } from "@components/GlobalSearch";
 import { Typography } from "@mui/material";
 import { useGetServiceUsersQuery } from "@reducers/api/serviceUsers";
 
-import serviceUserColumns from "@/columns/column.serviceUsers";
+import getServiceUserColumns from "@/columns/column.serviceUsers";
 import { COLORS } from "@/shared/constants/colors";
 
 import { ServiceUsersTableUnit } from "$types/serviceUsers";
@@ -55,7 +55,7 @@ export const ServiceUsers = () => {
       </FlexBox>
       <Table<ServiceUsersTableUnit>
         rows={serviceUsers}
-        columns={serviceUserColumns(handleActionCallback)}
+        columns={getServiceUserColumns(handleActionCallback)}
         isLoading={isLoading}
       />
       <FlexBox sx={{ justifyContent: "space-between" }}>

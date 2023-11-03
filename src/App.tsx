@@ -5,8 +5,9 @@ import store from "@redux/store";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
+import { CareWorkers } from "@/pages/CareWorkers";
+import EditCareWorkers from "@/pages/EditCareWorkers";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { CareWorkers } from "./pages/CareWorkers";
 import { Dashboard } from "./pages/DashBoard";
 import { EditServiceUser } from "./pages/EditServiceUser";
 import { ServiceUsers } from "./pages/ServiceUsers";
@@ -39,6 +40,10 @@ function App() {
               <Route
                 path='/care-workers'
                 element={<CareWorkers />}
+              />
+              <Route
+                path='/care-workers/:id'
+                element={<EditCareWorkers />}
               />
             </Routes>
           </PageLayout>

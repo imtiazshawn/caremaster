@@ -9,7 +9,7 @@ import { IconButton } from "@mui/material";
 
 const headerClassName = "bg-gray-100";
 
-const serviceUserColumns = (
+const getServiceUserColumns = (
   handleAction: (dataId: string, actionType: string) => void,
 ): TableColumn<ServiceUsersTableUnit>[] => {
   return [
@@ -95,4 +95,4 @@ const serviceUserColumns = (
     },
   ];
 };
-export default serviceUserColumns;
+export default getServiceUserColumns;

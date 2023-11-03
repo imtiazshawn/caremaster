@@ -1,21 +1,5 @@
+import { GENDER, MARITAL_STATUS, SEXUALITY } from "$types/common";
 import { ApiResponse, ApiResponseArray } from ".";
-
-export enum GENDER {
-  MALE = "Male",
-  FEMALE = "Female",
-  TRANSGENDER = "Transgender",
-  OTHER = "Other",
-  PREFER_NOT_TO_SAY = "Prefer not to say",
-}
-
-export enum SEXUALITY {
-  HETEROSEXUAL = "Heterosexual",
-  GAY = "Gay",
-  LESBIAN = "Lesbian",
-  BISEXUAL = "Bisexual",
-  PREFER_NOT_TO_SAY = "Prefer not to say",
-  OTHER = "Other",
-}
 
 export enum PRONOUN {
   HE = "He",
@@ -84,15 +68,6 @@ export enum SERVICE_LEVEL {
   PERSONAL_VISIT_DAY_HOUR = "Personal Day Hour:Timetabled-visit (Hour)",
   PERSONAL_VISIT_WKND_HOUR = "Personal Wknd Hour:Timetabled-visit",
   SUPPORTED_LIVING = "Supported Living",
-}
-
-export enum MARITAL_STATUS {
-  SINGLE = "Single",
-  MARRIED = "Married",
-  DIVORCED = "Divorced",
-  WIDOWED = "Widowed",
-  COHABITING = "Cohabiting",
-  PREFER_NOT_TO_SAY = "Prefer not to say",
 }
 
 export enum COMMUNICATION_PREFERENCE {

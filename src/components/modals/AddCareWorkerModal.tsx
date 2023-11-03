@@ -8,7 +8,7 @@ import { FormTemplate, SmartForm } from "@components/common/SmartForm";
 import { ModalTitle } from "@components/common/Typography";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { CareWorker } from "$types/careWorkers";
+import { CreateCareWorker } from "$types/careWorkers";
 import { careWorkerSchema } from "@/formSchemas/careWorkers";
 import { PostCodeComponent } from "@components/PostCodeComponent";
 import {
@@ -17,7 +17,7 @@ import {
 } from "@reducers/api/careWorkers";
 import React from "react";
 
-const defaultValues: CareWorker = {
+const defaultValues: CreateCareWorker = {
   email: "",
   phone: "",
   name: "",
@@ -33,7 +33,7 @@ type Props = {
 };
 
 const AddCareWorkerModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { handleSubmit, control, reset, setValue } = useForm<CareWorker>({
+  const { handleSubmit, control, reset, setValue } = useForm<CreateCareWorker>({
     defaultValues: defaultValues,
     resolver: yupResolver(careWorkerSchema),
   });
@@ -41,7 +41,7 @@ const AddCareWorkerModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { refetch } = useGetCareWorkersQuery(null);
   const [createCareWorker, { isLoading }] = useCreateCareWorkerMutation();
 
-  const careWorkerFormTemplate: FormTemplate<CareWorker>[] = [
+  const careWorkerFormTemplate: FormTemplate<CreateCareWorker>[] = [
     {
       type: "text",
       label: "Name",
@@ -79,7 +79,7 @@ const AddCareWorkerModal: React.FC<Props> = ({ isOpen, onClose }) => {
     onClose?.();
   };
 
-  const handleFormSubmit = async (values: CareWorker) => {
+  const handleFormSubmit = async (values: CreateCareWorker) => {
     values.password = Math.random().toString(36).slice(-8);
     createCareWorker(values).then(() => {
       onCloseHandler?.();
