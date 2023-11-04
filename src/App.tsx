@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { CareWorkers } from "@/pages/CareWorkers";
 import EditCareWorkers from "@/pages/EditCareWorkers";
+import { Settings } from "@/pages/Settings";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Dashboard } from "./pages/DashBoard";
 import { EditServiceUser } from "./pages/EditServiceUser";
@@ -40,6 +41,10 @@ function App() {
               <Route
                 path='/care-workers'
                 element={<CareWorkers />}
+              />
+              <Route
+                path='/settings'
+                element={<Settings />}
               />
               <Route
                 path='/care-workers/:id'

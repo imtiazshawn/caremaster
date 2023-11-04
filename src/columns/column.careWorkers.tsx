@@ -1,10 +1,10 @@
+import { headerClassName } from "@/shared/constants/table";
 import { TableColumn } from "@common/Table";
 
 import { CareWorkersTableUnit } from "$types/careWorkers";
 import { formatDate } from "@/Utils";
 import IconButton from "@common/IconButton";
 import { Box, Row } from "@common/index";
-const headerClassName = "bg-gray-100";
 
 export type ActionType = "edit" | "delete";
 

@@ -1,6 +1,7 @@
 import { ReactElement } from "react";
 import { Control } from "react-hook-form";
 
+import HookFormSwitch from "@common/HookFormSwitch";
 import { Column, FlexBox } from ".";
 import HookFormDateField from "./HookFormDateField";
 import HookFormSelect from "./HookFormSelect";
@@ -33,6 +34,10 @@ export type FormTemplate<T extends Data> = Common &
         options: string[];
       }
     | {
+        type: "switch";
+        name: keyof T;
+      }
+    | {
         type: "column";
         name?: keyof T;
         items: FormTemplate<T>[];
@@ -43,6 +48,12 @@ export type FormTemplate<T extends Data> = Common &
         component: ReactElement;
       }
   );
+// TODO: add array type
+// | {
+//     type: "array";
+//     name?: keyof T;
+//     items: FormTemplate<T>[];
+//   }
 
 const styleLeftLabel = {
   flexDirection: "row",
@@ -119,6 +130,14 @@ export const SmartForm: SmartFormComponentType = ({
           options={template.options}
           sx={labelPosition === "left" ? styleLeftLabel : null}
           required={template.required || false}
+        />
+      );
+    case "switch":
+      return (
+        <HookFormSwitch
+          control={control}
+          name={templateName}
+          label={template.label}
         />
       );
     case "date":

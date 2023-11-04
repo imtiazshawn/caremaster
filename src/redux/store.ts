@@ -1,5 +1,7 @@
 import { authApi } from "@reducers/api/authApi";
 import { careWorkersApi } from "@reducers/api/careWorkers";
+import { recordFieldsApi } from "@reducers/api/recordFields";
+import { recordsApi } from "@reducers/api/records";
 import { serviceUsersApi } from "@reducers/api/serviceUsers";
 import { authReducer } from "@reducers/authSlice";
 import {
@@ -15,6 +17,8 @@ const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [serviceUsersApi.reducerPath]: serviceUsersApi.reducer,
   [careWorkersApi.reducerPath]: careWorkersApi.reducer,
+  [recordsApi.reducerPath]: recordsApi.reducer,
+  [recordFieldsApi.reducerPath]: recordFieldsApi.reducer,
 });
 
 const store = configureStore({
@@ -24,6 +28,8 @@ const store = configureStore({
       authApi.middleware,
       serviceUsersApi.middleware,
       careWorkersApi.middleware,
+      recordsApi.middleware,
+      recordFieldsApi.middleware,
     ]),
   devTools: import.meta.env.NODE_ENV !== "production",
 });

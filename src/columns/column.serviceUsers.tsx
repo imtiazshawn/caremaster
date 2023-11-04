@@ -2,12 +2,11 @@ import { TableColumn } from "@components/common/Table";
 
 import { ServiceUsersTableUnit } from "$types/serviceUsers";
 import { formatDate } from "@/Utils";
+import { headerClassName } from "@/shared/constants/table";
 import { Box, Row } from "@components/common";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { IconButton } from "@mui/material";
-
-const headerClassName = "bg-gray-100";
 
 const getServiceUserColumns = (
   handleAction: (dataId: string, actionType: string) => void,

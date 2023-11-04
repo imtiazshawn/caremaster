@@ -27,6 +27,7 @@ export function Table<TItem extends GridValidRowModel>({
       columns={columns}
       rows={rows}
       loading={isLoading}
+      autoHeight
       sx={{
         width: "100%",
       }}
