@@ -3,7 +3,6 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import { UpdateRecordValue } from "$types/serviceUserRecords";
 import { getBaseQuery } from "./apiUtils";
 
-
 export const recordValuesApi = createApi({
   reducerPath: "recordValuesApi",
   baseQuery: getBaseQuery("record-values"),
