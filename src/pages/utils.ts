@@ -37,8 +37,8 @@ export const getCareWorkersTableData = (
   data: CareWorkersResponse["response"]["data"],
 ): CareWorkersTableUnit[] => {
   return data.map(
-    ({ user: { id, phone, name, email }, created_at, employment_status }) => ({
-      id,
+    ({ id, user: { phone, name, email }, created_at, employment_status }) => ({
+      id: id!,
       name,
       created_at,
       phone,
