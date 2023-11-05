@@ -10,7 +10,7 @@ type FormTemplateParams = {
   setValue: UseFormSetValue<UpdateCareWorkerReq>;
 };
 
-export const getDetailsCareWorkserForm = ({
+export const getDetailsCareWorkerForm = ({
   setValue,
   watch,
 }: FormTemplateParams): FormTemplate<UpdateCareWorkerReq>[] => {

@@ -1,5 +1,4 @@
-import { Box, Column, Row } from "@components/common";
-import { H4 } from "@components/common/Typography";
+import { Column } from "@components/common";
 import { useEffect, useState } from "react";
 
 import {
@@ -9,10 +8,9 @@ import {
 } from "$types/careWorkers";
 
 import { removeUndefined } from "@/Utils";
+import { SegHeader } from "@common/SegHeader";
 import { FormTemplate, SmartForm } from "@common/SmartForm";
 import { LoadingButton } from "@components/common/LoadingButton";
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   useGetCareWorkerQuery,
   useUpdateCareWorkerMutation,
@@ -21,46 +19,10 @@ import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
 import {
   getBackgroundForm,
-  getDetailsCareWorkserForm,
+  getDetailsCareWorkerForm,
   getEmergencyContactForm,
   getRoleAndAccessForm,
 } from "./PersonalProfileFormTemplates";
-
-type Props = {
-  currentSegment: PersonProfileSegments;
-  expandedSegment?: PersonProfileSegments;
-  changeExpandSegment: (segment: PersonProfileSegments | undefined) => void;
-};
-
-const PersonProfileSegHeader = ({
-  currentSegment,
-  expandedSegment,
-  changeExpandSegment,
-}: Props) => {
-  return (
-    <Row
-      onClick={() =>
-        changeExpandSegment(
-          expandedSegment === currentSegment ? undefined : currentSegment,
-        )
-      }
-      sx={{
-        cursor: "pointer",
-        backgroundColor: "rgba(148, 163, 184, 0.14)",
-        padding: 2,
-        height: "4rem",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <H4>{currentSegment}</H4>
-      <Box>
-        {expandedSegment === currentSegment && <ExpandMoreIcon />}
-        {expandedSegment !== currentSegment && <ControlPointIcon />}
-      </Box>
-    </Row>
-  );
-};
 
 export const PersonalProfileTab = () => {
   const { id: careWorkerId } = useParams<{ id: string }>();
@@ -82,8 +44,9 @@ export const PersonalProfileTab = () => {
     }
   }, [reset, careWorker]);
 
-  const changeExpandSegment = (segment: PersonProfileSegments | undefined) => {
-    setExpandedSegment(segment);
+  const changeExpandSegment = (segment: string | undefined) => {
+    // TODO: not ideal
+    setExpandedSegment(segment as PersonProfileSegments | undefined);
   };
 
   const handleFormSubmit = async (value: UpdateCareWorkerReq) => {
@@ -101,7 +64,7 @@ export const PersonalProfileTab = () => {
   }[] = [
     {
       currentSegment: PERSON_PROFILE_SEGMENT.DETAILS,
-      template: getDetailsCareWorkserForm({ watch, setValue }),
+      template: getDetailsCareWorkerForm({ watch, setValue }),
     },
     {
       currentSegment: PERSON_PROFILE_SEGMENT.ROLE_AND_ACCESS_RIGHT,
@@ -132,7 +95,7 @@ export const PersonalProfileTab = () => {
         </LoadingButton>
         {segments.map(({ currentSegment, template }, index) => (
           <Column key={index}>
-            <PersonProfileSegHeader
+            <SegHeader
               currentSegment={currentSegment}
               expandedSegment={expandedSegment}
               changeExpandSegment={changeExpandSegment}

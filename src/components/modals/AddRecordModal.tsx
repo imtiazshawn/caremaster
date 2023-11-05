@@ -156,7 +156,7 @@ const AddRecordModal: React.FC<Props> = ({ isOpen, onClose, record }) => {
 
   const handleFormSubmit = async (values: any) => {
     delete values.fields;
-    let recordId = record?.id ?? -1;
+    let recordId = record?.id;
     setIsLoading(true);
 
     if (!recordId) {
@@ -179,6 +179,10 @@ const AddRecordModal: React.FC<Props> = ({ isOpen, onClose, record }) => {
     }
     setIsLoading(false);
 
+    if (!recordId) {
+      return;
+    }
+
     Promise.all(
       fields.map(async (field) => {
         // TODO (Ovishek):
@@ -189,7 +193,7 @@ const AddRecordModal: React.FC<Props> = ({ isOpen, onClose, record }) => {
         if (!fieldValues.id) {
           await dispatch(
             recordFieldsApi.endpoints.createRecordField.initiate({
-              record: recordId,
+              record: recordId!,
               ...field,
             }),
           );
@@ -198,7 +202,7 @@ const AddRecordModal: React.FC<Props> = ({ isOpen, onClose, record }) => {
 
         await dispatch(
           recordFieldsApi.endpoints.updateRecordField.initiate({
-            record: recordId,
+            record: recordId!,
             id: fieldValues.id,
             ...field,
           }),

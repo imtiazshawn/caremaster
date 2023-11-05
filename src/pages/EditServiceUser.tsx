@@ -1,6 +1,7 @@
 import { COLORS } from "@/shared/constants/colors";
 import { Box, FullColumn } from "@components/common";
 import { PersonalProfileTab } from "@components/serviceUsers/PersonalProfileTab";
+import { ServiceUserRecordTab } from "@components/serviceUsers/ServiceUserRecordTab";
 import { TabContext, TabPanel } from "@mui/lab";
 import { Tab, Tabs } from "@mui/material";
 import { useState } from "react";
@@ -75,6 +76,9 @@ export const EditServiceUser = () => {
         >
           <TabPanel value='1'>
             <PersonalProfileTab />
+          </TabPanel>
+          <TabPanel value='2'>
+            <ServiceUserRecordTab />
           </TabPanel>
         </Box>
       </TabContext>
