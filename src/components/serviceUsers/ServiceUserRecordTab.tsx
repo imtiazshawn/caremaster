@@ -11,6 +11,7 @@ import {
   useCreateServiceUserRecordMutation,
   useDeleteServiceUserRecordMutation,
   useGetServiceUserRecordsQuery,
+  useUpdateServiceUserRecordMutation,
 } from "@reducers/api/serviceUserRecords";
 import { useRecords } from "@redux/hooks/useRecords";
 import { useEffect, useState } from "react";
@@ -19,10 +20,12 @@ import { useParams } from "react-router-dom";
 import { FormTemplate } from "../common/SmartForm";
 
 import { RecordWithFields } from "$types/record";
+import { formatDate, getOptions } from "@/Utils";
 import { ActionType } from "@/columns/column.careWorkers";
 import IconButton from "@common/IconButton";
+import Loader from "@common/Loader";
 import ConfirmationDialog from "@components/modals/ConfirmationModal";
-import { useUpdateRecordValueMutation } from "@reducers/api/recordValue";
+import { useCreateFileUploadMutation } from "@reducers/api/fileUpload";
 
 type RecordSegment = {
   label: string;
@@ -43,16 +46,20 @@ export const getFormFieldTypeFromFieldType = (
   switch (fieldType) {
     case FieldTypeEnum.TEXT:
       return "text";
-    // case FieldTypeEnum.NUMBER:
-    //   return "number";
+    case FieldTypeEnum.NUMBER:
+      return "number";
     case FieldTypeEnum.DATE:
       return "date";
-    // case FieldTypeEnum.CHECKBOX:
-    //   return "checkbox";
-    // case FieldTypeEnum.RADIO:
-    //   return "radio";
-    // case FieldTypeEnum.SELECT:
-    //   return "select";
+    case FieldTypeEnum.IMAGE:
+      return "image";
+    case FieldTypeEnum.FILE:
+      return "file";
+    case FieldTypeEnum.CHECKBOX:
+      return "multi-checkbox";
+    case FieldTypeEnum.RADIO:
+      return "radio";
+    case FieldTypeEnum.SELECT:
+      return "select";
     // case FieldTypeEnum.TEXTAREA:
     //   return "textarea";
     default:
@@ -65,8 +72,11 @@ export const ServiceUserRecordTab = () => {
 
   const { records = [], isLoading } = useRecords();
 
-  const { data: serviceUserRecords = [], refetch } =
-    useGetServiceUserRecordsQuery((serviceUserId || 0) as number);
+  const {
+    data: serviceUserRecords = [],
+    refetch,
+    isLoading: isLoadingServiceUserRecords,
+  } = useGetServiceUserRecordsQuery((serviceUserId || 0) as number);
 
   const groupedRecordValues = serviceUserRecords.reduce(
     (acc, record) => {
@@ -95,6 +105,49 @@ export const ServiceUserRecordTab = () => {
             field: field.label,
             headerName: field.label.toLocaleUpperCase(),
             headerClassName,
+            renderCell: (params: any) => {
+              if (
+                (field.field_type === FieldTypeEnum.FILE ||
+                  field.field_type === FieldTypeEnum.IMAGE) &&
+                params.value
+              ) {
+                return (
+                  <a
+                    href={params.value}
+                    target='_blank'
+                    rel='noreferrer'
+                    style={{ color: "blue", textDecoration: "underline" }}
+                  >
+                    {field.field_type === FieldTypeEnum.FILE
+                      ? "Download"
+                      : "Preview"}
+                  </a>
+                );
+              }
+              if (field.field_type === FieldTypeEnum.CHECKBOX) {
+                return (
+                  <FlexBox sx={{ gap: "5px" }}>
+                    {params.value
+                      .map((v: boolean, index: number) => {
+                        const value = field.options?.split(",")?.[index];
+                        if (!value || !v) {
+                          return null;
+                        }
+                        return value.trim();
+                      })
+                      .filter(Boolean)
+                      .join(", ")}
+                  </FlexBox>
+                );
+              }
+
+              if (field.field_type === FieldTypeEnum.DATE) {
+                const date = new Date(params.value);
+                return formatDate(date);
+              }
+
+              return params.value;
+            },
           })),
           {
             maxWidth: 230,
@@ -135,8 +188,16 @@ export const ServiceUserRecordTab = () => {
         tableRows: recordValues.map((recordValue) => ({
           id: recordValue.id,
           ...recordValue.values.reduce(
-            (acc, value) => {
-              acc[value.field_label] = value.value;
+            (acc, values) => {
+              const { value, value_type, field_label } = values;
+
+              if (value_type === FieldTypeEnum.CHECKBOX) {
+                acc[field_label] = value
+                  .split(",")
+                  .map((v) => v.trim() === "true");
+              } else {
+                acc[field_label] = value;
+              }
               return acc;
             },
             {} as Record<string, any>,
@@ -148,6 +209,7 @@ export const ServiceUserRecordTab = () => {
               type: getFormFieldTypeFromFieldType(field.field_type),
               name: field.label,
               label: field.label,
+              options: getOptions(field.options),
             }) as FormTemplate<any>,
         ),
         defaultValues: record.fields.reduce(
@@ -174,6 +236,10 @@ export const ServiceUserRecordTab = () => {
   const changeExpandSegment = (segment: string | undefined) => {
     setExpandedSegment(segment);
   };
+
+  if (isLoading || isLoadingServiceUserRecords) {
+    return <Loader />;
+  }
 
   return (
     <Column sx={{ gap: "1em" }}>
@@ -252,17 +318,17 @@ const RecordDetails: React.FC<{
   record,
   isHidden,
   onSaveOrUpdateFinished,
-  recordValueMap,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRecord, setSelectedRecord] = useState<any>(null);
   const [createServiceUserRecord] = useCreateServiceUserRecordMutation();
+  const [updateServiceUserRecord] = useUpdateServiceUserRecordMutation();
   const [deleteServiceUserRecord] = useDeleteServiceUserRecordMutation();
-  const [updateRecordValue] = useUpdateRecordValueMutation();
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
   const [lastDataId, setLastDataId] = useState<string>("");
 
   const { id: serviceUserId } = useParams<{ id: string }>();
+  const [createFileUpload] = useCreateFileUploadMutation();
 
   const handleAction = (dataId: string, actionType: ActionType) => {
     if (actionType === "edit") {
@@ -316,35 +382,48 @@ const RecordDetails: React.FC<{
         formTemplate={formTemplate}
         title={label}
         handleFormSubmit={async (values) => {
+          const updatedValues = { ...values };
+          await Promise.all(
+            record.fields.map(async (field) => {
+              if (
+                (field.field_type === FieldTypeEnum.IMAGE ||
+                  field.field_type === FieldTypeEnum.FILE) &&
+                typeof values[field.label] !== "string"
+              ) {
+                const { data: fileUrl } = (await createFileUpload(
+                  values[field.label],
+                )) as any;
+                updatedValues[field.label] = fileUrl;
+              }
+              if (field.field_type === FieldTypeEnum.CHECKBOX) {
+                updatedValues[field.label] = updatedValues[field.label]
+                  .map((v: boolean) => v.toString())
+                  .join(",");
+              }
+            }),
+          );
+
+          if (!serviceUserId) {
+            return;
+          }
+
           if (selectedRecord) {
-            await Promise.all(
-              record.fields.map(async (field) => {
-                const fieldValueId =
-                  recordValueMap[selectedRecord.id]?.[field.label];
-                if (!fieldValueId) {
-                  return null;
-                }
-                return updateRecordValue({
-                  id: fieldValueId,
-                  record_field: field.id,
-                  value: values[field.label] ?? "",
-                  value_type: field.field_type ?? FieldTypeEnum.TEXT,
-                  record: recordId,
-                });
-              }),
-            );
+            await updateServiceUserRecord({
+              service_user_record: Number(selectedRecord.id),
+              values: record.fields.map((field) => ({
+                record_field: field.id,
+                value: updatedValues[field.label] ?? "",
+                value_type: field.field_type ?? FieldTypeEnum.TEXT,
+              })),
+            });
             setSelectedRecord(null);
           } else {
-            if (!serviceUserId) {
-              return;
-            }
-
             await createServiceUserRecord({
               service_user: Number(serviceUserId),
               record: recordId,
               values: record.fields.map((field) => ({
                 record_field: field.id,
-                value: values[field.label] ?? "",
+                value: updatedValues[field.label] ?? "",
                 value_type: field.field_type ?? FieldTypeEnum.TEXT,
               })),
             });

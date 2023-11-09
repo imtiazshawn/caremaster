@@ -16,94 +16,81 @@ import {
 } from "$types/serviceUsers";
 import { PostCodeComponent } from "@components/PostCodeComponent";
 import { QRCodeComponent } from "@components/QRCodeComponent";
-import { HookFormFileUpload } from "@components/common/HookFormFIleUpload";
 import { FormTemplate } from "@components/common/SmartForm";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 
-export const serviceUserForm = ({
-  setValue,
-  watch,
-}: {
+type FormTemplateParams = {
   watch: UseFormWatch<ServiceUser>;
   setValue: UseFormSetValue<ServiceUser>;
-}): FormTemplate<ServiceUser>[] => {
-  return [
-    {
-      type: "custom",
-      component: (
-        <HookFormFileUpload
-          label='Photo'
-          value={watch("photo")}
-          setValue={(newFile: File) => setValue("photo", newFile)}
-        />
-      ),
-    },
-    {
-      type: "text",
-      label: "Title",
-      name: "title",
-    },
-    {
-      type: "text",
-      label: "Name",
-      name: "name",
-    },
-    {
-      type: "text",
-      label: "Referred Name",
-      name: "preferred_name",
-    },
-    {
-      type: "date",
-      label: "DOB",
-      name: "date_of_birth",
-    },
-    {
-      type: "select",
-      label: "Gender",
-      name: "gender",
-      options: Object.values(GENDER),
-    },
-    {
-      type: "select",
-      label: "Gender At Birth",
-      name: "gender_at_birth",
-      options: Object.values(GENDER),
-    },
-    {
-      type: "select",
-      label: "Pronoun",
-      name: "pronoun",
-      options: Object.values(PRONOUN),
-    },
-    {
-      type: "select",
-      label: "DNAR/RESPECT",
-      name: "dnar",
-      options: Object.values(DNAR),
-    },
-    {
-      type: "select",
-      label: "Sexuality",
-      name: "sexuality",
-      options: Object.values(SEXUALITY),
-    },
-    {
-      type: "select",
-      label: "Status",
-      name: "enrollment_status",
-      options: Object.values(ENROLLMENT_STATUS),
-    },
-  ];
 };
 
+export const serviceUserForm: FormTemplate<ServiceUser>[] = [
+  {
+    type: "image",
+    label: "Photo",
+    name: "photo",
+  },
+  {
+    type: "text",
+    label: "Title",
+    name: "title",
+  },
+  {
+    type: "text",
+    label: "Name",
+    name: "name",
+  },
+  {
+    type: "text",
+    label: "Referred Name",
+    name: "preferred_name",
+  },
+  {
+    type: "date",
+    label: "DOB",
+    name: "date_of_birth",
+  },
+  {
+    type: "select",
+    label: "Gender",
+    name: "gender",
+    options: Object.values(GENDER),
+  },
+  {
+    type: "select",
+    label: "Gender At Birth",
+    name: "gender_at_birth",
+    options: Object.values(GENDER),
+  },
+  {
+    type: "select",
+    label: "Pronoun",
+    name: "pronoun",
+    options: Object.values(PRONOUN),
+  },
+  {
+    type: "select",
+    label: "DNAR/RESPECT",
+    name: "dnar",
+    options: Object.values(DNAR),
+  },
+  {
+    type: "select",
+    label: "Sexuality",
+    name: "sexuality",
+    options: Object.values(SEXUALITY),
+  },
+  {
+    type: "select",
+    label: "Status",
+    name: "enrollment_status",
+    options: Object.values(ENROLLMENT_STATUS),
+  },
+];
 export const identificationForm = ({
   setValue,
   watch,
-}: {
-  setValue: UseFormSetValue<ServiceUser>;
-  watch: UseFormWatch<ServiceUser>;
-}): FormTemplate<ServiceUser>[] => {
+}: FormTemplateParams): FormTemplate<ServiceUser>[] => {
   return [
     {
       type: "text",
@@ -135,9 +122,7 @@ export const identificationForm = ({
 
 export const backgroundInfoForm = ({
   setValue,
-}: {
-  setValue: UseFormSetValue<ServiceUser>;
-}): FormTemplate<ServiceUser>[] => {
+}: FormTemplateParams): FormTemplate<ServiceUser>[] => {
   return [
     {
       type: "select",

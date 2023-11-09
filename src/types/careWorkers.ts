@@ -17,7 +17,7 @@ export enum EMPLOYMENT_STATUS {
 
 export type UpdateCareWorkerReq = Omit<
   CreateCareWorker,
-  "name" | "user" | "password"
+  "user" | "password"
 > & {
   first_name: string;
   last_name: string;
@@ -38,7 +38,7 @@ export type CareWorkersTableUnit = {
 export type CreateCareWorker = {
   id?: number;
   name: string;
-  email?: string;
+  email: string;
   phone?: string;
   password?: string;
   user?: string;
@@ -77,30 +77,16 @@ export type CareWorker = Omit<
   CreateCareWorker,
   "name" | "email" | "phone" | "password" | "user"
 > & {
-  user: User;
+  user: UserForFetchCareWorker;
   is_active: boolean;
   created_at: Date;
   updated_at: Date;
 };
 
-type User = {
-  id: number;
-  last_login?: Date;
-  first_name?: string;
-  last_name?: string;
-  is_staff?: boolean;
+type UserForFetchCareWorker = {
   name: string;
   phone: string;
   email: string;
-  password: string;
-  password_reset_code?: string;
-  is_admin?: boolean;
-  is_superuser?: boolean;
-  is_careworker?: true;
-  is_active?: boolean;
-  date_joined?: Date;
-  groups?: unknown[];
-  user_permissions?: unknown[];
 };
 
 export type CareWorkersResponse = ApiResponseArray<CareWorker>;

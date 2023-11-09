@@ -69,6 +69,12 @@ export const careWorkersApi = createApi({
         };
       },
     }),
+    deleteCareWorker: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -77,4 +83,5 @@ export const {
   useGetCareWorkerQuery,
   useCreateCareWorkerMutation,
   useUpdateCareWorkerMutation,
+  useDeleteCareWorkerMutation,
 } = careWorkersApi;

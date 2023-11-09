@@ -22,7 +22,7 @@ const HookFormSelect: FC<HookFormSelectProps> = ({
   variant,
   ...rest
 }) => {
-  const handleChanage = useCallback(
+  const handleChange = useCallback(
     (field: ControllerRenderProps) => (e: SelectChangeEvent<unknown>) => {
       if (type === "number" && e.target.value !== "") {
         field.onChange(Number(e.target.value));
@@ -44,7 +44,7 @@ const HookFormSelect: FC<HookFormSelectProps> = ({
           {...field}
           error={Boolean(error?.message)}
           helperText={error?.message}
-          onChange={handleChanage(field)}
+          onChange={handleChange(field)}
           {...rest}
           value={field.value ?? ""}
           variant={variant}

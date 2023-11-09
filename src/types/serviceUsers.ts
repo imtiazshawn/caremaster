@@ -20,15 +20,16 @@ export enum REGION {
 
 export enum DNAR {
   RESUSCITATE = "Resuscitate",
-  DO_NOT_RESUSCITATE = "Do Not Resuscitate",
+  DO_NOT_RESUSCITATE = "Do not resuscitate",
 }
 
 export enum ENROLLMENT_STATUS {
   LIVE = "Live",
-  PRE_ADMISSION = "Pre-Admission",
+  PRE_ADMISSION = "Pre-admission",
   ARCHIVED = "Archived",
-  ARCHIVED_PRE_ADMISSION = "Archived Pre-Admission",
-  ONHOLD_HOSPITAL = "On Hold / Hospital",
+  ARCHIVED_PRE_ADMISSION = "Archived pre-admission",
+  ON_HOLD = "On hold",
+  Hospitalized = "Hospitalized",
 }
 
 export enum FUNERAL_ARRANGEMENT {
@@ -74,10 +75,10 @@ export enum COMMUNICATION_PREFERENCE {
   TELEPHONE = "Telephone",
   LETTER = "Letter",
   EMAIL = "Email",
-  TEXT_MESSAGE = "Text Message",
-  FACE_TO_FACE = "Face To Face",
+  TEXT_MESSAGE = "Text message",
+  FACE_TO_FACE = "Face to face",
   RELATIVE = "Relative",
-  TRUSTED_PERSON = "Trusted Person",
+  TRUSTED_PERSON = "Trusted person",
 }
 
 export enum EMERGENCY_RATING {
@@ -92,7 +93,7 @@ export enum YES_NO_CHOICE {
 }
 
 export enum MAIN_DIET {
-  MEAT_EATER = "Meat Eater",
+  MEAT_EATER = "Meat eater",
   NA = "N/A",
   VEGAN = "Vegan",
   VEGETARIAN = "Vegetarian",
@@ -100,10 +101,10 @@ export enum MAIN_DIET {
 
 export enum SPECIAL_DIET {
   NA = "N/A",
-  PUREE_FOODS = "Puree Foods",
-  SOFT_FOODS = "Soft Foods",
-  FOOD_THICKENER = "Food Thickener",
-  NUTRITIONAL_SUPPLEMENT = "Nutritional Supplement",
+  PUREE_FOODS = "Puree foods",
+  SOFT_FOODS = "Soft foods",
+  FOOD_THICKENER = "Food thickener",
+  NUTRITIONAL_SUPPLEMENT = "Nutritional supplement",
 }
 
 export type ServiceUser = {
@@ -171,7 +172,7 @@ export type ServiceUsersResponse = ApiResponseArray<ServiceUser>;
 export type ServiceUserResponse = ApiResponse<ServiceUser>;
 
 export enum PERSON_PROFILE_SEGMENTS {
-  SERVICE_USER = "Service User",
+  SERVICE_USER = "Basic Info",
   IDENTIFICATION = "Identification",
   BACKGROUND = "Background",
   COUNCIL = "Council",

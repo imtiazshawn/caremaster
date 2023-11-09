@@ -4,6 +4,7 @@ import { ApiResponseArray } from "$types/index";
 import {
   CreateServiceUserRecord,
   ServiceUserRecords,
+  UpdateServiceUserRecord,
 } from "$types/serviceUserRecords";
 import { getBaseQuery } from "./apiUtils";
 
@@ -11,7 +12,7 @@ type RecordsResponse = ApiResponseArray<ServiceUserRecords>;
 
 export const serviceUserRecordsApi = createApi({
   reducerPath: "serviceUserRecordsApi",
-  baseQuery: getBaseQuery("service-user-records"),
+  baseQuery: getBaseQuery("service-user-records", "*/*"),
   endpoints: (builder) => ({
     getServiceUserRecords: builder.query<ServiceUserRecords[], number>({
       query(id) {
@@ -45,6 +46,22 @@ export const serviceUserRecordsApi = createApi({
         };
       },
     }),
+    updateServiceUserRecord: builder.mutation<
+      UpdateServiceUserRecord,
+      UpdateServiceUserRecord
+    >({
+      query: (serviceUserRecord) => {
+        const formData = new FormData();
+        formData.append("values", JSON.stringify(serviceUserRecord.values));
+
+        return {
+          url: `/${serviceUserRecord.service_user_record}`,
+          method: "PUT",
+          body: formData,
+          formData: true,
+        };
+      },
+    }),
     deleteServiceUserRecord: builder.mutation<number, string>({
       query(id) {
         return {
@@ -59,5 +76,6 @@ export const serviceUserRecordsApi = createApi({
 export const {
   useGetServiceUserRecordsQuery,
   useCreateServiceUserRecordMutation,
+  useUpdateServiceUserRecordMutation,
   useDeleteServiceUserRecordMutation,
 } = serviceUserRecordsApi;

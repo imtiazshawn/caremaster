@@ -1,6 +1,10 @@
 import { ReactElement } from "react";
-import { Control } from "react-hook-form";
+import { Control, UseFormSetValue, UseFormWatch } from "react-hook-form";
 
+import { HookFormFileUpload } from "@common/HookFormFileUpload";
+import { HookFormImageUpload } from "@common/HookFormImageUpload";
+import HookFormMultiCheckbox from "@common/HookFormMultiCheckbox";
+import HookFormRadio from "@common/HookFormRadio";
 import HookFormSwitch from "@common/HookFormSwitch";
 import { Column, FlexBox } from ".";
 import HookFormDateField from "./HookFormDateField";
@@ -22,10 +26,22 @@ export type FormTemplate<T extends Data> = Common &
       }
     | {
         name: keyof T;
+        type: "number";
+      }
+    | {
+        name: keyof T;
         type: "password";
       }
     | {
         type: "date";
+        name: keyof T;
+      }
+    | {
+        type: "image";
+        name: keyof T;
+      }
+    | {
+        type: "file";
         name: keyof T;
       }
     | {
@@ -36,6 +52,16 @@ export type FormTemplate<T extends Data> = Common &
     | {
         type: "switch";
         name: keyof T;
+      }
+    | {
+        type: "radio";
+        name: keyof T;
+        options: string[];
+      }
+    | {
+        type: "multi-checkbox";
+        name: keyof T;
+        options: string[];
       }
     | {
         type: "column";
@@ -70,12 +96,16 @@ const styleLeftLabel = {
 type SmartFormComponentType = <T extends Data>(props: {
   template: FormTemplate<T>[] | FormTemplate<T>;
   control: Control<any>;
+  watch?: UseFormWatch<any>;
+  setValue?: UseFormSetValue<any>;
   labelPosition?: "left" | "top";
 }) => JSX.Element | null;
 
 export const SmartForm: SmartFormComponentType = ({
   template,
   control,
+  watch,
+  setValue,
   labelPosition,
 }) => {
   if (Array.isArray(template)) {
@@ -85,6 +115,8 @@ export const SmartForm: SmartFormComponentType = ({
           <SmartForm
             key={index}
             control={control}
+            watch={watch}
+            setValue={setValue}
             template={item}
             labelPosition={labelPosition}
           />
@@ -100,6 +132,19 @@ export const SmartForm: SmartFormComponentType = ({
         <HookFormTextField
           control={control}
           name={templateName}
+          label={template.label}
+          fullWidth={labelPosition === "top"}
+          placeholder={template.label}
+          sx={labelPosition === "left" ? styleLeftLabel : null}
+          required={template.required || false}
+        />
+      );
+    case "number":
+      return (
+        <HookFormTextField
+          control={control}
+          name={templateName}
+          type='number'
           label={template.label}
           fullWidth={labelPosition === "top"}
           placeholder={template.label}
@@ -132,12 +177,46 @@ export const SmartForm: SmartFormComponentType = ({
           required={template.required || false}
         />
       );
+    case "image":
+      return (
+        <HookFormImageUpload
+          label={template.label}
+          value={watch?.(templateName)}
+          setValue={(newFile: File) => setValue?.(templateName, newFile)}
+        />
+      );
+    case "file":
+      return (
+        <HookFormFileUpload
+          label={template.label}
+          value={watch?.(templateName)}
+          setValue={(newFile: File) => setValue?.(templateName, newFile)}
+        />
+      );
     case "switch":
       return (
         <HookFormSwitch
           control={control}
           name={templateName}
           label={template.label}
+        />
+      );
+    case "radio":
+      return (
+        <HookFormRadio
+          control={control}
+          name={templateName}
+          label={template.label}
+          options={template.options ?? []}
+        />
+      );
+    case "multi-checkbox":
+      return (
+        <HookFormMultiCheckbox
+          control={control}
+          name={templateName}
+          label={template.label}
+          options={template.options ?? []}
         />
       );
     case "date":
@@ -163,6 +242,8 @@ export const SmartForm: SmartFormComponentType = ({
             <SmartForm
               key={index}
               control={control}
+              watch={watch}
+              setValue={setValue}
               template={item}
               labelPosition={labelPosition}
             />

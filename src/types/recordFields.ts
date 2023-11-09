@@ -6,6 +6,7 @@ export enum FieldTypeEnum {
   FILE = "file",
   CHECKBOX = "checkbox",
   RADIO = "radio",
+  SELECT = "select",
 }
 
 export const recordFieldTypes: FieldTypeEnum[] = [
@@ -16,6 +17,7 @@ export const recordFieldTypes: FieldTypeEnum[] = [
   FieldTypeEnum.FILE,
   FieldTypeEnum.CHECKBOX,
   FieldTypeEnum.RADIO,
+  FieldTypeEnum.SELECT,
 ];
 
 export type RecordField = {
@@ -29,6 +31,7 @@ export type RecordField = {
   created_at: Date;
   updated_at: Date;
   record: number;
+  show_on_table: boolean;
 };
 
 export type RecordFieldDTO = Omit<

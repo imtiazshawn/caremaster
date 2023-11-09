@@ -60,7 +60,10 @@ export const Records = () => {
         <Button
           variant='contained'
           className='rounded-md'
-          onClick={() => setIsOpenRecordModal(true)}
+          onClick={() => {
+            setSelectedRecord(null);
+            setIsOpenRecordModal(true);
+          }}
         >
           Add New Record
         </Button>

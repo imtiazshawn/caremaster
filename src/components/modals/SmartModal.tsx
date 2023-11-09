@@ -32,7 +32,9 @@ const SmartModal: SmartModalProps = ({
   title,
   selectedValues,
 }) => {
-  const { handleSubmit, control, reset } = useForm<DefaultValues<any>>({
+  const { handleSubmit, control, watch, setValue, reset } = useForm<
+    DefaultValues<any>
+  >({
     defaultValues: defaultValues,
   });
 
@@ -82,6 +84,8 @@ const SmartModal: SmartModalProps = ({
             <SmartForm
               template={formTemplate}
               control={control}
+              watch={watch}
+              setValue={setValue}
             />
             <FlexBox sx={{ justifyContent: "flex-end" }}>
               <LoadingButton
@@ -89,7 +93,7 @@ const SmartModal: SmartModalProps = ({
                 variant='contained'
                 loading={isLoading}
               >
-                Save adsf
+                Save
               </LoadingButton>
             </FlexBox>
           </Column>

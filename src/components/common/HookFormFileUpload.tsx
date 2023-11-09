@@ -1,10 +1,12 @@
-import { getImageURL } from "@/Utils";
+import { getFileURL } from "@/Utils";
 import { COLORS } from "@/shared/constants/colors";
+import { FileCopy } from "@mui/icons-material";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useCallback } from "react";
-import { Box, Row } from ".";
+import { Link } from "react-router-dom";
+import { Row } from ".";
 import { H5 } from "./Typography";
 
 const VisuallyHiddenInput = styled("input")({
@@ -24,7 +26,7 @@ export const HookFormFileUpload = ({
   value,
   setValue,
 }: {
-  label: string;
+  label?: string;
   value?: File | string;
   setValue: (newFile: File) => void;
 }) => {
@@ -40,38 +42,27 @@ export const HookFormFileUpload = ({
     },
     [setValue],
   );
-  const imgSrc = getImageURL(value);
+  const fileSrc = getFileURL(value);
+  // const fileName = getFileName(value);
 
   return (
     <Row sx={{ gap: 0, alignItems: "center" }}>
       <H5 width='12.5rem'>{label}</H5>
 
-      {imgSrc && (
-        <Box
-          sx={{
-            height: "12.5rem",
-            width: "12.5rem",
-            display: "flex",
-          }}
+      {fileSrc && (
+        <Link
+          to={fileSrc}
+          style={{ color: "blue", textDecoration: "underline" }}
         >
-          <img
-            src={imgSrc}
-            alt='Image Alt'
-            loading='lazy'
-            height='auto'
-            width='100%'
-            style={{
-              objectFit: "cover",
-            }}
-          />
-        </Box>
+          View File
+        </Link>
       )}
-      {!imgSrc && (
+      {!fileSrc && (
         <H5
           alignSelf='center'
           color={COLORS.ICON_ACTIVE_COLOR}
         >
-          No Photo
+          <FileCopy sx={{ fontSize: "49px" }} />
         </H5>
       )}
       <Button
@@ -83,7 +74,7 @@ export const HookFormFileUpload = ({
         Upload
         <VisuallyHiddenInput
           type='file'
-          accept='image/png, image/jpeg, video/mp4, video/x-m4v, video/*'
+          accept='file/*'
           multiple={false}
           onChange={({ target: { files } }) => handleFileChange(files)}
         />

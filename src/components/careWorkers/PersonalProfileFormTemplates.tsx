@@ -1,7 +1,6 @@
 import { EMPLOYMENT_STATUS, UpdateCareWorkerReq } from "$types/careWorkers";
 import { GENDER, MARITAL_STATUS } from "$types/common";
 import { PostCodeComponent } from "@components/PostCodeComponent";
-import { HookFormFileUpload } from "@components/common/HookFormFIleUpload";
 import { FormTemplate } from "@components/common/SmartForm";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 
@@ -10,65 +9,47 @@ type FormTemplateParams = {
   setValue: UseFormSetValue<UpdateCareWorkerReq>;
 };
 
-export const getDetailsCareWorkerForm = ({
-  setValue,
-  watch,
-}: FormTemplateParams): FormTemplate<UpdateCareWorkerReq>[] => {
-  return [
-    {
-      type: "custom",
-      component: (
-        <HookFormFileUpload
-          label='Photo'
-          value={watch("photo")}
-          setValue={(newFile: File) => setValue("photo", newFile)}
-        />
-      ),
-    },
-    {
-      type: "text",
-      label: "First Name",
-      name: "first_name",
-    },
-    {
-      type: "text",
-      label: "Last Name",
-      name: "last_name",
-    },
-    {
-      type: "text",
-      label: "Username",
-      name: "preferred_name",
-    },
-    {
-      type: "text",
-      label: "Email",
-      name: "email",
-    },
+export const getDetailsCareWorkerForm =
+  (): FormTemplate<UpdateCareWorkerReq>[] => {
+    return [
+      {
+        type: "image",
+        label: "Photo",
+        name: "photo",
+      },
+      {
+        type: "text",
+        name: "name",
+      },
+      {
+        type: "text",
+        label: "Username",
+        name: "preferred_name",
+      },
+      {
+        type: "text",
+        label: "Email",
+        name: "email",
+      },
 
-    {
-      type: "date",
-      label: "Start Date",
-      name: "start_date",
-    },
-    {
-      type: "date",
-      label: "Leave Date",
-      name: "leave_date",
-    },
-    {
-      type: "select",
-      label: "Gender",
-      name: "gender",
-      options: Object.values(GENDER),
-    },
-    {
-      type: "text",
-      label: "Mobile Number",
-      name: "phone",
-    },
-  ];
-};
+      {
+        type: "date",
+        label: "Start Date",
+        name: "start_date",
+      },
+      {
+        type: "select",
+        label: "Gender",
+        name: "gender",
+        options: Object.values(GENDER),
+      },
+      {
+        type: "text",
+        label: "Mobile Number",
+        name: "phone",
+      },
+    ];
+  };
 /* eslint-disable */
 export const getRoleAndAccessForm = (
   _: FormTemplateParams,

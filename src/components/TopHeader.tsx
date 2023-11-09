@@ -18,13 +18,15 @@ export const TopHeader = () => {
       <FlexBox
         sx={{
           gap: 1,
-          justifyContent: "space-between",
+          justifyContent: "flex-end",
           alignItems: "center",
           width: "100%",
           fontSize: "1.2rem",
         }}
       >
-        <GlobalSearch />
+        <GlobalSearch
+          sx={{ borderRadius: 3, height: "2.7em", maxWidth: "16em" }}
+        />
         <FlexBox
           sx={{
             gap: 1,

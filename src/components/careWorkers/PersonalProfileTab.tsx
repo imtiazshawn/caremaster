@@ -1,4 +1,4 @@
-import { Column } from "@components/common";
+import { Box, Column } from "@components/common";
 import { useEffect, useState } from "react";
 
 import {
@@ -40,7 +40,12 @@ export const PersonalProfileTab = () => {
 
   useEffect(() => {
     if (careWorker) {
-      reset({ ...careWorker });
+      reset({
+        ...careWorker,
+        name: careWorker.user.name,
+        email: careWorker.user.email,
+        phone: careWorker.user.phone,
+      });
     }
   }, [reset, careWorker]);
 
@@ -49,8 +54,8 @@ export const PersonalProfileTab = () => {
     setExpandedSegment(segment as PersonProfileSegments | undefined);
   };
 
-  const handleFormSubmit = async (value: UpdateCareWorkerReq) => {
-    const updatedValue = removeUndefined({ ...value });
+  const handleFormSubmit = async (values: UpdateCareWorkerReq) => {
+    const updatedValue = removeUndefined({ ...values });
     if (typeof updatedValue.photo === "string") {
       delete updatedValue.photo;
     }
@@ -64,7 +69,7 @@ export const PersonalProfileTab = () => {
   }[] = [
     {
       currentSegment: PERSON_PROFILE_SEGMENT.DETAILS,
-      template: getDetailsCareWorkerForm({ watch, setValue }),
+      template: getDetailsCareWorkerForm(),
     },
     {
       currentSegment: PERSON_PROFILE_SEGMENT.ROLE_AND_ACCESS_RIGHT,
@@ -101,13 +106,19 @@ export const PersonalProfileTab = () => {
               changeExpandSegment={changeExpandSegment}
             />
 
-            {expandedSegment === currentSegment && (
+            <Box
+              sx={{
+                display: expandedSegment === currentSegment ? "block" : "none",
+              }}
+            >
               <SmartForm
                 template={template}
                 control={control}
+                watch={watch}
+                setValue={setValue}
                 labelPosition='left'
               />
-            )}
+            </Box>
           </Column>
         ))}
       </Column>

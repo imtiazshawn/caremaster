@@ -9,7 +9,7 @@ type ServiceUser = {
 type RecordValue = {
   id: number;
   value: string;
-  value_type: string;
+  value_type: FieldTypeEnum;
   record: number;
   record_field: number;
 };
@@ -39,6 +39,11 @@ export type CreateServiceUserRecord = {
   values: RecordValueCreate[];
 };
 
+export type UpdateServiceUserRecord = {
+  service_user_record: number;
+  values: RecordValueCreate[];
+};
+
 export type UpdateRecordValue = {
   id: number;
   value: string;
@@ -46,3 +51,5 @@ export type UpdateRecordValue = {
   record: number;
   record_field: number;
 };
+
+export type UpdateRecordValueDTo = Omit<UpdateRecordValue, "id">;

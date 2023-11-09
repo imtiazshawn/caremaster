@@ -1,4 +1,10 @@
-import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  Switch,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 
 import { RecordWithFields, RecordWithFieldsDTO } from "$types/record";
@@ -24,6 +30,7 @@ const defaultValues: RecordWithFieldsDTO = {
     {
       label: "",
       field_type: FieldTypeEnum.TEXT,
+      show_on_table: true,
     },
   ],
 };
@@ -59,9 +66,19 @@ const RecordFieldsArray: React.FC<RecordFieldsArrayProps> = ({
             key={index}
             sx={{ height: "2em", width: "100%", gap: 2 }}
           >
+            <Switch
+              checked={field.show_on_table}
+              onChange={(e) => {
+                const newFields = [...fields];
+                newFields[index] = {
+                  ...newFields[index],
+                  show_on_table: e.target.checked,
+                };
+                setFields(newFields);
+              }}
+            />
             <TextField
               value={field.label}
-              label='Field Label'
               variant='outlined'
               onChange={(e) => {
                 const newFields = [...fields];
@@ -74,20 +91,44 @@ const RecordFieldsArray: React.FC<RecordFieldsArrayProps> = ({
               }}
               fullWidth
             />
-            <Select
-              fullWidth
-              label='Field Type'
-              value={field.field_type}
-              onChange={(e) => {
-                const newFields = [...fields];
-                newFields[index].field_type = e.target.value as FieldTypeEnum;
-                setFields(newFields);
-              }}
-              options={recordFieldTypes.map((type) => ({
-                label: type.toLocaleUpperCase(),
-                value: type,
-              }))}
-            />
+            <FlexBox
+              key={index}
+              sx={{ height: "2em", width: "100%", gap: 2 }}
+            >
+              <Select
+                fullWidth
+                value={field.field_type}
+                onChange={(e) => {
+                  const newFields = [...fields];
+                  newFields[index] = {
+                    ...newFields[index],
+                    field_type: e.target.value as FieldTypeEnum,
+                  };
+                  setFields(newFields);
+                }}
+                options={recordFieldTypes.map((type) => ({
+                  label: type.toLocaleUpperCase(),
+                  value: type,
+                }))}
+              />
+              {(fields[index].field_type === FieldTypeEnum.SELECT ||
+                fields[index].field_type === FieldTypeEnum.RADIO ||
+                fields[index].field_type === FieldTypeEnum.CHECKBOX) && (
+                <TextField
+                  value={field.options}
+                  variant='outlined'
+                  onChange={(e) => {
+                    const newFields = [...fields];
+                    newFields[index] = {
+                      ...newFields[index],
+                      options: e.target.value,
+                    };
+                    setFields(newFields);
+                  }}
+                  fullWidth
+                />
+              )}
+            </FlexBox>
           </FlexBox>
         );
       })}
@@ -100,6 +141,7 @@ const RecordFieldsArray: React.FC<RecordFieldsArrayProps> = ({
               {
                 label: "",
                 field_type: FieldTypeEnum.TEXT,
+                show_on_table: true,
               },
             ]);
           }}
@@ -217,6 +259,14 @@ const AddRecordModal: React.FC<Props> = ({ isOpen, onClose, record }) => {
     if (record) {
       setFields(record.fields);
       reset({ ...record });
+    } else {
+      setFields([
+        {
+          label: "",
+          field_type: FieldTypeEnum.TEXT,
+          show_on_table: true,
+        },
+      ]);
     }
   }, [record, reset]);
 

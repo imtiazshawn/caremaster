@@ -6,6 +6,6 @@ const phoneRegExp = // eslint-disable-next-line
 const trimmer = (v: string) => v.trim();
 export const careWorkerSchema = yup.object().shape({
   name: yup.string().transform(trimmer).required("Name is required"),
-  // email: yup.string().email().required("Email is required"),
+  email: yup.string().email().required("Email is required"),
   phone: yup.string().matches(phoneRegExp, "Phone number is not valid"),
 });

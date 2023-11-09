@@ -81,6 +81,7 @@ const AddCareWorkerModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
   const handleFormSubmit = async (values: CreateCareWorker) => {
     values.password = Math.random().toString(36).slice(-8);
+
     createCareWorker(values).then(() => {
       onCloseHandler?.();
       refetch();

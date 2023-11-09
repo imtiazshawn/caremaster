@@ -10,7 +10,7 @@ export const PageLayout: React.FC<{ children?: ReactNode }> = ({
   children,
 }) => {
   return (
-    <FullColumn sx={{ height: "100%", backgroundColor: COLORS.BACKGROUND }}>
+    <FullColumn sx={{ height: "100vh", backgroundColor: COLORS.BACKGROUND }}>
       <Grid
         sx={{
           gridTemplateColumns: "17rem 1fr",
@@ -20,11 +20,13 @@ export const PageLayout: React.FC<{ children?: ReactNode }> = ({
         }}
       >
         <Navbar />
-        <FullColumn sx={{ gap: "2rem", marginBottom: "5em" }}>
+        <FullColumn sx={{ gap: "3rem", height: "100vh", marginBottom: "5em" }}>
           <TopHeader />
           <Box
             sx={{
-              height: "100%",
+              // height: "calc(100vh - 1em)",
+              backgroundColor: COLORS.WHITE,
+              overflowY: "auto",
             }}
           >
             {children}

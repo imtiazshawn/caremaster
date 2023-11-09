@@ -1,5 +1,4 @@
-import { Box, Column, Row } from "@components/common";
-import { H4 } from "@components/common/Typography";
+import { Box, Column } from "@components/common";
 import { useEffect, useState } from "react";
 
 import {
@@ -8,10 +7,9 @@ import {
   ServiceUser,
 } from "$types/serviceUsers";
 import { removeUndefined } from "@/Utils";
-import { SmartForm } from "@common/SmartForm";
+import { SegHeader } from "@common/SegHeader";
+import { FormTemplate, SmartForm } from "@common/SmartForm";
 import { LoadingButton } from "@components/common/LoadingButton";
-import ControlPointIcon from "@mui/icons-material/ControlPoint";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
   useGetServiceUserQuery,
   useUpdateServiceUserMutation,
@@ -25,45 +23,6 @@ import {
   othersForm,
   serviceUserForm,
 } from "./PersonalProfileFormTemplates";
-
-type Props = {
-  currentSegment: PersonProfileSegments;
-  expandedSegment?: PersonProfileSegments;
-  changeExpandSegment: (segment: PersonProfileSegments | undefined) => void;
-};
-
-const PersonProfileSegHeader = ({
-  currentSegment,
-  expandedSegment,
-  changeExpandSegment,
-}: Props) => {
-  return (
-    <Row
-      sx={{
-        backgroundColor: "rgba(148, 163, 184, 0.14)",
-        padding: 2,
-        height: "4rem",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <H4>{currentSegment}</H4>
-      <Box
-        sx={{
-          cursor: "pointer",
-        }}
-        onClick={() =>
-          changeExpandSegment(
-            expandedSegment === currentSegment ? undefined : currentSegment,
-          )
-        }
-      >
-        {expandedSegment === currentSegment && <ExpandMoreIcon />}
-        {expandedSegment !== currentSegment && <ControlPointIcon />}
-      </Box>
-    </Row>
-  );
-};
 
 export const PersonalProfileTab = () => {
   const { id: serviceUserId } = useParams<{ id: string }>();
@@ -97,6 +56,32 @@ export const PersonalProfileTab = () => {
     refetch();
   };
 
+  const segments: {
+    currentSegment: PERSON_PROFILE_SEGMENTS;
+    template: FormTemplate<ServiceUser>[];
+  }[] = [
+    {
+      currentSegment: PERSON_PROFILE_SEGMENTS.SERVICE_USER,
+      template: serviceUserForm,
+    },
+    {
+      currentSegment: PERSON_PROFILE_SEGMENTS.IDENTIFICATION,
+      template: identificationForm({ setValue, watch }),
+    },
+    {
+      currentSegment: PERSON_PROFILE_SEGMENTS.BACKGROUND,
+      template: backgroundInfoForm({ watch, setValue }),
+    },
+    {
+      currentSegment: PERSON_PROFILE_SEGMENTS.COUNCIL,
+      template: councilForm,
+    },
+    {
+      currentSegment: PERSON_PROFILE_SEGMENTS.OTHERS,
+      template: othersForm,
+    },
+  ];
+
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)}>
       <Column sx={{ gap: "1em" }}>
@@ -110,76 +95,30 @@ export const PersonalProfileTab = () => {
         >
           Save
         </LoadingButton>
-        <Column>
-          <PersonProfileSegHeader
-            currentSegment={PERSON_PROFILE_SEGMENTS.SERVICE_USER}
-            expandedSegment={expandedSegment}
-            changeExpandSegment={changeExpandSegment}
-          />
-          {expandedSegment === PERSON_PROFILE_SEGMENTS.SERVICE_USER && (
-            <SmartForm
-              template={serviceUserForm({ watch, setValue })}
-              control={control}
-              labelPosition='left'
+        {segments.map(({ currentSegment, template }) => (
+          <Column key={currentSegment}>
+            <SegHeader
+              currentSegment={currentSegment}
+              expandedSegment={expandedSegment}
+              changeExpandSegment={(segment) =>
+                changeExpandSegment(segment as PERSON_PROFILE_SEGMENTS)
+              }
             />
-          )}
-        </Column>
-        <Column>
-          <PersonProfileSegHeader
-            currentSegment={PERSON_PROFILE_SEGMENTS.IDENTIFICATION}
-            expandedSegment={expandedSegment}
-            changeExpandSegment={changeExpandSegment}
-          />
-          {expandedSegment === PERSON_PROFILE_SEGMENTS.IDENTIFICATION && (
-            <SmartForm
-              template={identificationForm({ setValue, watch })}
-              control={control}
-              labelPosition='left'
-            />
-          )}
-        </Column>
-        <Column>
-          <PersonProfileSegHeader
-            currentSegment={PERSON_PROFILE_SEGMENTS.BACKGROUND}
-            expandedSegment={expandedSegment}
-            changeExpandSegment={changeExpandSegment}
-          />
-          {expandedSegment === PERSON_PROFILE_SEGMENTS.BACKGROUND && (
-            <SmartForm
-              template={backgroundInfoForm({ setValue })}
-              control={control}
-              labelPosition='left'
-            />
-          )}
-        </Column>
-        <Column>
-          <PersonProfileSegHeader
-            currentSegment={PERSON_PROFILE_SEGMENTS.COUNCIL}
-            expandedSegment={expandedSegment}
-            changeExpandSegment={changeExpandSegment}
-          />
-          {expandedSegment === PERSON_PROFILE_SEGMENTS.COUNCIL && (
-            <SmartForm
-              template={councilForm}
-              control={control}
-              labelPosition='left'
-            />
-          )}
-        </Column>
-        <Column>
-          <PersonProfileSegHeader
-            currentSegment={PERSON_PROFILE_SEGMENTS.OTHERS}
-            expandedSegment={expandedSegment}
-            changeExpandSegment={changeExpandSegment}
-          />
-          {expandedSegment === PERSON_PROFILE_SEGMENTS.OTHERS && (
-            <SmartForm
-              template={othersForm}
-              control={control}
-              labelPosition='left'
-            />
-          )}
-        </Column>
+            <Box
+              sx={{
+                display: expandedSegment === currentSegment ? "block" : "none",
+              }}
+            >
+              <SmartForm
+                template={template}
+                control={control}
+                watch={watch}
+                setValue={setValue}
+                labelPosition='left'
+              />
+            </Box>
+          </Column>
+        ))}
       </Column>
     </form>
   );

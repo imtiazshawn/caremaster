@@ -62,6 +62,13 @@ const getServiceUserColumns = (
       headerName: "Date of Birth",
       headerClassName,
       sortable: false,
+      renderCell: (params) => {
+        return (
+          <Box sx={{ textAlign: "center" }}>
+            {formatDate(params.row.created_at ?? new Date())}
+          </Box>
+        );
+      },
     },
     {
       flex: 1,
@@ -82,10 +89,20 @@ const getServiceUserColumns = (
         const dataId = params.row.id.toString();
         return (
           <Row>
-            <IconButton onClick={() => handleAction(dataId, "edit")}>
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAction(dataId, "edit");
+              }}
+            >
               <EditIcon fontSize='small' />
             </IconButton>
-            <IconButton onClick={() => handleAction(dataId, "delete")}>
+            <IconButton
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAction(dataId, "delete");
+              }}
+            >
               <DeleteForeverIcon fontSize='small' />
             </IconButton>
           </Row>

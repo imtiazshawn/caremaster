@@ -8,7 +8,7 @@ export const formatDate = (date: Date, format = "MM/DD/YYYY") => {
   return dayjs(date).format(format);
 };
 
-export const getImageURL = (file: string | File | undefined) => {
+export const getFileURL = (file: string | File | undefined) => {
   if (!file) {
     return null;
   }
@@ -16,6 +16,16 @@ export const getImageURL = (file: string | File | undefined) => {
     return file;
   }
   return URL.createObjectURL(file);
+};
+
+export const getFileName = (file: string | File | undefined) => {
+  if (!file) {
+    return null;
+  }
+  if (typeof file === "string") {
+    return file;
+  }
+  return file.name;
 };
 
 export const removeUndefined = <T extends AnyRecord>(obj: T): T => {
@@ -44,5 +54,23 @@ export const removeUndefined = <T extends AnyRecord>(obj: T): T => {
     return obj;
   } catch {
     return obj;
+  }
+};
+
+export const getOptions = (str?: string) => {
+  if (!str) {
+    return [];
+  }
+  return str
+    .split(",")
+    .map((e) => e.trim())
+    .filter((e) => e && e.length > 0);
+};
+
+export const JSONParser = (str: string = "[]") => {
+  try {
+    return JSON.parse(str);
+  } catch {
+    return [];
   }
 };

@@ -1,3 +1,5 @@
+import { H5 } from "@common/Typography";
+import { FlexBox } from "@common/index";
 import {
   FormControlLabel,
   FormControlLabelProps,
@@ -12,6 +14,8 @@ export interface HookFormRadioProps
   name: string;
   control: Control<any>;
   radioProps?: RadioProps;
+  labelPosition?: "left" | "top";
+  options: string[];
 }
 
 export const HookFormRadio: FC<HookFormRadioProps> = ({
@@ -21,32 +25,44 @@ export const HookFormRadio: FC<HookFormRadioProps> = ({
   labelPlacement = "end",
   defaultValue,
   radioProps,
-  value,
+  labelPosition,
+  options,
   ...rest
 }) => {
   return (
-    <Controller
-      name={name}
-      defaultValue={defaultValue}
-      control={control}
-      render={({ field }) => (
-        <FormControlLabel
-          label={label}
-          labelPlacement={labelPlacement}
-          control={
-            <Radio
-              size='small'
-              value={value}
-              checked={field.value === value}
-              {...radioProps}
+    <FlexBox
+      sx={{
+        flexDirection: labelPosition === "left" ? "row" : "column",
+        gap: 0,
+      }}
+    >
+      <H5 sx={{ mb: 1 }}>{label}</H5>
+      {options.map((option) => (
+        <Controller
+          key={option}
+          name={name}
+          defaultValue={defaultValue}
+          control={control}
+          render={({ field }) => (
+            <FormControlLabel
+              label={option}
+              labelPlacement={labelPlacement}
+              control={
+                <Radio
+                  size='small'
+                  value={option}
+                  checked={field.value === option}
+                  {...radioProps}
+                />
+              }
+              {...rest}
+              {...field}
+              value={field.value}
             />
-          }
-          {...rest}
-          {...field}
-          value={field.value}
+          )}
         />
-      )}
-    />
+      ))}
+    </FlexBox>
   );
 };
 

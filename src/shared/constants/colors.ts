@@ -5,4 +5,5 @@ export enum COLORS {
   ICON_COLOR = "darkgray",
   ICON_ACTIVE_COLOR = "#4F4F50",
   TAB_INACTIVE_COLOR = "#94A3B8",
+  BLUE = "#2563EB",
 }

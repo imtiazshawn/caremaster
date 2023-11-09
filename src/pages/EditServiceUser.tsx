@@ -34,9 +34,7 @@ export const EditServiceUser = () => {
   ];
 
   return (
-    <FullColumn
-      sx={{ background: COLORS.WHITE, p: "1rem", gap: 0, marginBottom: "1em" }}
-    >
+    <FullColumn sx={{ p: "1rem", gap: 0, marginBottom: "1em" }}>
       <TabContext value={tabValue}>
         <Tabs
           sx={{

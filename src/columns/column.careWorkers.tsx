@@ -68,7 +68,6 @@ const getCareWorkerColumns = (
     },
     {
       width: 230,
-      minWidth: 230,
       field: "action",
       headerName: "Action",
       headerClassName,
@@ -79,11 +78,17 @@ const getCareWorkerColumns = (
           <Row>
             <IconButton
               varient='edit'
-              onClick={() => handleAction(dataId, "edit")}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAction(dataId, "edit");
+              }}
             />
             <IconButton
               varient='delete'
-              onClick={() => handleAction(dataId, "delete")}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAction(dataId, "delete");
+              }}
             />
           </Row>
         );

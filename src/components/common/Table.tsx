@@ -1,6 +1,8 @@
+import { SxProps } from "@mui/material";
 import {
   DataGrid,
   GridActionsColDef,
+  GridEventListener,
   GridSingleSelectColDef,
   GridValidRowModel,
 } from "@mui/x-data-grid";
@@ -15,12 +17,16 @@ export type TableProps<TItem extends GridValidRowModel> = {
   rows: TItem[];
   columns: TableColumn<TItem>[];
   isLoading?: boolean;
+  sx?: SxProps;
+  onRowClick?: GridEventListener<"rowClick"> | undefined;
 };
 
 export function Table<TItem extends GridValidRowModel>({
   rows,
   columns,
   isLoading = false,
+  onRowClick,
+  sx,
 }: TableProps<TItem>) {
   return (
     <DataGrid
@@ -28,9 +34,20 @@ export function Table<TItem extends GridValidRowModel>({
       rows={rows}
       loading={isLoading}
       autoHeight
+      disableRowSelectionOnClick
+      initialState={{
+        pagination: { paginationModel: { pageSize: 5 } },
+      }}
+      pageSizeOptions={[5, 10, 25]}
       sx={{
         width: "100%",
+        "& .MuiDataGrid-root, .MuiDataGrid-cell:focus, .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within":
+          {
+            outline: "none",
+          },
+        ...sx,
       }}
+      onRowClick={onRowClick}
     />
   );
 }

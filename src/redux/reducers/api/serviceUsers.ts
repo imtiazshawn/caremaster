@@ -58,6 +58,12 @@ export const serviceUsersApi = createApi({
         };
       },
     }),
+    deleteServiceUser: builder.mutation<any, string>({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -66,4 +72,5 @@ export const {
   useGetServiceUserQuery,
   useCreateServiceUserMutation,
   useUpdateServiceUserMutation,
+  useDeleteServiceUserMutation,
 } = serviceUsersApi;
