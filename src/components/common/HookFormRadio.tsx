@@ -27,6 +27,7 @@ export const HookFormRadio: FC<HookFormRadioProps> = ({
   radioProps,
   labelPosition,
   options,
+  sx,
   ...rest
 }) => {
   return (
@@ -53,8 +54,18 @@ export const HookFormRadio: FC<HookFormRadioProps> = ({
                   value={option}
                   checked={field.value === option}
                   {...radioProps}
+                  sx={{
+                    py: "5px",
+                  }}
                 />
               }
+              sx={{
+                "& .MuiFormControlLabel-label": {
+                  fontWeight: 600,
+                  color: field.value === option ? "inherit" : "text.disabled",
+                },
+                ...sx,
+              }}
               {...rest}
               {...field}
               value={field.value}

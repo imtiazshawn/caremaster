@@ -76,6 +76,7 @@ export const Navbar = () => {
         pt: 5,
         gap: 1,
         backgroundColor: COLORS.WHITE,
+        overflow: "auto",
       }}
     >
       <FlexBox

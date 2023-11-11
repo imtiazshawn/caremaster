@@ -1,23 +1,11 @@
 import { Autocomplete } from "@common/Autocomplete";
+import { styleLeftLabel } from "@common/SmartForm";
 import { useFetchAddresses } from "@reducers/api/postCodeApi";
 import { useState } from "react";
 import TextField from "./common/TextField";
 
-const styleLeftLabel = {
-  flexDirection: "row",
-  justifyContent: "space-between",
-  alignItems: "center",
-  width: "100%",
-  "& .MuiFormLabel-root": {
-    width: "12.5rem",
-  },
-  "& .MuiInputBase-root": {
-    flexGrow: 1,
-  },
-};
-
 type PostCodeComponentProps = {
-  labelPosition?: "left" | "top";
+  labelPosition: "left" | "top";
   setAddress: (address: string) => void;
   setPostcode: (postcode: string) => void;
 };
@@ -46,7 +34,7 @@ export const PostCodeComponent: React.FC<PostCodeComponentProps> = ({
           name='postcode'
           label='Postcode'
           variant='outlined'
-          fullWidth={labelPosition !== "left"}
+          fullWidth
           placeholder='Postcode'
           sx={labelPosition !== "left" ? null : styleLeftLabel}
         />

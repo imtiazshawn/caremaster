@@ -302,6 +302,7 @@ const AddRecordModal: React.FC<Props> = ({ isOpen, onClose, record }) => {
             <SmartForm
               template={recordFormTemplate}
               control={control}
+              labelPosition='top'
             />
             <FlexBox sx={{ justifyContent: "flex-end" }}>
               <LoadingButton

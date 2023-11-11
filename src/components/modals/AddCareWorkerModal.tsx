@@ -64,6 +64,7 @@ const AddCareWorkerModal: React.FC<Props> = ({ isOpen, onClose }) => {
         <PostCodeComponent
           setAddress={(address) => setValue("address", address)}
           setPostcode={(postcode) => setValue("postcode", postcode)}
+          labelPosition='top'
         />
       ),
     },
@@ -117,6 +118,7 @@ const AddCareWorkerModal: React.FC<Props> = ({ isOpen, onClose }) => {
             <SmartForm
               template={careWorkerFormTemplate}
               control={control}
+              labelPosition='top'
             />
             <FlexBox sx={{ justifyContent: "flex-end" }}>
               <LoadingButton

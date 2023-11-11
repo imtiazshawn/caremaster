@@ -24,12 +24,11 @@ export const PageLayout: React.FC<{ children?: ReactNode }> = ({
           <TopHeader />
           <Box
             sx={{
-              // height: "calc(100vh - 1em)",
-              backgroundColor: COLORS.WHITE,
               overflowY: "auto",
             }}
           >
-            {children}
+            <Box sx={{ backgroundColor: COLORS.WHITE }}>{children}</Box>
+            <Box sx={{ height: "1rem" }} />
           </Box>
         </FullColumn>
       </Grid>

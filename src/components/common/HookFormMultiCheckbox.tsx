@@ -51,10 +51,12 @@ const HookFormMultiCheckbox: FC<HookFormSwitchProps> = ({
                     size='small'
                     checked={field.value}
                     onChange={(e) => field.onChange(e)}
+                    sx={{
+                      py: "5px",
+                    }}
                   />
                 }
                 sx={{
-                  ml: 0,
                   "& .MuiFormControlLabel-label": {
                     fontWeight: 600,
                     color: field.value ? "inherit" : "text.disabled",

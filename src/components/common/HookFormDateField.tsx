@@ -77,11 +77,6 @@ const HookFormDateField: FC<HookFormDateFieldProps> = ({
             helperText={error?.message}
             onClick={toggleOpen}
             autoComplete='off'
-            sx={{
-              "& .MuiInputBase-root": {
-                borderRadius: "4px",
-              },
-            }}
           />
         )}
       />

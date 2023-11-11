@@ -29,17 +29,22 @@ import { useCreateFileUploadMutation } from "@reducers/api/fileUpload";
 
 type RecordSegment = {
   label: string;
+  //  TODO: Use specific type. No ANY policy
   getTableColumns: (
     handleAction: (dataId: string, actionType: ActionType) => void,
   ) => TableColumn<any>[];
+  //  TODO: Use specific type. No ANY policy
   tableRows: any[];
+  //  TODO: Use specific type. No ANY policy
   formTemplate: FormTemplate<any>[];
   defaultValues: FieldValues;
   recordId: number;
   record: RecordWithFields;
+  //  TODO: We need to fix the naming and write down the purpose of this
   recordValueMap: Record<number, Record<string, number>>;
 };
 
+// TODO: Move this function to utils
 export const getFormFieldTypeFromFieldType = (
   fieldType: FieldTypeEnum,
 ): FormTemplate<any>["type"] => {
@@ -78,6 +83,7 @@ export const ServiceUserRecordTab = () => {
     isLoading: isLoadingServiceUserRecords,
   } = useGetServiceUserRecordsQuery((serviceUserId || 0) as number);
 
+  // TODO: Move this function to utils
   const groupedRecordValues = serviceUserRecords.reduce(
     (acc, record) => {
       const key = record.record.id;
@@ -90,6 +96,7 @@ export const ServiceUserRecordTab = () => {
     {} as Record<number, ServiceUserRecords[]>,
   );
 
+  // TODO: Move this function to utils
   const recordSegments: RecordSegment[] = records
     .map((record) => {
       const recordValues = groupedRecordValues[record.id] ?? [];
@@ -295,6 +302,8 @@ export const ServiceUserRecordTab = () => {
   );
 };
 
+// TODO: No ANY policy
+// Move this component to another file
 const RecordDetails: React.FC<{
   tableRows: any[];
   formTemplate: FormTemplate<any>[];
@@ -383,6 +392,7 @@ const RecordDetails: React.FC<{
         title={label}
         handleFormSubmit={async (values) => {
           const updatedValues = { ...values };
+          // TODO: Move this mapping to utils file
           await Promise.all(
             record.fields.map(async (field) => {
               if (
@@ -421,6 +431,7 @@ const RecordDetails: React.FC<{
             await createServiceUserRecord({
               service_user: Number(serviceUserId),
               record: recordId,
+              // TODO: Duplicate code. DRY code policy
               values: record.fields.map((field) => ({
                 record_field: field.id,
                 value: updatedValues[field.label] ?? "",

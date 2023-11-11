@@ -81,7 +81,7 @@ export type FormTemplate<T extends Data> = Common &
 //     items: FormTemplate<T>[];
 //   }
 
-const styleLeftLabel = {
+export const styleLeftLabel = {
   flexDirection: "row",
   justifyContent: "space-between",
   alignItems: "center",
@@ -89,7 +89,15 @@ const styleLeftLabel = {
     width: "12.5rem",
   },
   "& .MuiInputBase-root": {
+    width: "calc(100% - 12.5rem) !important",
     flexGrow: 1,
+    borderRadius: "12px",
+  },
+};
+
+export const styleTopLabel = {
+  "& .MuiInputBase-root": {
+    borderRadius: "12px",
   },
 };
 
@@ -98,7 +106,7 @@ type SmartFormComponentType = <T extends Data>(props: {
   control: Control<any>;
   watch?: UseFormWatch<any>;
   setValue?: UseFormSetValue<any>;
-  labelPosition?: "left" | "top";
+  labelPosition: "left" | "top";
 }) => JSX.Element | null;
 
 export const SmartForm: SmartFormComponentType = ({
@@ -133,9 +141,9 @@ export const SmartForm: SmartFormComponentType = ({
           control={control}
           name={templateName}
           label={template.label}
-          fullWidth={labelPosition === "top"}
+          fullWidth
           placeholder={template.label}
-          sx={labelPosition === "left" ? styleLeftLabel : null}
+          sx={labelPosition === "left" ? styleLeftLabel : styleTopLabel}
           required={template.required || false}
         />
       );
@@ -146,9 +154,9 @@ export const SmartForm: SmartFormComponentType = ({
           name={templateName}
           type='number'
           label={template.label}
-          fullWidth={labelPosition === "top"}
+          fullWidth
           placeholder={template.label}
-          sx={labelPosition === "left" ? styleLeftLabel : null}
+          sx={labelPosition === "left" ? styleLeftLabel : styleTopLabel}
           required={template.required || false}
         />
       );
@@ -162,6 +170,7 @@ export const SmartForm: SmartFormComponentType = ({
           placeholder={template.label}
           type='password'
           required={template.required || false}
+          sx={labelPosition === "left" ? styleLeftLabel : styleTopLabel}
         />
       );
 
@@ -171,9 +180,9 @@ export const SmartForm: SmartFormComponentType = ({
           control={control}
           name={templateName}
           label={template.label}
-          fullWidth={labelPosition === "top"}
+          fullWidth
           options={template.options}
-          sx={labelPosition === "left" ? styleLeftLabel : null}
+          sx={labelPosition === "left" ? styleLeftLabel : styleTopLabel}
           required={template.required || false}
         />
       );
@@ -225,8 +234,8 @@ export const SmartForm: SmartFormComponentType = ({
           control={control}
           name={templateName}
           label={template.label}
-          fullWidth={labelPosition === "top"}
-          sx={labelPosition === "left" ? styleLeftLabel : null}
+          fullWidth
+          sx={labelPosition === "left" ? styleLeftLabel : styleTopLabel}
           required={template.required || false}
         />
       );

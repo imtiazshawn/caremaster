@@ -19,6 +19,7 @@ export const getDetailsCareWorkerForm =
       },
       {
         type: "text",
+        label: "Name",
         name: "name",
       },
       {

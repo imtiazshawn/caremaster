@@ -86,6 +86,7 @@ const SmartModal: SmartModalProps = ({
               control={control}
               watch={watch}
               setValue={setValue}
+              labelPosition='top'
             />
             <FlexBox sx={{ justifyContent: "flex-end" }}>
               <LoadingButton

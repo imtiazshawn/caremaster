@@ -61,11 +61,6 @@ const HookFormTextField: FC<HookFormTextFieldProps> = ({
           {...field}
           onChange={handleChanage(field)}
           {...rest}
-          sx={{
-            "& .MuiInputBase-root": {
-              borderRadius: "4px",
-            },
-          }}
           value={field.value ?? ""}
         />
       )}
