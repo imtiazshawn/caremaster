@@ -135,7 +135,7 @@ export const ServiceUserRecordTab = () => {
                 return (
                   <FlexBox sx={{ gap: "5px" }}>
                     {params.value
-                      .map((v: boolean, index: number) => {
+                      ?.map((v: boolean, index: number) => {
                         const value = field.options?.split(",")?.[index];
                         if (!value || !v) {
                           return null;
