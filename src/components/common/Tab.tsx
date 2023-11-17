@@ -7,7 +7,21 @@ export type TabContextProps = React.ComponentProps<typeof MTabContext>;
 export type TabPanelProps = React.ComponentProps<typeof MTabPanel>;
 
 export const Tab = (props: TabProps) => {
-  return <MTab {...props} />;
+  return (
+    <MTab
+      {...props}
+      sx={{
+        fontSize: "1.25rem",
+        fontWeight: "600",
+        textTransform: "none",
+        "&.Mui-selected": {
+          color: "white",
+          backgroundColor: "#929292",
+        },
+        ...props.sx,
+      }}
+    />
+  );
 };
 export const Tabs = (props: TabsProps) => {
   return <MTabs {...props} />;

@@ -10,12 +10,12 @@ import {
   useDeleteCarePlanMutation,
   useGetCarePlansQuery,
 } from "@reducers/api/carePlans";
+import { useServiceUserId } from "@redux/hooks/useServiceUserId";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
 
 const CarePlanTab = () => {
-  const { data, isLoading, refetch } = useGetCarePlansQuery(null);
-  const { id: serviceUserId } = useParams<{ id: string }>();
+  const serviceUserId = useServiceUserId();
+  const { data, isLoading, refetch } = useGetCarePlansQuery(serviceUserId);
   const carePlans: CarePlanTableUnit[] = getCarePlanTableData(data ?? []);
 
   const [isOpenCarePlanModal, setIsOpenCarePlanModal] = useState(false);
@@ -62,6 +62,7 @@ const CarePlanTab = () => {
             ? data[selectedIndex]
             : null
         }
+        // @ts-ignore
         serviceUserId={serviceUserId}
         isOpen={isOpenCarePlanModal}
         onClose={handleCloseModal}

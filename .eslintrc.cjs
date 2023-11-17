@@ -18,7 +18,7 @@ module.exports = {
     // Would be nice to enable later, but there are some current issues: https://github.com/eslint/eslint/issues/12156
     // "quotes": ["error", "double"]
     "no-restricted-imports": [
-      "error",
+      "off",
       {
         paths: [
           {

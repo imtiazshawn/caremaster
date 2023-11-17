@@ -136,6 +136,7 @@ const UpsertCarePlanModal: React.FC<Props> = ({
             <SmartForm
               template={careWorkerFormTemplate}
               control={control}
+              labelPosition='left'
             />
             <FlexBox sx={{ justifyContent: "flex-end" }}>
               <LoadingButton

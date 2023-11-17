@@ -1,3 +1,4 @@
+import { RotaTab } from "@/pages/RotaTab";
 import { COLORS } from "@/shared/constants/colors";
 import { Box, FullColumn } from "@components/common";
 import CarePlanTab from "@components/serviceUsers/CarePlanTab";
@@ -78,6 +79,9 @@ export const EditServiceUser = () => {
           </TabPanel>
           <TabPanel value='2'>
             <ServiceUserRecordTab />
+          </TabPanel>
+          <TabPanel value='4'>
+            <RotaTab />
           </TabPanel>
           <TabPanel value='3'>
             <CarePlanTab />

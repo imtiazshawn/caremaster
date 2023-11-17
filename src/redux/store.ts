@@ -2,6 +2,7 @@ import { authApi } from "@reducers/api/authApi";
 import { carePlanCategoriesApi } from "@reducers/api/carePlanCategories";
 import { carePlansApi } from "@reducers/api/carePlans";
 import { careWorkersApi } from "@reducers/api/careWorkers";
+import { eventsApi } from "@reducers/api/eventApi";
 import { fileUploadApi } from "@reducers/api/fileUpload";
 import { recordFieldsApi } from "@reducers/api/recordFields";
 import { recordValuesApi } from "@reducers/api/recordValue";
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   [serviceUserRecordsApi.reducerPath]: serviceUserRecordsApi.reducer,
   [recordValuesApi.reducerPath]: recordValuesApi.reducer,
   [fileUploadApi.reducerPath]: fileUploadApi.reducer,
+  [eventsApi.reducerPath]: eventsApi.reducer,
 });
 
 const store = configureStore({
@@ -45,6 +47,7 @@ const store = configureStore({
       serviceUserRecordsApi.middleware,
       recordValuesApi.middleware,
       fileUploadApi.middleware,
+      eventsApi.middleware,
     ]),
   devTools: import.meta.env.NODE_ENV !== "production",
 });

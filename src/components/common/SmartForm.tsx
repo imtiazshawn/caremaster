@@ -1,11 +1,13 @@
 import { ReactElement } from "react";
 import { Control, UseFormSetValue, UseFormWatch } from "react-hook-form";
 
+import HookFormDateTime from "@common/HookFormDateTime";
 import { HookFormFileUpload } from "@common/HookFormFileUpload";
 import { HookFormImageUpload } from "@common/HookFormImageUpload";
 import HookFormMultiCheckbox from "@common/HookFormMultiCheckbox";
 import HookFormRadio from "@common/HookFormRadio";
 import HookFormSwitch from "@common/HookFormSwitch";
+import HookFormTimePicker from "@common/HookFormTimePicker";
 import { Column, FlexBox } from ".";
 import HookFormDateField from "./HookFormDateField";
 import HookFormSelect from "./HookFormSelect";
@@ -34,6 +36,14 @@ export type FormTemplate<T extends Data> = Common &
       }
     | {
         type: "date";
+        name: keyof T;
+      }
+    | {
+        type: "date-time";
+        name: keyof T;
+      }
+    | {
+        type: "time";
         name: keyof T;
       }
     | {
@@ -237,6 +247,29 @@ export const SmartForm: SmartFormComponentType = ({
           fullWidth
           sx={labelPosition === "left" ? styleLeftLabel : styleTopLabel}
           required={template.required || false}
+        />
+      );
+    case "date-time":
+      return (
+        <HookFormDateTime
+          control={control}
+          name={templateName}
+          label={template.label}
+          fullWidth
+          sx={labelPosition === "left" ? styleLeftLabel : styleTopLabel}
+          required={template.required || false}
+        />
+      );
+    case "time":
+      return (
+        <HookFormTimePicker
+          control={control}
+          name={templateName}
+          label={template.label}
+          fullWidth
+          sx={labelPosition === "left" ? styleLeftLabel : styleTopLabel}
+          required={template.required || false}
+          inputFormat='hh:mm A'
         />
       );
     case "custom":

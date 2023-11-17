@@ -14,9 +14,9 @@ export const carePlansApi = createApi({
   reducerPath: "carePlansApi",
   baseQuery: getBaseQuery("care-plans"),
   endpoints: (builder) => ({
-    getCarePlans: builder.query<CarePlan[], null>({
-      query: () => ({
-        url: "",
+    getCarePlans: builder.query<CarePlan[], number>({
+      query: (id) => ({
+        url: `?service_user=${id}`,
         method: "GET",
       }),
       transformResponse: (res: CarePlansResponse) => {

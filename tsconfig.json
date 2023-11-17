@@ -18,6 +18,7 @@
 
     "paths": {
       "@common/*": ["./src/components/common/*"],
+      "@serviceUsersUI/*": ["./src/components/serviceUsers/*"],
       "@components/*": ["./src/components/*"],
       "@reducers/*": ["./src/redux/reducers/*"],
       "$types/*": ["./src/types/*"],

@@ -1,0 +1,151 @@
+import { EventDTO } from "$types/event";
+import { removeUndefined } from "@/Utils";
+import {
+  formatDateForBackend,
+  formatTimeForBackend,
+} from "@/shared/utils/date";
+import { Dialog, DialogContent, DialogTitle } from "@common/Dialog";
+import { LoadingButton } from "@common/LoadingButton";
+import { Tab, TabContext, Tabs } from "@common/Tab";
+import { Column, FlexBox } from "@common/index";
+import { TabPanel } from "@mui/lab";
+import { useCreateEventMutation } from "@reducers/api/eventApi";
+import { useServiceUserId } from "@redux/hooks/useServiceUserId";
+import { EventInfoTab } from "@serviceUsersUI/rota/EventInfoTab";
+import { PlanActivityTab } from "@serviceUsersUI/rota/PlanActivityTab";
+import React, { useEffect } from "react";
+import { Event } from "react-big-calendar";
+import { useForm } from "react-hook-form";
+
+export const EditCreateModal = ({
+  open,
+  setOpen,
+  selectedEvent,
+  onClose,
+}: {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+  selectedEvent: Event | null;
+  onClose: (shouldRefetch?: boolean) => void;
+}) => {
+  const { control, reset, watch, setValue, handleSubmit } = useForm<Event>();
+  const [tabValue, setTabValue] = React.useState("1");
+  const isEditing = selectedEvent?.resource?.id !== "new";
+  const title = isEditing ? "Edit Event" : "Create Event";
+
+  const [createEvent, { isLoading }] = useCreateEventMutation();
+
+  useEffect(() => {
+    reset(
+      selectedEvent ?? {
+        title: "",
+        start: new Date(),
+        end: new Date(),
+      },
+    );
+  }, [reset, selectedEvent]);
+
+  const onCloseHandler = (shouldRefetch?: boolean) => {
+    setOpen(false);
+    onClose(shouldRefetch);
+  };
+
+  const serviceUserId = useServiceUserId();
+  const mapCalendarEventToEvent = (event: any) => {
+    const mappedEvent: EventDTO = {
+      title: event.title,
+      start_date: formatDateForBackend(event.start_date),
+      end_date: formatDateForBackend(event.end_date ?? new Date()),
+      start_time: formatTimeForBackend(event.start_date),
+      end_time: formatTimeForBackend(event.end_time),
+      repeat_week: event.repeat_week,
+      end_type: event.end_type,
+      end_after_occurrence: event.end_after_occurrence ?? 0,
+      repeat_on: event.repeat_on ?? "never",
+      service_user: serviceUserId,
+      care_plans: event.care_plans ?? [],
+      care_workers: event.care_workers ?? [],
+    };
+
+    return mappedEvent;
+  };
+
+  const handleSubmitForm = async (values: any) => {
+    const mappedValues = mapCalendarEventToEvent(values);
+
+    await createEvent(mappedValues);
+    onCloseHandler(true);
+
+    removeUndefined(mappedValues);
+  };
+
+  return (
+    <Dialog
+      open={open}
+      sx={{
+        "& .MuiDialog-paper": {
+          maxWidth: "100%",
+          maxHeight: "100%",
+          margin: 0,
+          borderRadius: "0px",
+        },
+      }}
+      onClose={() => onCloseHandler()}
+    >
+      <DialogTitle>{title}</DialogTitle>
+      <DialogContent>
+        <form onSubmit={handleSubmit(handleSubmitForm)}>
+          <Column sx={{ gap: "3em", width: 700, height: 600 }}>
+            <TabContext value={tabValue}>
+              <Tabs
+                value={tabValue}
+                onChange={(_, value) => setTabValue(value)}
+              >
+                <Tab
+                  value='1'
+                  label='Event Info'
+                />
+                <Tab
+                  value='2'
+                  label='Plan Activities'
+                />
+              </Tabs>
+              <FlexBox sx={{ flex: 1 }}>
+                <TabPanel
+                  value='1'
+                  sx={{ width: "100%", pt: 0 }}
+                >
+                  <EventInfoTab
+                    control={control}
+                    watch={watch}
+                    setValue={setValue}
+                  />
+                </TabPanel>
+                <TabPanel
+                  value='2'
+                  sx={{ width: "100%", pt: 0 }}
+                >
+                  <PlanActivityTab
+                    control={control}
+                    watch={watch}
+                    setValue={setValue}
+                  />
+                </TabPanel>
+              </FlexBox>
+            </TabContext>
+
+            <FlexBox sx={{ justifyContent: "flex-end" }}>
+              <LoadingButton
+                type='submit'
+                variant='contained'
+                loading={isLoading}
+              >
+                Create
+              </LoadingButton>
+            </FlexBox>
+          </Column>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};

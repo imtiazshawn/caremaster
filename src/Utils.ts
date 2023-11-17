@@ -38,7 +38,10 @@ export const removeUndefined = <T extends AnyRecord>(obj: T): T => {
       obj.forEach((item: object, index) => {
         obj[index] = removeUndefined(item);
       });
-      return obj.filter((item: object) => Object.keys(item).length) as any;
+      return obj.filter(
+        (item: object) =>
+          typeof item !== "object" || Object.keys(item).length > 0,
+      ) as any;
     }
 
     Object.keys(obj).forEach((key) => {
