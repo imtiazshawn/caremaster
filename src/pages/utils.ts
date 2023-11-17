@@ -1,3 +1,4 @@
+import { CarePlanTableUnit, CarePlansResponse } from "$types/carePlans";
 import { CareWorkersResponse, CareWorkersTableUnit } from "$types/careWorkers";
 import { ServiceUser, ServiceUsersTableUnit } from "$types/serviceUsers";
 
@@ -48,4 +49,15 @@ export const getCareWorkersTableData = (
       role: "",
     }),
   );
+};
+export const getCarePlanTableData = (
+  data: CarePlansResponse["response"]["data"],
+): CarePlanTableUnit[] => {
+  return data.map(({ id, title, category_name, instruction, updated_at }) => ({
+    id: id,
+    title,
+    instruction,
+    updated_at,
+    category: category_name,
+  }));
 };

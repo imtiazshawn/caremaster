@@ -1,4 +1,6 @@
 import { authApi } from "@reducers/api/authApi";
+import { carePlanCategoriesApi } from "@reducers/api/carePlanCategories";
+import { carePlansApi } from "@reducers/api/carePlans";
 import { careWorkersApi } from "@reducers/api/careWorkers";
 import { fileUploadApi } from "@reducers/api/fileUpload";
 import { recordFieldsApi } from "@reducers/api/recordFields";
@@ -20,6 +22,8 @@ const rootReducer = combineReducers({
   [authApi.reducerPath]: authApi.reducer,
   [serviceUsersApi.reducerPath]: serviceUsersApi.reducer,
   [careWorkersApi.reducerPath]: careWorkersApi.reducer,
+  [carePlanCategoriesApi.reducerPath]: carePlanCategoriesApi.reducer,
+  [carePlansApi.reducerPath]: carePlansApi.reducer,
   [recordsApi.reducerPath]: recordsApi.reducer,
   [recordFieldsApi.reducerPath]: recordFieldsApi.reducer,
   [serviceUserRecordsApi.reducerPath]: serviceUserRecordsApi.reducer,
@@ -34,6 +38,8 @@ const store = configureStore({
       authApi.middleware,
       serviceUsersApi.middleware,
       careWorkersApi.middleware,
+      carePlanCategoriesApi.middleware,
+      carePlansApi.middleware,
       recordsApi.middleware,
       recordFieldsApi.middleware,
       serviceUserRecordsApi.middleware,

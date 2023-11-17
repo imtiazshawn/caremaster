@@ -1,11 +1,13 @@
+import AddIcon from "@mui/icons-material/Add";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { IconButton as MIconButton } from "@mui/material";
 
 type IconProps = React.ComponentProps<typeof EditIcon>;
 export type IconButtonProps = IconProps &
   React.ComponentProps<typeof MIconButton> & {
-    varient: "edit" | "delete";
+    varient: "edit" | "delete" | "add" | "more-horizontal";
   };
 
 const IconButton = ({
@@ -20,6 +22,12 @@ const IconButton = ({
       break;
     case "delete":
       icon = <DeleteForeverIcon fontSize={fontSize} />;
+      break;
+    case "add":
+      icon = <AddIcon fontSize={fontSize} />;
+      break;
+    case "more-horizontal":
+      icon = <MoreHorizIcon fontSize={fontSize} />;
       break;
     default:
       break;
