@@ -1,8 +1,10 @@
 import { TableColumn } from "@components/common/Table";
 
-import { ServiceUsersTableUnit } from "$types/serviceUsers";
+import { ENROLLMENT_STATUS, ServiceUser } from "$types/serviceUsers";
 import { formatDate } from "@/Utils";
+import { EnrollmentStatusColors } from "@/shared/constants/colors";
 import { headerClassName } from "@/shared/constants/table";
+import { Chip } from "@common/Chip";
 import { Box, Row } from "@components/common";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
@@ -10,7 +12,7 @@ import { IconButton } from "@mui/material";
 
 const getServiceUserColumns = (
   handleAction: (dataId: string, actionType: string) => void,
-): TableColumn<ServiceUsersTableUnit>[] => {
+): TableColumn<ServiceUser>[] => {
   return [
     {
       flex: 1,
@@ -73,10 +75,28 @@ const getServiceUserColumns = (
     {
       flex: 1,
       width: 230,
-      field: "banding",
-      headerName: "Banding",
+      field: "enrollment_status",
+      headerName: "Status",
       headerClassName,
+      headerAlign: "center",
+      align: "center",
       sortable: false,
+      renderCell: (params) => {
+        return (
+          <Chip
+            label={
+              params.row.enrollment_status || ENROLLMENT_STATUS.PRE_ADMISSION
+            }
+            sx={{
+              background:
+                EnrollmentStatusColors[
+                  (params.row.enrollment_status ||
+                    ENROLLMENT_STATUS.PRE_ADMISSION) as ENROLLMENT_STATUS
+                ],
+            }}
+          />
+        );
+      },
     },
     {
       flex: 1,

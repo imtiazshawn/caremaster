@@ -1,16 +1,16 @@
 import { headerClassName } from "@/shared/constants/table";
 import { TableColumn } from "@common/Table";
 
-import { CarePlanTableUnit } from "$types/carePlans";
+import { CarePlanTaskTableUnit } from "$types/carePlanTasks";
 import { formatDate } from "@/Utils";
 import IconButton from "@common/IconButton";
 import { Box, Row } from "@common/index";
 
 export type ActionType = "edit" | "delete";
 
-const getCarePlansColumns = (
+const getCarePlanTasksColumns = (
   handleAction: (rowIndex: number, actionType: ActionType) => void,
-): TableColumn<CarePlanTableUnit>[] => {
+): TableColumn<CarePlanTaskTableUnit>[] => {
   return [
     {
       flex: 0.25,
@@ -62,11 +62,11 @@ const getCarePlansColumns = (
         return (
           <Row>
             <IconButton
-              varient='edit'
+              variant='edit'
               onClick={() => handleAction(dataId, "edit")}
             />
             <IconButton
-              varient='delete'
+              variant='delete'
               onClick={() => handleAction(dataId, "delete")}
             />
           </Row>
@@ -76,4 +76,4 @@ const getCarePlansColumns = (
   ];
 };
 
-export default getCarePlansColumns;
+export default getCarePlanTasksColumns;

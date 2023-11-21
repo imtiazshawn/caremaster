@@ -77,14 +77,14 @@ const getCareWorkerColumns = (
         return (
           <Row>
             <IconButton
-              varient='edit'
+              variant='edit'
               onClick={(e) => {
                 e.stopPropagation();
                 handleAction(dataId, "edit");
               }}
             />
             <IconButton
-              varient='delete'
+              variant='delete'
               onClick={(e) => {
                 e.stopPropagation();
                 handleAction(dataId, "delete");

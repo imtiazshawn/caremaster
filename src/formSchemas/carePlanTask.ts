@@ -1,7 +1,7 @@
 import * as yup from "yup";
 
 const trimmer = (v: string) => v.trim();
-export const carePlanSchema = yup.object().shape({
+export const carePlanTaskSchema = yup.object().shape({
   title: yup
     .string()
     .transform(trimmer)

@@ -1,8 +1,8 @@
 import { Button } from "@common/Button";
+import { Search } from "@common/Search";
 import { Table } from "@common/Table";
 import { Text } from "@common/Typography";
 import { FlexBox, FullColumn } from "@common/index";
-import { GlobalSearch } from "@components/GlobalSearch";
 import {
   useDeleteCareWorkerMutation,
   useGetCareWorkersQuery,
@@ -23,6 +23,7 @@ export const CareWorkers = () => {
   const { data, isLoading, refetch } = useGetCareWorkersQuery(null);
   const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [searchKey, setSearchKey] = useState("");
   const careWorkers: CareWorkersTableUnit[] = getCareWorkersTableData(
     data ?? [],
   );
@@ -44,6 +45,14 @@ export const CareWorkers = () => {
         break;
     }
   };
+
+  const filteredCareWorkers = careWorkers.filter((careWorker) => {
+    const searchKeyLowerCase = searchKey.toLowerCase();
+    return JSON.stringify(careWorker)
+      .toLowerCase()
+      .includes(searchKeyLowerCase);
+  });
+
   return (
     <PageLayout>
       <FullColumn sx={{ background: COLORS.WHITE, p: 2, marginBottom: 2 }}>
@@ -71,7 +80,14 @@ export const CareWorkers = () => {
           Care Workers
         </Text>
         <FlexBox sx={{ height: "3em", gap: 2 }}>
-          <GlobalSearch />
+          <Search
+            onChange={(value) => {
+              setSearchKey(value);
+            }}
+            sx={{
+              maxWidth: "300px",
+            }}
+          />
           <Button
             variant='contained'
             className='rounded-md'
@@ -81,7 +97,7 @@ export const CareWorkers = () => {
           </Button>
         </FlexBox>
         <Table<CareWorkersTableUnit>
-          rows={careWorkers}
+          rows={filteredCareWorkers}
           columns={getCareWorkerColumns(handleActionCallback)}
           isLoading={isLoading}
           sx={{

@@ -42,7 +42,9 @@ export type CreateCarePlanTask = {
   category: number;
 };
 
-export type UpdateCarePlanTask = { id: number } & Partial<CreateCarePlanTask>;
+export type UpdateCarePlanTask = {
+  id: number;
+} & Partial<CreateCarePlanTask>;
 
 export type CarePlanTasksResponse = ApiResponseArray<CarePlanTask>;
 export type CarePlanTaskResponse = ApiResponse<CarePlanTask>;

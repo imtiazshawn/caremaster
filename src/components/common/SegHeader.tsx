@@ -5,22 +5,18 @@ import { Box, Row } from "./index";
 
 type Props = {
   currentSegment: string;
-  expandedSegment?: string;
-  changeExpandSegment: (segment: string | undefined) => void;
+  isExpanded?: boolean;
+  changeExpandSegment: (segment: string) => void;
 };
 
 export const SegHeader = ({
   currentSegment,
-  expandedSegment,
+  isExpanded,
   changeExpandSegment,
 }: Props) => {
   return (
     <Row
-      onClick={() =>
-        changeExpandSegment(
-          expandedSegment === currentSegment ? undefined : currentSegment,
-        )
-      }
+      onClick={() => changeExpandSegment(currentSegment)}
       sx={{
         cursor: "pointer",
         backgroundColor: "rgba(148, 163, 184, 0.14)",
@@ -32,8 +28,8 @@ export const SegHeader = ({
     >
       <H4>{currentSegment}</H4>
       <Box>
-        {expandedSegment === currentSegment && <ExpandMoreIcon />}
-        {expandedSegment !== currentSegment && <ControlPointIcon />}
+        {isExpanded && <ExpandMoreIcon />}
+        {!isExpanded && <ControlPointIcon />}
       </Box>
     </Row>
   );

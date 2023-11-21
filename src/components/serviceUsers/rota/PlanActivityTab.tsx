@@ -1,7 +1,7 @@
 import { Checkbox } from "@common/Checkbox";
 import { H3 } from "@common/Typography";
 import { FlexBox, Grid } from "@common/index";
-import { useGetCarePlansQuery } from "@reducers/api/carePlans";
+import { useGetCarePlanTasksQuery } from "@reducers/api/carePlanTasks";
 import { useServiceUserId } from "@redux/hooks/useServiceUserId";
 import { UseFormSetValue, UseFormWatch } from "react-hook-form";
 
@@ -16,7 +16,7 @@ export const PlanActivityTab: React.FC<PlanActivityTabProps> = ({
   watch,
 }) => {
   const serviceUserId = useServiceUserId();
-  const { data: planActivities } = useGetCarePlansQuery(serviceUserId);
+  const { data: planActivities } = useGetCarePlanTasksQuery(serviceUserId);
 
   const selectedPlanActivities: number[] = watch?.("care_plans") ?? [];
 

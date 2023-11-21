@@ -50,11 +50,11 @@ const getRecordsColumns = (
         return (
           <Row>
             <IconButton
-              varient='edit'
+              variant='edit'
               onClick={() => handleAction(dataId, "edit")}
             />
             <IconButton
-              varient='delete'
+              variant='delete'
               onClick={() => handleAction(dataId, "delete")}
             />
           </Row>

@@ -1,7 +1,11 @@
 import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
 import { useForm } from "react-hook-form";
 
-import { ServiceUser, ServiceUserDto } from "$types/serviceUsers";
+import {
+  ENROLLMENT_STATUS,
+  ServiceUser,
+  ServiceUserDto,
+} from "$types/serviceUsers";
 import { serviceUserSchema } from "@/formSchemas/serviceUsers";
 import { XButton } from "@common/Button";
 import { LoadingButton } from "@common/LoadingButton";
@@ -67,7 +71,10 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   const handleFormSubmit = (values: ServiceUserDto) => {
-    createServiceUser(values).then(() => {
+    createServiceUser({
+      ...values,
+      enrollment_status: ENROLLMENT_STATUS.PRE_ADMISSION,
+    }).then(() => {
       onCloseHandler();
       refetch();
     });

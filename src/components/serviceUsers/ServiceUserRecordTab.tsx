@@ -14,9 +14,8 @@ import {
   useUpdateServiceUserRecordMutation,
 } from "@reducers/api/serviceUserRecords";
 import { useRecords } from "@redux/hooks/useRecords";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FieldValues } from "react-hook-form";
-import { useParams } from "react-router-dom";
 import { FormTemplate } from "../common/SmartForm";
 
 import { RecordWithFields } from "$types/record";
@@ -26,6 +25,7 @@ import IconButton from "@common/IconButton";
 import Loader from "@common/Loader";
 import ConfirmationDialog from "@components/modals/ConfirmationModal";
 import { useCreateFileUploadMutation } from "@reducers/api/fileUpload";
+import { useServiceUserId } from "@redux/hooks/useServiceUserId";
 
 type RecordSegment = {
   label: string;
@@ -73,7 +73,7 @@ export const getFormFieldTypeFromFieldType = (
 };
 
 export const ServiceUserRecordTab = () => {
-  const { id: serviceUserId } = useParams<{ id: string }>();
+  const serviceUserId = useServiceUserId();
 
   const { records = [], isLoading } = useRecords();
 
@@ -167,11 +167,11 @@ export const ServiceUserRecordTab = () => {
               return (
                 <Row>
                   <IconButton
-                    varient='edit'
+                    variant='edit'
                     onClick={() => handleAction(dataId, "edit")}
                   />
                   <IconButton
-                    varient='delete'
+                    variant='delete'
                     onClick={() => handleAction(dataId, "delete")}
                   />
                 </Row>
@@ -231,17 +231,28 @@ export const ServiceUserRecordTab = () => {
     })
     .filter((v) => v !== null && v !== undefined) as RecordSegment[];
 
-  const [expandedSegment, setExpandedSegment] = useState<string | undefined>(
-    recordSegments[0]?.label,
-  );
+  const [expandedSegments, setExpandedSegments] = useState<
+    string[] | undefined
+  >(recordSegments[0]?.label ? [recordSegments[0]?.label] : undefined);
 
   const firstSegment = recordSegments[0]?.label;
-  useEffect(() => {
-    setExpandedSegment(firstSegment);
-  }, [firstSegment]);
+  const toggleSegment = useCallback((segment: string) => {
+    setExpandedSegments((prev) => {
+      if (prev?.includes(segment)) {
+        return prev.filter((v) => v !== segment);
+      }
+      return [...(prev ?? []), segment];
+    });
+  }, []);
 
-  const changeExpandSegment = (segment: string | undefined) => {
-    setExpandedSegment(segment);
+  useEffect(() => {
+    if (firstSegment) {
+      toggleSegment(firstSegment);
+    }
+  }, [firstSegment, toggleSegment]);
+
+  const changeExpandSegment = (segment: string) => {
+    toggleSegment(segment);
   };
 
   if (isLoading || isLoadingServiceUserRecords) {
@@ -277,7 +288,7 @@ export const ServiceUserRecordTab = () => {
           <Column key={index}>
             <SegHeader
               currentSegment={label}
-              expandedSegment={expandedSegment}
+              isExpanded={expandedSegments?.includes(label)}
               changeExpandSegment={changeExpandSegment}
             />
 
@@ -289,7 +300,7 @@ export const ServiceUserRecordTab = () => {
               defaultValues={defaultValues}
               recordId={recordId}
               record={record}
-              isHidden={expandedSegment !== label}
+              isHidden={expandedSegments?.includes(label) === false}
               onSaveOrUpdateFinished={() => {
                 refetch();
               }}
@@ -336,7 +347,7 @@ const RecordDetails: React.FC<{
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
   const [lastDataId, setLastDataId] = useState<string>("");
 
-  const { id: serviceUserId } = useParams<{ id: string }>();
+  const serviceUserId = useServiceUserId();
   const [createFileUpload] = useCreateFileUploadMutation();
 
   const handleAction = (dataId: string, actionType: ActionType) => {

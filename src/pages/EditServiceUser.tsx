@@ -1,6 +1,9 @@
 import { RotaTab } from "@/pages/RotaTab";
 import { COLORS } from "@/shared/constants/colors";
-import { Box, FullColumn } from "@components/common";
+import { useServiceUser } from "@/shared/hooks/useServiceUser";
+import { BackButton } from "@common/BackButton";
+import { H2 } from "@common/Typography";
+import { Box, FlexBox, FullColumn } from "@components/common";
 import { PageLayout } from "@components/layout/PageLayout";
 import CarePlanTab from "@components/serviceUsers/CarePlanTab";
 import { PersonalProfileTab } from "@components/serviceUsers/PersonalProfileTab";
@@ -16,6 +19,8 @@ type ServiceUserTabItem = {
 
 export const EditServiceUser = () => {
   const [tabValue, setTabValue] = useState("1");
+
+  const { serviceUser } = useServiceUser();
 
   const tabItems: Array<ServiceUserTabItem> = [
     {
@@ -40,6 +45,12 @@ export const EditServiceUser = () => {
     <PageLayout>
       <FullColumn sx={{ p: "1rem", gap: 0, marginBottom: "1em" }}>
         <TabContext value={tabValue}>
+          <FlexBox sx={{ alignItems: "center", gap: 2 }}>
+            <BackButton />
+            <FlexBox sx={{ flex: 1 }}>
+              <H2>Client: {serviceUser?.name}</H2>
+            </FlexBox>
+          </FlexBox>
           <Tabs
             sx={{
               "& .MuiTabs-flexContainer": {

@@ -1,6 +1,6 @@
 import { Button } from "@common/Button";
+import { Search } from "@common/Search";
 import { Table } from "@common/Table";
-import { GlobalSearch } from "@components/GlobalSearch";
 import { Typography } from "@mui/material";
 
 import getRecordsColumns, { RecordsTableUnit } from "@/columns/column.records";
@@ -56,7 +56,7 @@ export const Records = () => {
         Records
       </Typography>
       <FlexBox sx={{ height: "2.3em", gap: 2 }}>
-        <GlobalSearch />
+        <Search />
         <Button
           variant='contained'
           className='rounded-md'

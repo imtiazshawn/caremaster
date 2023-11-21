@@ -8,9 +8,9 @@ import { Typography } from "@mui/material";
 
 import { COLORS } from "@/shared/constants/colors";
 
-import { Column, FlexBox } from "./common";
 import { CommonAvatar } from "./CommonAvatar";
-import { GlobalSearch } from "./GlobalSearch";
+import { Column, FlexBox } from "./common";
+import { Search } from "./common/Search";
 
 export const TopHeader = () => {
   return (
@@ -24,9 +24,7 @@ export const TopHeader = () => {
           fontSize: "1.2rem",
         }}
       >
-        <GlobalSearch
-          sx={{ borderRadius: 3, height: "2.7em", maxWidth: "16em" }}
-        />
+        <Search sx={{ borderRadius: 3, height: "2.7em", maxWidth: "16em" }} />
         <FlexBox
           sx={{
             gap: 1,

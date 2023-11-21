@@ -13,6 +13,7 @@ import { useCreateEventMutation } from "@reducers/api/eventApi";
 import { useServiceUserId } from "@redux/hooks/useServiceUserId";
 import { EventInfoTab } from "@serviceUsersUI/rota/EventInfoTab";
 import { PlanActivityTab } from "@serviceUsersUI/rota/PlanActivityTab";
+import dayjs from "dayjs";
 import React, { useEffect } from "react";
 import { Event } from "react-big-calendar";
 import { useForm } from "react-hook-form";
@@ -55,13 +56,17 @@ export const EditCreateModal = ({
     const mappedEvent: EventDTO = {
       title: event.title,
       start_date: formatDateForBackend(event.start_date),
-      end_date: formatDateForBackend(event.end_date ?? new Date()),
+      end_date: formatDateForBackend(
+        event.end_type === "Never"
+          ? dayjs(new Date()).add(60, "days").toDate()
+          : event.end_date,
+      ),
       start_time: formatTimeForBackend(event.start_date),
       end_time: formatTimeForBackend(event.end_time),
       repeat_week: event.repeat_week,
       end_type: event.end_type,
-      end_after_occurrence: event.end_after_occurrence ?? 0,
-      repeat_on: event.repeat_on ?? "never",
+      end_after_occurrence: event.end_after_occurrence ?? 1000,
+      repeat_on: event.repeat_on ?? "",
       service_user: serviceUserId,
       care_plans: event.care_plans ?? [],
       care_workers: event.care_workers ?? [],

@@ -1,4 +1,7 @@
-import { CarePlanTableUnit, CarePlansResponse } from "$types/carePlans";
+import {
+  CarePlanTaskTableUnit,
+  CarePlanTasksResponse,
+} from "$types/carePlanTasks";
 import { CareWorkersResponse, CareWorkersTableUnit } from "$types/careWorkers";
 import { ServiceUser, ServiceUsersTableUnit } from "$types/serviceUsers";
 
@@ -50,9 +53,9 @@ export const getCareWorkersTableData = (
     }),
   );
 };
-export const getCarePlanTableData = (
-  data: CarePlansResponse["response"]["data"],
-): CarePlanTableUnit[] => {
+export const getCarePlanTaskTableData = (
+  data: CarePlanTasksResponse["response"]["data"],
+): CarePlanTaskTableUnit[] => {
   return data.map(({ id, title, category_name, instruction, updated_at }) => ({
     id: id,
     title,

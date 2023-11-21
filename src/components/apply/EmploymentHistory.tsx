@@ -89,7 +89,7 @@ export const EmploymentHistory = () => {
           component: (
             <div className='mr-0 pt-8'>
               <IconButton
-                varient='delete'
+                variant='delete'
                 fontSize='large'
                 disabled={employmentIds.length === 1} // Prevents deleting the last item
                 onClick={() => handleDelete(id)}

@@ -1,7 +1,11 @@
 import { CarePlanCategory } from "$types/carePlanCategories";
-import { CarePlan, CreateCarePlan, Frequency } from "$types/carePlans";
+import {
+  CarePlanTask,
+  CreateCarePlanTask,
+  Frequency,
+} from "$types/carePlanTasks";
 import { removeUndefined } from "@/Utils";
-import { carePlanSchema } from "@/formSchemas/carePlan";
+import { carePlanTaskSchema } from "@/formSchemas/carePlanTask";
 import { XButton } from "@common/Button";
 import { LoadingButton } from "@common/LoadingButton";
 import { FormTemplate, SmartForm } from "@common/SmartForm";
@@ -11,13 +15,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
 import { useGetCarePlanCategoriesQuery } from "@reducers/api/carePlanCategories";
 import {
-  useCreateCarePlanMutation,
-  useUpdateCarePlanMutation,
-} from "@reducers/api/carePlans";
+  useCreateCarePlanTaskMutation,
+  useUpdateCarePlanTaskMutation,
+} from "@reducers/api/carePlanTasks";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
-const defaultValues: CreateCarePlan = {
+const defaultValues: CreateCarePlanTask = {
   title: "",
   service_user: 0,
   category_name: "",
@@ -28,7 +32,7 @@ const defaultValues: CreateCarePlan = {
 };
 
 type Props = {
-  initialCarePlan: CarePlan | null;
+  initialCarePlanTask: CarePlanTask | null;
   serviceUserId: string;
   isOpen: boolean;
   onClose?: () => void;
@@ -36,38 +40,39 @@ type Props = {
   refetch: () => void;
 };
 
-const UpsertCarePlanModal: React.FC<Props> = ({
+const UpsertCarePlanTaskModal: React.FC<Props> = ({
   refetch,
-  initialCarePlan,
+  initialCarePlanTask,
   serviceUserId,
   isOpen,
   onClose,
 }) => {
   const { data: categories, isLoading: isCategoryLoading } =
     useGetCarePlanCategoriesQuery(null);
-  const [createCarePlan, { isLoading: isLoadingCreateCarePlan }] =
-    useCreateCarePlanMutation();
-  const [updateCarePlan, { isLoading: isLoadingUpdateCarePlan }] =
-    useUpdateCarePlanMutation();
+  const [createCarePlanTask, { isLoading: isLoadingCreateCarePlanTask }] =
+    useCreateCarePlanTaskMutation();
+  const [updateCarePlanTask, { isLoading: isLoadingUpdateCarePlanTask }] =
+    useUpdateCarePlanTaskMutation();
 
-  const { handleSubmit, control, reset, setValue } = useForm<CreateCarePlan>({
-    defaultValues,
-    resolver: yupResolver(carePlanSchema),
-  });
+  const { handleSubmit, control, reset, setValue } =
+    useForm<CreateCarePlanTask>({
+      defaultValues,
+      resolver: yupResolver(carePlanTaskSchema),
+    });
 
   useEffect(() => {
-    for (const key in initialCarePlan) {
+    for (const key in initialCarePlanTask) {
       setValue(
-        key as keyof CreateCarePlan,
-        initialCarePlan[key as keyof CreateCarePlan],
+        key as keyof CreateCarePlanTask,
+        initialCarePlanTask[key as keyof CreateCarePlanTask],
       );
     }
     // eslint-disable-next-line
-  }, [initialCarePlan]); // Eslint gives error for not mentioning setValue in the dependency array which is not mendatory in this case.
+  }, [initialCarePlanTask]); // Eslint gives error for not mentioning setValue in the dependency array which is not mendatory in this case.
 
   const careWorkerFormTemplate = useMemo(() => {
     if (categories) {
-      return getCarePlanFormTemplate(categories);
+      return getCarePlanTaskFormTemplate(categories);
     }
     return [];
   }, [categories]);
@@ -81,10 +86,10 @@ const UpsertCarePlanModal: React.FC<Props> = ({
     onClose?.();
   };
 
-  const handleFormSubmit = (values: CreateCarePlan) => {
-    if (initialCarePlan) {
-      const { id } = initialCarePlan;
-      updateCarePlan(
+  const handleFormSubmit = (values: CreateCarePlanTask) => {
+    if (initialCarePlanTask) {
+      const { id } = initialCarePlanTask;
+      updateCarePlanTask(
         removeUndefined({
           id,
           ...values,
@@ -100,7 +105,7 @@ const UpsertCarePlanModal: React.FC<Props> = ({
       )?.id as number;
 
       values.service_user = Number.parseInt(serviceUserId);
-      createCarePlan(values).then(() => {
+      createCarePlanTask(values).then(() => {
         onCloseHandler?.();
         refetch();
       });
@@ -142,9 +147,11 @@ const UpsertCarePlanModal: React.FC<Props> = ({
               <LoadingButton
                 type='submit'
                 variant='contained'
-                loading={isLoadingCreateCarePlan || isLoadingUpdateCarePlan}
+                loading={
+                  isLoadingCreateCarePlanTask || isLoadingUpdateCarePlanTask
+                }
               >
-                {initialCarePlan ? "Update" : "Create"} Care Worker
+                {initialCarePlanTask ? "Update" : "Create"} Care Worker
               </LoadingButton>
             </FlexBox>
           </Column>
@@ -154,11 +161,11 @@ const UpsertCarePlanModal: React.FC<Props> = ({
   );
 };
 
-export default UpsertCarePlanModal;
+export default UpsertCarePlanTaskModal;
 
-const getCarePlanFormTemplate = (
+const getCarePlanTaskFormTemplate = (
   categories: CarePlanCategory[],
-): FormTemplate<CreateCarePlan>[] => {
+): FormTemplate<CreateCarePlanTask>[] => {
   return [
     {
       type: "text",

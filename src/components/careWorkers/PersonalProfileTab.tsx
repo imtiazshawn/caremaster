@@ -8,15 +8,12 @@ import {
 } from "$types/careWorkers";
 
 import { removeUndefined } from "@/Utils";
+import { useCareWorker } from "@/shared/hooks/useCareWorker";
 import { SegHeader } from "@common/SegHeader";
 import { FormTemplate, SmartForm } from "@common/SmartForm";
 import { LoadingButton } from "@components/common/LoadingButton";
-import {
-  useGetCareWorkerQuery,
-  useUpdateCareWorkerMutation,
-} from "@reducers/api/careWorkers";
+import { useUpdateCareWorkerMutation } from "@reducers/api/careWorkers";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
 import {
   getBackgroundForm,
   getDetailsCareWorkerForm,
@@ -25,14 +22,11 @@ import {
 } from "./PersonalProfileFormTemplates";
 
 export const PersonalProfileTab = () => {
-  const { id: careWorkerId } = useParams<{ id: string }>();
-  const [expandedSegment, setExpandedSegment] = useState<
-    PersonProfileSegments | undefined
-  >(PERSON_PROFILE_SEGMENT.DETAILS);
+  const [expandedSegments, setExpandedSegments] = useState<
+    PersonProfileSegments[]
+  >([PERSON_PROFILE_SEGMENT.DETAILS]);
 
-  const { data: careWorker, refetch } = useGetCareWorkerQuery(
-    careWorkerId ?? "",
-  );
+  const { careWorker, refetch } = useCareWorker();
   const [updateCareWorker, { isLoading }] = useUpdateCareWorkerMutation();
 
   const { handleSubmit, control, setValue, reset, watch } =
@@ -50,8 +44,14 @@ export const PersonalProfileTab = () => {
   }, [reset, careWorker]);
 
   const changeExpandSegment = (segment: string | undefined) => {
-    // TODO: not ideal
-    setExpandedSegment(segment as PersonProfileSegments | undefined);
+    if (expandedSegments.includes(segment as PersonProfileSegments)) {
+      setExpandedSegments(expandedSegments.filter((seg) => seg !== segment));
+      return;
+    }
+    setExpandedSegments([
+      ...expandedSegments,
+      segment as PersonProfileSegments,
+    ]);
   };
 
   const handleFormSubmit = async (values: UpdateCareWorkerReq) => {
@@ -102,13 +102,17 @@ export const PersonalProfileTab = () => {
           <Column key={index}>
             <SegHeader
               currentSegment={currentSegment}
-              expandedSegment={expandedSegment}
+              isExpanded={expandedSegments.includes(currentSegment)}
               changeExpandSegment={changeExpandSegment}
             />
 
             <Box
               sx={{
-                display: expandedSegment === currentSegment ? "block" : "none",
+                display: expandedSegments.includes(
+                  currentSegment as PersonProfileSegments,
+                )
+                  ? "block"
+                  : "none",
               }}
             >
               <SmartForm

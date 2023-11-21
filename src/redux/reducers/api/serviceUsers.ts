@@ -19,11 +19,14 @@ export const serviceUsersApi = createApi({
         method: "GET",
       }),
     }),
-    getServiceUser: builder.query<ServiceUserResponse, string>({
+    getServiceUser: builder.query<ServiceUser, string>({
       query: (id) => ({
         url: `/${id}`,
         method: "GET",
       }),
+      transformResponse: (res: ServiceUserResponse) => {
+        return res.response;
+      },
     }),
     createServiceUser: builder.mutation<ServiceUserResponse, ServiceUserDto>({
       query: (serviceUser) => {

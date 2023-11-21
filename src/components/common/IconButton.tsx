@@ -7,16 +7,16 @@ import { IconButton as MIconButton } from "@mui/material";
 type IconProps = React.ComponentProps<typeof EditIcon>;
 export type IconButtonProps = IconProps &
   React.ComponentProps<typeof MIconButton> & {
-    varient: "edit" | "delete" | "add" | "more-horizontal";
+    variant: "edit" | "delete" | "add" | "more-horizontal";
   };
 
-const IconButton = ({
-  varient,
+export const IconButton = ({
+  variant,
   fontSize = "small",
   ...remainingProps
 }: IconButtonProps) => {
   let icon = null;
-  switch (varient) {
+  switch (variant) {
     case "edit":
       icon = <EditIcon fontSize={fontSize} />;
       break;

@@ -1,3 +1,5 @@
+import { ENROLLMENT_STATUS } from "$types/serviceUsers";
+
 export enum COLORS {
   BACKGROUND = "#F7F7FB",
   WHITE = "#FFFFFF",
@@ -10,3 +12,12 @@ export enum COLORS {
   COMPLETED = "#1ba81b",
   INCOMPLETE = "#c1c1c1",
 }
+
+export const EnrollmentStatusColors: Record<ENROLLMENT_STATUS, string> = {
+  [ENROLLMENT_STATUS.LIVE]: "#4CAF50",
+  [ENROLLMENT_STATUS.PRE_ADMISSION]: "#FFC107",
+  [ENROLLMENT_STATUS.ARCHIVED]: "#F44336",
+  [ENROLLMENT_STATUS.Hospitalized]: "#F44336",
+  [ENROLLMENT_STATUS.ON_HOLD]: "#F44336",
+  [ENROLLMENT_STATUS.ARCHIVED_PRE_ADMISSION]: "#F44336",
+};

@@ -190,6 +190,6 @@ export type ServiceUsersTableUnit = {
   medicine_allergies?: string;
   created_at?: Date;
   date_of_birth?: Date;
-  banding?: string;
+  enrollment_status?: string;
   gender?: string;
 };

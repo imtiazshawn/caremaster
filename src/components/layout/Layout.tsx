@@ -34,10 +34,14 @@ export const Layout: React.FC<LayoutProps> = ({
           <Box
             sx={{
               overflowY: "auto",
+              height: "100%",
             }}
           >
-            <Box sx={{ backgroundColor: COLORS.WHITE }}>{children}</Box>
-            <Box sx={{ height: "1rem" }} />
+            <Box
+              sx={{ backgroundColor: COLORS.WHITE, minHeight: "100%", pb: 4 }}
+            >
+              {children}
+            </Box>
           </Box>
         </FullColumn>
       </Grid>

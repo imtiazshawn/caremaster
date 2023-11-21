@@ -1,6 +1,9 @@
 import { COLORS } from "@/shared/constants/colors";
+import { useCareWorker } from "@/shared/hooks/useCareWorker";
+import { BackButton } from "@common/BackButton";
+import { H2 } from "@common/Typography";
 import { PersonalProfileTab } from "@components/careWorkers/PersonalProfileTab";
-import { Box, FullColumn } from "@components/common";
+import { Box, FlexBox, FullColumn } from "@components/common";
 import { Tab, TabContext, TabPanel, Tabs } from "@components/common/Tab";
 import { PageLayout } from "@components/layout/PageLayout";
 import { useState } from "react";
@@ -11,6 +14,7 @@ type CareWorkersTabItem = {
 
 const EditCareWorkers = () => {
   const [selectedTab, setSelectedTab] = useState("1");
+  const { careWorker } = useCareWorker();
 
   const tabItems: CareWorkersTabItem[] = [
     {
@@ -46,6 +50,12 @@ const EditCareWorkers = () => {
         }}
       >
         <TabContext value={selectedTab}>
+          <FlexBox sx={{ alignItems: "center", gap: 2 }}>
+            <BackButton />
+            <FlexBox sx={{ flex: 1 }}>
+              <H2>Care Worker: {careWorker?.user?.name}</H2>
+            </FlexBox>
+          </FlexBox>
           <Tabs
             sx={{
               "& .MuiTabs-flexContainer": {

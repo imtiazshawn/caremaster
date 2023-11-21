@@ -29,12 +29,12 @@ export const Rota: FC = () => {
   const events = rotaEvents?.map((event) => {
     const startDate = dayjs(
       `${event.date} ${event.start_time}`,
-      "YYYY-MM-DD hh:mm A",
+      "YYYY-MM-DD HH:mm:ss",
     ).toDate();
 
     const endTime = dayjs(
       `${event.date} ${event.end_time}`,
-      "YYYY-MM-DD hh:mm A",
+      "YYYY-MM-DD HH:mm:ss",
     ).toDate();
 
     return {
@@ -67,6 +67,7 @@ export const Rota: FC = () => {
       start_date: dayjs(data.start).toDate(),
       end_date: dayjs(data.end).toDate(),
       end_time: dayjs(data.end).toDate(),
+      end_type: "Never",
       resource: {
         id: "new",
       },

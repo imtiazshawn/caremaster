@@ -1,6 +1,6 @@
 import { Button } from "@common/Button";
+import { Search } from "@common/Search";
 import { Table } from "@common/Table";
-import { GlobalSearch } from "@components/GlobalSearch";
 import { Typography } from "@mui/material";
 import {
   useDeleteServiceUserMutation,
@@ -10,25 +10,26 @@ import {
 import getServiceUserColumns from "@/columns/column.serviceUsers";
 import { COLORS } from "@/shared/constants/colors";
 
-import { ServiceUsersTableUnit } from "$types/serviceUsers";
+import { ServiceUser } from "$types/serviceUsers";
+import Select from "@common/Select";
 import { FlexBox, FullColumn } from "@common/index";
 import { PageLayout } from "@components/layout/PageLayout";
 import AddServiceUserModal from "@components/modals/AddServiceUserModal";
 import ConfirmationDialog from "@components/modals/ConfirmationModal";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { mapServiceUsersTableData } from "./utils";
+import { allEnrollmentStatuses } from "../shared/constants/service-user";
 
 export const ServiceUsers = () => {
   const { data, isLoading, refetch } = useGetServiceUsersQuery(null);
   const navigate = useNavigate();
-  const serviceUsers: ServiceUsersTableUnit[] = mapServiceUsersTableData(
-    data?.response?.data ?? [],
-  );
+  const serviceUsers: ServiceUser[] | undefined = data?.response?.data;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedServiceUserId, setSelectedServiceUserId] =
     useState<string>("");
   const [deleteServiceUser] = useDeleteServiceUserMutation();
+  const [currentStatusFilter, setCurrentStatusFilter] = useState<string>("All");
+  const [searchKey, setSearchKey] = useState<string>("");
 
   const [isOpenServiceUserModal, setIsOpenServiceUserModal] = useState(false);
 
@@ -40,6 +41,18 @@ export const ServiceUsers = () => {
       setShowDeleteModal(true);
     }
   };
+
+  const filteredServiceUsers =
+    serviceUsers
+      ?.filter((serviceUser) => {
+        if (currentStatusFilter === "All") {
+          return true;
+        }
+        return serviceUser.enrollment_status === currentStatusFilter;
+      })
+      .filter((serviceUser) => {
+        return serviceUser.name.toLowerCase().includes(searchKey.toLowerCase());
+      }) ?? [];
 
   return (
     <PageLayout>
@@ -67,8 +80,27 @@ export const ServiceUsers = () => {
         >
           Service Users
         </Typography>
-        <FlexBox sx={{ height: "3em", gap: 2 }}>
-          <GlobalSearch />
+        <FlexBox
+          sx={{ height: "3em", gap: 2, justifyContent: "space-between" }}
+        >
+          <FlexBox>
+            <Search
+              onChange={(value) => {
+                setSearchKey(value);
+              }}
+              sx={{
+                maxWidth: "300px",
+              }}
+            />
+            <Select
+              defaultValue='All'
+              sx={{ minWidth: "150px" }}
+              onChange={(e) => [
+                setCurrentStatusFilter(e.target.value as string),
+              ]}
+              options={["All", ...allEnrollmentStatuses]}
+            />
+          </FlexBox>
           <Button
             variant='contained'
             className='rounded-md'
@@ -77,8 +109,8 @@ export const ServiceUsers = () => {
             Add Service User
           </Button>
         </FlexBox>
-        <Table<ServiceUsersTableUnit>
-          rows={serviceUsers}
+        <Table<ServiceUser>
+          rows={filteredServiceUsers}
           columns={getServiceUserColumns(handleActionCallback)}
           isLoading={isLoading}
           onRowClick={(row) => navigate(`/service-users/${row.id}`)}

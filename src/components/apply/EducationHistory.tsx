@@ -59,7 +59,7 @@ export const EducationHistory = () => {
           component: (
             <div className='mr-0 pt-8'>
               <IconButton
-                varient='delete'
+                variant='delete'
                 fontSize='large'
                 disabled={employmentIdsLength === 1} // Prevents deleting the last item
                 onClick={() => handleDelete(id)}

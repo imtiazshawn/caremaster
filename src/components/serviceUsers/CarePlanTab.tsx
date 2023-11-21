@@ -1,40 +1,46 @@
-import { CarePlanTableUnit } from "$types/carePlans";
-import getCarePlansColumns, { ActionType } from "@/columns/column.carePlans";
-import { getCarePlanTableData } from "@/pages/utils";
+import { CarePlanTaskTableUnit } from "$types/carePlanTasks";
+import getCarePlanTasksColumns, {
+  ActionType,
+} from "@/columns/column.carePlanTasks";
+import { getCarePlanTaskTableData } from "@/pages/utils";
 import IconButton from "@common/IconButton";
 import { Table } from "@common/Table";
 import { H4 } from "@common/Typography";
 import { FlexBox, FullColumn } from "@common/index";
-import UpsertCarePlanModal from "@components/modals/UpsertCarePlanModal";
+import UpsertCarePlanTaskModal from "@components/modals/UpsertCarePlanTaskModal";
 import {
-  useDeleteCarePlanMutation,
-  useGetCarePlansQuery,
-} from "@reducers/api/carePlans";
+  useDeleteCarePlanTaskMutation,
+  useGetCarePlanTasksQuery,
+} from "@reducers/api/carePlanTasks";
 import { useServiceUserId } from "@redux/hooks/useServiceUserId";
 import { useState } from "react";
 
-const CarePlanTab = () => {
+const CarePlanTaskTab = () => {
   const serviceUserId = useServiceUserId();
-  const { data, isLoading, refetch } = useGetCarePlansQuery(serviceUserId);
-  const carePlans: CarePlanTableUnit[] = getCarePlanTableData(data ?? []);
+  const { data, isLoading, refetch } = useGetCarePlanTasksQuery(serviceUserId);
+  const carePlanTasks: CarePlanTaskTableUnit[] = getCarePlanTaskTableData(
+    data ?? [],
+  );
 
-  const [isOpenCarePlanModal, setIsOpenCarePlanModal] = useState(false);
+  const [isOpenCarePlanTaskModal, setIsOpenCarePlanTaskModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-  const [deleteCarePlan] = useDeleteCarePlanMutation();
+  const [deleteCarePlanTask] = useDeleteCarePlanTaskMutation();
   const handleActionCallback = (dataId: number, actionType: ActionType) => {
-    const selectedCarePlanIndex = carePlans.findIndex(
+    const selectedCarePlanTaskIndex = carePlanTasks.findIndex(
       ({ id }) => id === dataId,
     ) as number;
 
     switch (actionType) {
       case "edit":
-        setSelectedIndex(selectedCarePlanIndex);
-        setIsOpenCarePlanModal(true);
+        setSelectedIndex(selectedCarePlanTaskIndex);
+        setIsOpenCarePlanTaskModal(true);
         break;
       case "delete":
-        deleteCarePlan(carePlans[selectedCarePlanIndex].id).then(() => {
-          refetch();
-        });
+        deleteCarePlanTask(carePlanTasks[selectedCarePlanTaskIndex].id).then(
+          () => {
+            refetch();
+          },
+        );
         break;
       default:
         break;
@@ -43,47 +49,56 @@ const CarePlanTab = () => {
   if (!serviceUserId) {
     return <></>;
   }
-  const handleAddCarePlan = () => {
+  const handleAddCarePlanTask = () => {
     setSelectedIndex(null);
-    setIsOpenCarePlanModal(true);
+    setIsOpenCarePlanTaskModal(true);
   };
 
   const handleCloseModal = () => {
     setSelectedIndex(null);
-    setIsOpenCarePlanModal(false);
+    setIsOpenCarePlanTaskModal(false);
   };
 
   return (
     <FullColumn sx={{ gap: "1em" }}>
-      <UpsertCarePlanModal
+      <UpsertCarePlanTaskModal
         refetch={refetch}
-        initialCarePlan={
+        initialCarePlanTask={
           selectedIndex !== null && data != undefined
             ? data[selectedIndex]
             : null
         }
         // @ts-ignore
         serviceUserId={serviceUserId}
-        isOpen={isOpenCarePlanModal}
+        isOpen={isOpenCarePlanTaskModal}
         onClose={handleCloseModal}
       />
       <FlexBox sx={{ justifyContent: "space-between" }}>
         <H4>Planned Activity</H4>
         <FlexBox sx={{ gap: "0.5em" }}>
           <IconButton
-            varient='add'
-            onClick={handleAddCarePlan}
+            variant='add'
+            onClick={handleAddCarePlanTask}
           />
-          <IconButton varient='more-horizontal' />
+          <IconButton variant='more-horizontal' />
         </FlexBox>
       </FlexBox>
-      <Table<CarePlanTableUnit>
-        rows={carePlans}
-        columns={getCarePlansColumns(handleActionCallback)}
+      <Table<CarePlanTaskTableUnit>
+        rows={carePlanTasks}
+        columns={getCarePlanTasksColumns(handleActionCallback)}
         isLoading={isLoading}
+        sx={{
+          ".MuiDataGrid-columnHeaders .MuiDataGrid-columnHeader": {
+            height: "3rem !important",
+          },
+          ".MuiDataGrid-columnHeaders": {
+            height: "3rem !important",
+            minHeight: "3rem !important",
+          },
+        }}
       />
     </FullColumn>
   );
 };
 
-export default CarePlanTab;
+export default CarePlanTaskTab;
