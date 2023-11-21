@@ -6,6 +6,7 @@ import { HookFormFileUpload } from "@common/HookFormFileUpload";
 import { HookFormImageUpload } from "@common/HookFormImageUpload";
 import HookFormMultiCheckbox from "@common/HookFormMultiCheckbox";
 import HookFormRadio from "@common/HookFormRadio";
+import HookFormCustomRadio from "@common/HookFormRadioGroup";
 import HookFormSwitch from "@common/HookFormSwitch";
 import HookFormTimePicker from "@common/HookFormTimePicker";
 import { Column, FlexBox } from ".";
@@ -16,6 +17,7 @@ import HookFormTextField from "./HookFormTextField";
 type Common = {
   label?: string;
   required?: boolean;
+  isDisabled?: boolean;
 };
 
 type Data = Record<string, any>;
@@ -25,6 +27,11 @@ export type FormTemplate<T extends Data> = Common &
     | {
         name: keyof T;
         type: "text";
+      }
+    | {
+        name: keyof T;
+        type: "text-area";
+        rows?: number;
       }
     | {
         name: keyof T;
@@ -67,6 +74,11 @@ export type FormTemplate<T extends Data> = Common &
         type: "radio";
         name: keyof T;
         options: string[];
+      }
+    | {
+        type: "radio-group";
+        name: keyof T;
+        options: { label: string; value: string | boolean }[];
       }
     | {
         type: "multi-checkbox";
@@ -155,6 +167,21 @@ export const SmartForm: SmartFormComponentType = ({
           placeholder={template.label}
           sx={labelPosition === "left" ? styleLeftLabel : styleTopLabel}
           required={template.required || false}
+          disabled={template.isDisabled ?? false}
+        />
+      );
+    case "text-area":
+      return (
+        <HookFormTextField
+          control={control}
+          name={templateName}
+          label={template.label}
+          fullWidth
+          multiline
+          rows={template.rows ?? 4}
+          placeholder={template.label}
+          sx={labelPosition === "left" ? styleLeftLabel : null}
+          required={template.required || false}
         />
       );
     case "number":
@@ -229,6 +256,15 @@ export const SmartForm: SmartFormComponentType = ({
           options={template.options ?? []}
         />
       );
+    case "radio-group":
+      return (
+        <HookFormCustomRadio
+          control={control}
+          name={templateName}
+          label={template.label}
+          options={template.options ?? []}
+        />
+      );
     case "multi-checkbox":
       return (
         <HookFormMultiCheckbox
@@ -281,14 +317,19 @@ export const SmartForm: SmartFormComponentType = ({
           className='w-full'
         >
           {template.items.map((item, index) => (
-            <SmartForm
+            <FlexBox
               key={index}
-              control={control}
-              watch={watch}
-              setValue={setValue}
-              template={item}
-              labelPosition={labelPosition}
-            />
+              sx={{ flex: 1 }}
+            >
+              <SmartForm
+                key={index}
+                control={control}
+                watch={watch}
+                setValue={setValue}
+                template={item}
+                labelPosition={labelPosition}
+              />
+            </FlexBox>
           ))}
         </FlexBox>
       );

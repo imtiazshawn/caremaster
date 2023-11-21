@@ -2,26 +2,35 @@ import { ReactNode } from "react";
 
 import { COLORS } from "@/shared/constants/colors";
 
-import { Box, FullColumn, Grid } from "./common";
-import { Navbar } from "./Navbar";
-import { TopHeader } from "./TopHeader";
+import { Navbar } from "../Navbar";
+import { TopHeader } from "../TopHeader";
+import { Box, FullColumn, Grid } from "../common";
 
-export const PageLayout: React.FC<{ children?: ReactNode }> = ({
+type LayoutProps = {
+  children?: ReactNode;
+  applyTopHeader?: boolean;
+  sidebar?: () => ReactNode;
+};
+
+export const Layout: React.FC<LayoutProps> = ({
   children,
+  applyTopHeader = true,
+  sidebar = Navbar,
 }) => {
+  const sidebarComponenet = sidebar();
   return (
     <FullColumn sx={{ height: "100vh", backgroundColor: COLORS.BACKGROUND }}>
       <Grid
         sx={{
-          gridTemplateColumns: "17rem 1fr",
+          gridTemplateColumns: "17.5rem 1fr",
           height: "100%",
           gap: "2rem",
           marginRight: "2rem",
         }}
       >
-        <Navbar />
+        {sidebarComponenet}
         <FullColumn sx={{ gap: "3rem", height: "100vh", marginBottom: "5em" }}>
-          <TopHeader />
+          {applyTopHeader ? <TopHeader /> : <></>}
           <Box
             sx={{
               overflowY: "auto",

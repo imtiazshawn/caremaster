@@ -38,7 +38,7 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { refetch } = useGetServiceUsersQuery(null);
   const [createServiceUser, { isLoading }] = useCreateServiceUserMutation();
 
-  const ServiceUsersOnboardingForm: FormTemplate<ServiceUser>[] = [
+  const ServiceUsersApplyForm: FormTemplate<ServiceUser>[] = [
     {
       type: "text",
       label: "Name",
@@ -100,7 +100,7 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <Column>
             <SmartForm
-              template={ServiceUsersOnboardingForm}
+              template={ServiceUsersApplyForm}
               control={control}
               labelPosition='top'
             />

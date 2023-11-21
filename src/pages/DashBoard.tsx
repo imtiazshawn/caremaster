@@ -1,4 +1,5 @@
 import { Box, FlexBox } from "@common/index";
+import { PageLayout } from "@components/layout/PageLayout";
 import { Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
@@ -32,19 +33,23 @@ const DashboardCard = ({
   );
 };
 
-export const Dashboard = () => {
+const Dashboard = () => {
   return (
-    <div className='p-40'>
-      <FlexBox>
-        <DashboardCard
-          label='Service Users'
-          value={50}
-        />
-        <DashboardCard
-          label='Care Workers'
-          value={36}
-        />
-      </FlexBox>
-    </div>
+    <PageLayout>
+      <div className='p-40'>
+        <FlexBox>
+          <DashboardCard
+            label='Service Users'
+            value={50}
+          />
+          <DashboardCard
+            label='Care Workers'
+            value={36}
+          />
+        </FlexBox>
+      </div>
+    </PageLayout>
   );
 };
+
+export default Dashboard;

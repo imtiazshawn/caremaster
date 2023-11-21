@@ -28,6 +28,7 @@ export const PostCodeComponent: React.FC<PostCodeComponentProps> = ({
       options={modifiedAddressList}
       value={searchKey}
       inputValue={searchKey}
+      fullWidth={labelPosition !== "left"}
       renderInput={(params) => (
         <TextField
           {...params}

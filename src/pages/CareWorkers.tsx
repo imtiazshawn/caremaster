@@ -12,6 +12,7 @@ import { COLORS } from "@/shared/constants/colors";
 
 import { CareWorkersTableUnit } from "$types/careWorkers";
 import getCareWorkerColumns, { ActionType } from "@/columns/column.careWorkers";
+import { PageLayout } from "@components/layout/PageLayout";
 import AddCareWorkerModal from "@components/modals/AddCareWorkerModal";
 import ConfirmationDialog from "@components/modals/ConfirmationModal";
 import { useState } from "react";
@@ -44,58 +45,60 @@ export const CareWorkers = () => {
     }
   };
   return (
-    <FullColumn sx={{ background: COLORS.WHITE, p: 2, marginBottom: 2 }}>
-      <AddCareWorkerModal
-        isOpen={isOpenCareWorkerModal}
-        onClose={() => setIsOpenCareWorkerModal(false)}
-      />
-      <ConfirmationDialog
-        isOpen={showDeleteModal}
-        onCancel={() => {
-          setShowDeleteModal(false);
-        }}
-        onOk={async () => {
-          setShowDeleteModal(false);
-          await deleteCareWorker(selectedCareWorkerId);
-          refetch();
-        }}
-        title='Delete Care Worker'
-        description='Are you sure you want to delete this care worker?'
-      />
-      <Text
-        variant='h5'
-        sx={{ fontWeight: "bold" }}
-      >
-        Care Workers
-      </Text>
-      <FlexBox sx={{ height: "3em", gap: 2 }}>
-        <GlobalSearch />
-        <Button
-          variant='contained'
-          className='rounded-md'
-          onClick={() => setIsOpenCareWorkerModal(true)}
+    <PageLayout>
+      <FullColumn sx={{ background: COLORS.WHITE, p: 2, marginBottom: 2 }}>
+        <AddCareWorkerModal
+          isOpen={isOpenCareWorkerModal}
+          onClose={() => setIsOpenCareWorkerModal(false)}
+        />
+        <ConfirmationDialog
+          isOpen={showDeleteModal}
+          onCancel={() => {
+            setShowDeleteModal(false);
+          }}
+          onOk={async () => {
+            setShowDeleteModal(false);
+            await deleteCareWorker(selectedCareWorkerId);
+            refetch();
+          }}
+          title='Delete Care Worker'
+          description='Are you sure you want to delete this care worker?'
+        />
+        <Text
+          variant='h5'
+          sx={{ fontWeight: "bold" }}
         >
-          Add Care Worker
-        </Button>
-      </FlexBox>
-      <Table<CareWorkersTableUnit>
-        rows={careWorkers}
-        columns={getCareWorkerColumns(handleActionCallback)}
-        isLoading={isLoading}
-        sx={{
-          overflow: "auto",
-        }}
-        onRowClick={(row) => navigate(`/care-workers/${row.id}`)}
-      />
-      <FlexBox sx={{ justifyContent: "space-between" }}>
-        <FlexBox>
-          <Button variant='outlined'>Archive</Button>
+          Care Workers
+        </Text>
+        <FlexBox sx={{ height: "3em", gap: 2 }}>
+          <GlobalSearch />
+          <Button
+            variant='contained'
+            className='rounded-md'
+            onClick={() => setIsOpenCareWorkerModal(true)}
+          >
+            Add Care Worker
+          </Button>
         </FlexBox>
-        <FlexBox>
-          <Button variant='contained'>Print</Button>
-          <Button variant='contained'>Download Excel</Button>
+        <Table<CareWorkersTableUnit>
+          rows={careWorkers}
+          columns={getCareWorkerColumns(handleActionCallback)}
+          isLoading={isLoading}
+          sx={{
+            overflow: "auto",
+          }}
+          onRowClick={(row) => navigate(`/care-workers/${row.id}`)}
+        />
+        <FlexBox sx={{ justifyContent: "space-between" }}>
+          <FlexBox>
+            <Button variant='outlined'>Archive</Button>
+          </FlexBox>
+          <FlexBox>
+            <Button variant='contained'>Print</Button>
+            <Button variant='contained'>Download Excel</Button>
+          </FlexBox>
         </FlexBox>
-      </FlexBox>
-    </FullColumn>
+      </FullColumn>
+    </PageLayout>
   );
 };

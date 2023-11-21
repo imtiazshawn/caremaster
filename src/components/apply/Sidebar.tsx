@@ -1,73 +1,90 @@
+import { ApplicationStatus } from "$types/applicants";
+import { getApplicationStatus } from "@/helper/apply";
+import { COLORS } from "@/shared/constants/colors";
 import { ReactComponent as Dashboard } from "@assets/dashboard.svg";
 import { ReactComponent as Logo } from "@assets/logo.svg";
-import { ReactComponent as Message } from "@assets/message-circle.svg";
-import { ReactComponent as StarMoon } from "@assets/moon-stars.svg";
-import { ReactComponent as ProfileUser } from "@assets/profile-user.svg";
 import { ReactComponent as ServiceUser } from "@assets/service-user.svg";
-import { ReactComponent as Settings } from "@assets/settings.svg";
 import { ReactComponent as TickSquare } from "@assets/tick-square.svg";
-import { ReactComponent as Training } from "@assets/training.svg";
+import { H3, Span } from "@common/Typography";
+import { Column, FlexBox } from "@common/index";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { IconButton } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
-
-import { COLORS } from "@/shared/constants/colors";
-
-import { H3 } from "@common/Typography";
-import { Column, FlexBox } from "./common";
-
+import { useGetApplicantQuery } from "@reducers/api/applicants";
+import { useGetCareWorkerQuestionsQuery } from "@reducers/api/careWorkerQuestions";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 type NavLink = {
   route: string;
   icon: React.FunctionComponent<React.SVGAttributes<SVGElement>>;
   label: string;
+  statusKey: keyof ApplicationStatus;
 };
 
 const navLinks: (NavLink | "separator" | "spacer")[] = [
   {
-    route: "/",
+    route: "/care-worker/apply/personal-details",
     icon: Dashboard,
-    label: "Dashboard",
+    label: "Personal Details",
+    statusKey: "personalDetails",
   },
   {
-    route: "/daily-tasks",
+    route: "/care-worker/apply/questionnaire",
     icon: TickSquare,
-    label: "Daily Tasks",
+    label: "Questionnaire",
+    statusKey: "questionnaire",
   },
   {
-    route: "/service-users",
+    route: "/care-worker/apply/employment-history",
     icon: ServiceUser,
-    label: "Service Users",
+    label: "Employment History",
+    statusKey: "employmentHistory",
   },
   {
-    route: "/care-workers",
-    icon: ProfileUser,
-    label: "Care Workers",
+    route: "/care-worker/apply/education-history",
+    icon: ServiceUser,
+    label: "Education History",
+    statusKey: "educationHistory",
   },
   {
-    route: "/training",
-    icon: Training,
-    label: "Training",
-  },
-  "spacer",
-  {
-    route: "/messages",
-    icon: Message,
-    label: "Messages",
+    route: "/care-worker/apply/documents",
+    icon: TickSquare,
+    label: "Documents",
+    statusKey: "documents",
   },
   {
-    route: "/settings",
-    icon: Settings,
-    label: "Settings",
+    route: "/care-worker/apply/reference",
+    icon: TickSquare,
+    label: "Reference",
+    statusKey: "references",
   },
-  "separator",
-  {
-    route: "/",
-    icon: StarMoon,
-    label: "Dark Mode",
-  },
+  // {
+  //   route: "/care-worker/apply/equal-monitoring",
+  //   icon: Dashboard,
+  //   label: "Equal Monitoring",
+  // },
+  // {
+  //   route: "/care-worker/apply/dbs",
+  //   icon: TickSquare,
+  //   label: "DBS",
+  // },
 ];
 
-export const Navbar = () => {
+export const Sidebar = () => {
   const { pathname } = useLocation();
+  const [searchParams] = useSearchParams();
+  const uid = searchParams.get("uid");
+
+  const { data: applicant } = useGetApplicantQuery(uid as string, {
+    refetchOnMountOrArgChange: true,
+  });
+  const { data: questions } = useGetCareWorkerQuestionsQuery(null);
+
+  const status =
+    applicant && questions
+      ? getApplicationStatus(
+          applicant,
+          questions.map(({ id }) => id.toString()),
+        )
+      : null;
   return (
     <Column
       sx={{
@@ -76,7 +93,6 @@ export const Navbar = () => {
         pt: 5,
         gap: 1,
         backgroundColor: COLORS.WHITE,
-        overflow: "auto",
       }}
     >
       <FlexBox
@@ -105,16 +121,7 @@ export const Navbar = () => {
           gap: 0,
         }}
       />
-      <H3
-        color={COLORS.TAB_INACTIVE_COLOR}
-        sx={{
-          p: "0.75rem",
-          pt: 0,
-          px: "2.5rem",
-        }}
-      >
-        MENU
-      </H3>
+
       {navLinks.map((navLink, index) => {
         if (navLink === "separator") {
           return (
@@ -144,16 +151,17 @@ export const Navbar = () => {
           );
         }
 
-        const { route, icon, label } = navLink;
+        const { route, label, statusKey } = navLink;
+        const isComplete = status ? status[statusKey] === "complete" : false;
         const isActive =
           pathname === route ||
-          (pathname === "/" && route === "/dashboard") ||
-          (route !== "/" && pathname.startsWith(route));
-        const Icon = icon;
+          (pathname === "/admin" && route === "/admin/dashboard") ||
+          (route !== "/admin" && pathname.startsWith(route));
+
         return (
           <Link
             key={route}
-            to={route}
+            to={`${route}?uid=${uid}`}
           >
             <IconButton
               key={route}
@@ -169,9 +177,7 @@ export const Navbar = () => {
                 // ":hover": {
                 //   backgroundColor: "#F7F7FB",
                 // },
-                ...(isActive && {
-                  color: COLORS.BLUE,
-                }),
+
                 ...(isActive && {
                   fontWeight: "600",
                 }),
@@ -186,8 +192,23 @@ export const Navbar = () => {
                   fontSize: "1.2rem",
                 }}
               >
-                <Icon color={isActive ? COLORS.BLUE : "inherit"} />
-                {label}
+                {/* <Icon "#1ba81b" color={} /> */}
+
+                <CheckCircleIcon
+                  sx={{
+                    color: isComplete ? COLORS.COMPLETED : COLORS.INCOMPLETE,
+                    fontSize: 23,
+                  }}
+                />
+
+                <Span
+                  sx={{
+                    fontWeight: isActive ? "bold" : "inherit",
+                    color: isActive ? COLORS.BLUE : "inherit",
+                  }}
+                >
+                  {label}
+                </Span>
                 {route === "/messages" && (
                   <FlexBox className='h-7 w-7 items-center justify-center rounded-full bg-red-500 text-sm text-white'>
                     13

@@ -7,4 +7,6 @@ export enum COLORS {
   TAB_INACTIVE_COLOR = "#94A3B8",
   BLUE = "#2563EB",
   LIGHT_BLUE = "#3883fc",
+  COMPLETED = "#1ba81b",
+  INCOMPLETE = "#c1c1c1",
 }
