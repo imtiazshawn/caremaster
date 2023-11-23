@@ -8,8 +8,12 @@ import { Dialog, DialogContent, DialogTitle } from "@common/Dialog";
 import { LoadingButton } from "@common/LoadingButton";
 import { Tab, TabContext, Tabs } from "@common/Tab";
 import { Column, FlexBox } from "@common/index";
+import EventUpdateConfirmationModal from "@components/modals/EventUpdateConfirmationModal";
 import { TabPanel } from "@mui/lab";
-import { useCreateEventMutation } from "@reducers/api/eventApi";
+import {
+  useCreateEventMutation,
+  useUpdateEventMutation,
+} from "@reducers/api/eventApi";
 import { useServiceUserId } from "@redux/hooks/useServiceUserId";
 import { EventInfoTab } from "@serviceUsersUI/rota/EventInfoTab";
 import { PlanActivityTab } from "@serviceUsersUI/rota/PlanActivityTab";
@@ -33,8 +37,11 @@ export const EditCreateModal = ({
   const [tabValue, setTabValue] = React.useState("1");
   const isEditing = selectedEvent?.resource?.id !== "new";
   const title = isEditing ? "Edit Event" : "Create Event";
+  const [updateModalOpen, setUpdateModalOpen] = React.useState(false);
+  const updateValuesRef = React.useRef<EventDTO | null>(null);
 
   const [createEvent, { isLoading }] = useCreateEventMutation();
+  const [updateEvent] = useUpdateEventMutation();
 
   useEffect(() => {
     reset(
@@ -76,6 +83,12 @@ export const EditCreateModal = ({
   };
 
   const handleSubmitForm = async (values: any) => {
+    if (isEditing) {
+      updateValuesRef.current = mapCalendarEventToEvent(values);
+      setUpdateModalOpen(true);
+      return;
+    }
+    setUpdateModalOpen(true);
     const mappedValues = mapCalendarEventToEvent(values);
 
     await createEvent(mappedValues);
@@ -83,6 +96,8 @@ export const EditCreateModal = ({
 
     removeUndefined(mappedValues);
   };
+
+  const submitButtonText = isEditing ? "Update Event" : "Create Event";
 
   return (
     <Dialog
@@ -100,6 +115,25 @@ export const EditCreateModal = ({
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <form onSubmit={handleSubmit(handleSubmitForm)}>
+          <EventUpdateConfirmationModal
+            isOpen={updateModalOpen}
+            title='Update Event'
+            description='Are you sure you want to update this event?'
+            onUpdate={async (value) => {
+              if (updateValuesRef.current) {
+                await updateEvent({
+                  id: selectedEvent?.resource?.id ?? "",
+                  ...updateValuesRef.current,
+                  update_type: value,
+                });
+                onCloseHandler(true);
+              }
+              setUpdateModalOpen(false);
+            }}
+            onCancel={() => {
+              setUpdateModalOpen(false);
+            }}
+          />
           <Column sx={{ gap: "3em", width: 700, height: 600 }}>
             <TabContext value={tabValue}>
               <Tabs
@@ -124,6 +158,7 @@ export const EditCreateModal = ({
                     control={control}
                     watch={watch}
                     setValue={setValue}
+                    isEditing={isEditing}
                   />
                 </TabPanel>
                 <TabPanel
@@ -145,7 +180,7 @@ export const EditCreateModal = ({
                 variant='contained'
                 loading={isLoading}
               >
-                Create
+                {submitButtonText}
               </LoadingButton>
             </FlexBox>
           </Column>

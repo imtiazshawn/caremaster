@@ -11,9 +11,11 @@ type EventInfoTabProps = {
   control: any;
   watch?: UseFormWatch<any>;
   setValue?: UseFormSetValue<any>;
+  isEditing?: boolean;
 };
 
 export const EventInfoTab: React.FC<EventInfoTabProps> = ({
+  isEditing,
   control,
   setValue,
   watch,
@@ -83,11 +85,13 @@ export const EventInfoTab: React.FC<EventInfoTabProps> = ({
           />
         </Column>
       </Column>
-      <CustomRecurrenceEditor
-        control={control}
-        setValue={setValue}
-        watch={watch}
-      />
+      {!isEditing && (
+        <CustomRecurrenceEditor
+          control={control}
+          setValue={setValue}
+          watch={watch}
+        />
+      )}
     </FlexBox>
   );
 };

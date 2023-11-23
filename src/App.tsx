@@ -22,8 +22,8 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <Provider store={store}>
-      <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
+    <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
+      <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <Routes>
@@ -75,8 +75,8 @@ function App() {
             </Routes>
           </BrowserRouter>
         </QueryClientProvider>
-      </ErrorBoundary>
-    </Provider>
+      </Provider>
+    </ErrorBoundary>
   );
 }
 

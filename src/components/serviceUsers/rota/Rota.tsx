@@ -1,11 +1,19 @@
 import { RotaEventGet } from "$types/event";
+import {
+  formatDateForBackend,
+  formatTimeForBackend,
+} from "@/shared/utils/date";
 import { stringToColor } from "@/shared/utils/random";
 import BigCalendar from "@common/BigCalender";
-import { useGetEventsQuery } from "@reducers/api/eventApi";
+import EventUpdateConfirmationModal from "@components/modals/EventUpdateConfirmationModal";
+import {
+  useGetEventsQuery,
+  useUpdateEventMutation,
+} from "@reducers/api/eventApi";
 import { useServiceUserId } from "@redux/hooks/useServiceUserId";
 import { EditCreateModal } from "@serviceUsersUI/rota/EditCreateModal";
 import dayjs from "dayjs";
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { CalendarProps, Event } from "react-big-calendar";
 import {
   EventInteractionArgs,
@@ -20,9 +28,27 @@ export const Rota: FC = () => {
 
   const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
 
+  const [updateEvent] = useUpdateEventMutation();
+  const [updateModalOpen, setUpdateModalOpen] = useState(false);
+  const updateEventRef = useRef<EventInteractionArgs<Event> | null>(null);
+
+  const actuallyUpdateEvent = async (update_type: string) => {
+    if (updateEventRef.current) {
+      const event = updateEventRef.current;
+      await updateEvent({
+        id: event.event.resource.id,
+        date: formatDateForBackend(new Date(event.start)),
+        start_time: formatTimeForBackend(new Date(event.start)),
+        end_time: formatTimeForBackend(new Date(event.end)),
+        update_type: update_type,
+      });
+    }
+  };
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onUpdateEvent = (_: EventInteractionArgs<Event>) => {
-    //
+  const onUpdateEvent = (event: EventInteractionArgs<Event>) => {
+    updateEventRef.current = event;
+    setUpdateModalOpen(true);
   };
   const serviceUserId = useServiceUserId();
   const { data: rotaEvents, refetch } = useGetEventsQuery(serviceUserId);
@@ -94,6 +120,19 @@ export const Rota: FC = () => {
               backgroundColor: stringToColor(event.title as string),
             },
           };
+        }}
+      />
+      <EventUpdateConfirmationModal
+        isOpen={updateModalOpen}
+        title='Update Event'
+        description='Are you sure you want to update this event?'
+        onUpdate={async (value) => {
+          await actuallyUpdateEvent(value);
+          refetch();
+          setUpdateModalOpen(false);
+        }}
+        onCancel={() => {
+          setUpdateModalOpen(false);
         }}
       />
       <EditCreateModal

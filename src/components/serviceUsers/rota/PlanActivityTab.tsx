@@ -44,18 +44,22 @@ export const PlanActivityTab: React.FC<PlanActivityTabProps> = ({
             cursor: "pointer",
             p: "0.5em",
           }}
-          onClick={() => {
+          onClick={(e) => {
             toggleSelectedPlanActivities(item.id);
+            e.stopPropagation();
           }}
         >
           <Checkbox
             size='medium'
             defaultChecked={false}
             checked={selectedPlanActivities.includes(item.id)}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
             onChange={(e) => {
               toggleSelectedPlanActivities(item.id);
-              e.preventDefault();
               e.stopPropagation();
+              e.preventDefault();
             }}
           />
           <H3>{item.title}</H3>

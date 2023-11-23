@@ -1,6 +1,6 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 
-import { Event, EventDTO, RotaEventGet } from "$types/event";
+import { Event, EventDTO, RotaEventGet, RotaEventUpdate } from "$types/event";
 import { ApiResponseArray } from "$types/index";
 import { getBaseQuery } from "./apiUtils";
 
@@ -35,10 +35,7 @@ export const eventsApi = createApi({
         };
       },
     }),
-    updateEvent: builder.mutation<
-      EventsResponse,
-      EventDTO & { record: number; id: number }
-    >({
+    updateEvent: builder.mutation<EventsResponse, RotaEventUpdate>({
       query: (event) => {
         const bodyFormData = new FormData();
         Object.entries(event).forEach(([key, value]) => {
@@ -47,7 +44,7 @@ export const eventsApi = createApi({
 
         return {
           url: event.id.toString(),
-          method: "PUT",
+          method: "PATCH",
           body: bodyFormData,
           formData: true,
         };
@@ -56,4 +53,8 @@ export const eventsApi = createApi({
   }),
 });
 
-export const { useGetEventsQuery, useCreateEventMutation } = eventsApi;
+export const {
+  useGetEventsQuery,
+  useCreateEventMutation,
+  useUpdateEventMutation,
+} = eventsApi;
