@@ -35,6 +35,7 @@ export const Rota: FC = () => {
   const actuallyUpdateEvent = async (update_type: string) => {
     if (updateEventRef.current) {
       const event = updateEventRef.current;
+
       await updateEvent({
         id: event.event.resource.id,
         date: formatDateForBackend(new Date(event.start)),

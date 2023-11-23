@@ -4,6 +4,7 @@ import {
   formatDateForBackend,
   formatTimeForBackend,
 } from "@/shared/utils/date";
+import { mapEventToEventUpdate } from "@/shared/utils/event";
 import { Dialog, DialogContent, DialogTitle } from "@common/Dialog";
 import { LoadingButton } from "@common/LoadingButton";
 import { Tab, TabContext, Tabs } from "@common/Tab";
@@ -75,7 +76,7 @@ export const EditCreateModal = ({
       end_after_occurrence: event.end_after_occurrence ?? 1000,
       repeat_on: event.repeat_on ?? "",
       service_user: serviceUserId,
-      care_plans: event.care_plans ?? [],
+      care_plan_tasks: event.care_plan_tasks ?? [],
       care_workers: event.care_workers ?? [],
     };
 
@@ -121,11 +122,13 @@ export const EditCreateModal = ({
             description='Are you sure you want to update this event?'
             onUpdate={async (value) => {
               if (updateValuesRef.current) {
-                await updateEvent({
-                  id: selectedEvent?.resource?.id ?? "",
-                  ...updateValuesRef.current,
-                  update_type: value,
-                });
+                const payload = mapEventToEventUpdate(
+                  selectedEvent?.resource?.id as string,
+                  updateValuesRef.current,
+                  value,
+                );
+
+                await updateEvent(payload);
                 onCloseHandler(true);
               }
               setUpdateModalOpen(false);

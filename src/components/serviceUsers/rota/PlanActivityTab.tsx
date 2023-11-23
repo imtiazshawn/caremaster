@@ -18,7 +18,7 @@ export const PlanActivityTab: React.FC<PlanActivityTabProps> = ({
   const serviceUserId = useServiceUserId();
   const { data: planActivities } = useGetCarePlanTasksQuery(serviceUserId);
 
-  const selectedPlanActivities: number[] = watch?.("care_plans") ?? [];
+  const selectedPlanActivities: number[] = watch?.("care_plan_tasks") ?? [];
 
   const toggleSelectedPlanActivities = (id: number) => {
     let currentPlanActivities = selectedPlanActivities;
@@ -29,7 +29,7 @@ export const PlanActivityTab: React.FC<PlanActivityTabProps> = ({
     } else {
       currentPlanActivities.push(id);
     }
-    setValue?.("care_plans", currentPlanActivities);
+    setValue?.("care_plan_tasks", currentPlanActivities);
   };
 
   return (

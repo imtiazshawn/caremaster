@@ -11,12 +11,12 @@ export type Event = {
   end_time: string;
   service_user: number;
   care_workers: number[];
-  care_plans: number[];
+  care_plan_tasks: number[];
   update_type?: string;
 };
 
 export type RotaEventGet = {
-  care_plans: number[];
+  care_plan_tasks: number[];
   care_workers: number[];
   created_at: string;
   date: string | Date;
@@ -31,7 +31,7 @@ export type RotaEventGet = {
 };
 
 export type RotaEventUpdate = {
-  care_plans?: number[];
+  care_plan_tasks?: number[];
   care_workers?: number[];
   created_at?: string;
   date?: string | Date;
