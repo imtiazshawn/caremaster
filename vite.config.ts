@@ -38,3 +38,14 @@ export default defineConfig({
     },
   },
 });
+
+export const count = 1;
+
+if (import.meta.hot) {
+  import.meta.hot.accept((newModule) => {
+    if (newModule) {
+      // newModule is undefined when SyntaxError happened
+      console.log("~~~ updated: count is now", newModule.count);
+    }
+  });
+}

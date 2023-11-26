@@ -89,7 +89,6 @@ export const EditCreateModal = ({
       setUpdateModalOpen(true);
       return;
     }
-    setUpdateModalOpen(true);
     const mappedValues = mapCalendarEventToEvent(values);
 
     await createEvent(mappedValues);

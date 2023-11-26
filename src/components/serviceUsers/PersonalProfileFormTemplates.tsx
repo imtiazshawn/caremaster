@@ -30,6 +30,7 @@ export const serviceUserForm: FormTemplate<ServiceUser>[] = [
     label: "Photo",
     name: "photo",
   },
+
   {
     type: "text",
     label: "Title",
@@ -46,39 +47,54 @@ export const serviceUserForm: FormTemplate<ServiceUser>[] = [
     name: "preferred_name",
   },
   {
-    type: "date",
-    label: "DOB",
-    name: "date_of_birth",
+    type: "column",
+    items: [
+      {
+        type: "date",
+        label: "DOB",
+        name: "date_of_birth",
+      },
+      {
+        type: "select",
+        label: "Gender",
+        name: "gender",
+        options: Object.values(GENDER),
+      },
+    ],
   },
   {
-    type: "select",
-    label: "Gender",
-    name: "gender",
-    options: Object.values(GENDER),
+    type: "column",
+    items: [
+      {
+        type: "select",
+        label: "Gender At Birth",
+        name: "gender_at_birth",
+        options: Object.values(GENDER),
+      },
+      {
+        type: "select",
+        label: "Pronoun",
+        name: "pronoun",
+        options: Object.values(PRONOUN),
+      },
+    ],
   },
   {
-    type: "select",
-    label: "Gender At Birth",
-    name: "gender_at_birth",
-    options: Object.values(GENDER),
-  },
-  {
-    type: "select",
-    label: "Pronoun",
-    name: "pronoun",
-    options: Object.values(PRONOUN),
-  },
-  {
-    type: "select",
-    label: "DNAR/RESPECT",
-    name: "dnar",
-    options: Object.values(DNAR),
-  },
-  {
-    type: "select",
-    label: "Sexuality",
-    name: "sexuality",
-    options: Object.values(SEXUALITY),
+    type: "column",
+    items: [
+      {
+        type: "select",
+        label: "DNAR/RESPECT",
+        name: "dnar",
+        options: Object.values(DNAR),
+      },
+      {
+        type: "select",
+        label: "Sexuality",
+        name: "sexuality",
+        options: Object.values(SEXUALITY),
+      },
+    ],
   },
   {
     type: "select",

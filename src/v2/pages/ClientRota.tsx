@@ -1,10 +1,12 @@
 import { RotaEventGet } from "$types/event";
-import { useServiceUser } from "@/shared/hooks/useServiceUser";
 import {
   formatDateForBackend,
   formatTimeForBackend,
 } from "@/shared/utils/date";
 import { stringToColor } from "@/shared/utils/random";
+import { ClientsRightBar } from "@/v2/components/ClientsRightBar";
+import { Layout } from "@/v2/components/Layout";
+import { useServiceUser } from "@/v2/hooks/useServiceUser";
 import BigCalendar from "@common/BigCalender";
 import EventUpdateConfirmationModal from "@components/modals/EventUpdateConfirmationModal";
 import {
@@ -24,7 +26,7 @@ import {
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-export const Rota: FC = () => {
+export const ClientRota: FC = () => {
   const [isOpenEditCreateModal, setIsOpenEditCreateModal] = useState(false);
 
   const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
@@ -111,7 +113,7 @@ export const Rota: FC = () => {
   };
 
   return (
-    <>
+    <Layout rightBar={ClientsRightBar}>
       <BigCalendar
         events={events ?? []}
         onEventDrop={onEventDrop}
@@ -151,8 +153,8 @@ export const Rota: FC = () => {
           }
         }}
       />
-    </>
+    </Layout>
   );
 };
 
-export default Rota;
+export default ClientRota;

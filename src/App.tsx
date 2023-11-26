@@ -10,6 +10,7 @@ import EditCareWorkers from "@/pages/EditCareWorkers";
 import { EditServiceUser } from "@/pages/EditServiceUser";
 import { ServiceUsers } from "@/pages/ServiceUsers";
 import { Settings } from "@/pages/Settings";
+import { v2Routes } from "@/v2/routers";
 import ProvideReference from "@components/ProvideReference";
 import Finished from "@components/apply/Finished";
 import InitialForm from "@components/apply/InitialForm";
@@ -27,10 +28,11 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <BrowserRouter>
             <Routes>
-              <Route
+              {...v2Routes}
+              {/* <Route
                 path=''
                 element={<Dashboard />}
-              />
+              /> */}
               <Route
                 path='/dashboard'
                 element={<Dashboard />}

@@ -11,6 +11,12 @@ export const eventsApi = createApi({
   reducerPath: "eventsApi",
   baseQuery: getBaseQuery("events"),
   endpoints: (builder) => ({
+    getAllEvents: builder.query<RotaEventGet[], void>({
+      query: () => "",
+      transformResponse: (response: RotaEventGetResponse) => {
+        return response.response.data;
+      },
+    }),
     getEvents: builder.query<RotaEventGet[], number>({
       query: (serviceUser) => ({
         url: `?service_user=${serviceUser}`,
@@ -57,4 +63,5 @@ export const {
   useGetEventsQuery,
   useCreateEventMutation,
   useUpdateEventMutation,
+  useGetAllEventsQuery,
 } = eventsApi;

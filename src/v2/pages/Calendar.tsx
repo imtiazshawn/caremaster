@@ -1,18 +1,10 @@
 import { RotaEventGet } from "$types/event";
-import { useServiceUser } from "@/shared/hooks/useServiceUser";
-import {
-  formatDateForBackend,
-  formatTimeForBackend,
-} from "@/shared/utils/date";
 import { stringToColor } from "@/shared/utils/random";
+import { DashboardRightBar } from "@/v2/components/DashboardRightBar";
+import { Layout } from "@/v2/components/Layout";
 import BigCalendar from "@common/BigCalender";
 import EventUpdateConfirmationModal from "@components/modals/EventUpdateConfirmationModal";
-import {
-  useGetEventsQuery,
-  useUpdateEventMutation,
-} from "@reducers/api/eventApi";
-import { useServiceUserId } from "@redux/hooks/useServiceUserId";
-import { EditCreateModal } from "@serviceUsersUI/rota/EditCreateModal";
+import { useGetAllEventsQuery } from "@reducers/api/eventApi";
 import dayjs from "dayjs";
 import { FC, useRef, useState } from "react";
 import { CalendarProps, Event } from "react-big-calendar";
@@ -24,38 +16,34 @@ import {
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-export const Rota: FC = () => {
-  const [isOpenEditCreateModal, setIsOpenEditCreateModal] = useState(false);
+export const Calendar: FC = () => {
+  const [, setIsOpenEditCreateModal] = useState(false);
 
-  const [currentEvent, setCurrentEvent] = useState<Event | null>(null);
+  const [, setCurrentEvent] = useState<Event | null>(null);
 
-  const [updateEvent] = useUpdateEventMutation();
+  // const [_] = useUpdateEventMutation();
   const [updateModalOpen, setUpdateModalOpen] = useState(false);
   const updateEventRef = useRef<EventInteractionArgs<Event> | null>(null);
 
-  const actuallyUpdateEvent = async (update_type: string) => {
-    if (updateEventRef.current) {
-      const event = updateEventRef.current;
-
-      await updateEvent({
-        id: event.event.resource.id,
-        date: formatDateForBackend(new Date(event.start)),
-        start_time: formatTimeForBackend(new Date(event.start)),
-        end_time: formatTimeForBackend(new Date(event.end)),
-        update_type: update_type,
-      });
-    }
-  };
+  // const actuallyUpdateEvent = async (update_type: string) => {
+  //   if (updateEventRef.current) {
+  //     const event = updateEventRef.current;
+  //     await updateEvent({
+  //       id: event.event.resource.id,
+  //       date: formatDateForBackend(new Date(event.start)),
+  //       start_time: formatTimeForBackend(new Date(event.start)),
+  //       end_time: formatTimeForBackend(new Date(event.end)),
+  //       update_type: update_type,
+  //     });
+  //   }
+  // };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const onUpdateEvent = (event: EventInteractionArgs<Event>) => {
     updateEventRef.current = event;
     setUpdateModalOpen(true);
   };
-  const serviceUserId = useServiceUserId();
-  const { serviceUser } = useServiceUser();
-
-  const { data: rotaEvents, refetch } = useGetEventsQuery(serviceUserId);
+  const { data: rotaEvents, refetch } = useGetAllEventsQuery();
   const events = rotaEvents?.map((event) => {
     const startDate = dayjs(
       `${event.date} ${event.start_time}`,
@@ -90,7 +78,7 @@ export const Rota: FC = () => {
 
   const onSelectSlot: CalendarProps["onSelectSlot"] = (data) => {
     setCurrentEvent({
-      title: serviceUser?.name,
+      title: "",
       start: data.start,
       end: data.end,
       // @ts-ignore
@@ -111,7 +99,7 @@ export const Rota: FC = () => {
   };
 
   return (
-    <>
+    <Layout rightBar={DashboardRightBar}>
       <BigCalendar
         events={events ?? []}
         onEventDrop={onEventDrop}
@@ -130,8 +118,8 @@ export const Rota: FC = () => {
         isOpen={updateModalOpen}
         title='Update Event'
         description='Are you sure you want to update this event?'
-        onUpdate={async (value) => {
-          await actuallyUpdateEvent(value);
+        onUpdate={async () => {
+          // await actuallyUpdateEvent(value);
           refetch();
           setUpdateModalOpen(false);
         }}
@@ -139,7 +127,7 @@ export const Rota: FC = () => {
           setUpdateModalOpen(false);
         }}
       />
-      <EditCreateModal
+      {/* <EditCreateModal
         open={isOpenEditCreateModal}
         selectedEvent={currentEvent}
         setOpen={setIsOpenEditCreateModal}
@@ -150,9 +138,9 @@ export const Rota: FC = () => {
             refetch();
           }
         }}
-      />
-    </>
+      /> */}
+    </Layout>
   );
 };
 
-export default Rota;
+export default Calendar;

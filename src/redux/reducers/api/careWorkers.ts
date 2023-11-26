@@ -15,7 +15,7 @@ export const careWorkersApi = createApi({
   reducerPath: "careWorkersApi",
   baseQuery: getBaseQuery("care-workers"),
   endpoints: (builder) => ({
-    getCareWorkers: builder.query<CareWorker[], null>({
+    getCareWorkers: builder.query<CareWorker[], void | null>({
       query: () => ({
         url: "",
         method: "GET",

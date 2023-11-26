@@ -14,10 +14,10 @@ export const Tab = (props: TabProps) => {
         fontSize: "1.25rem",
         fontWeight: "600",
         textTransform: "none",
-        "&.Mui-selected": {
-          color: "white",
-          backgroundColor: "#929292",
-        },
+        // "&.Mui-selected": {
+        //   color: "white",
+        //   backgroundColor: "#929292",
+        // },
         ...props.sx,
       }}
     />
