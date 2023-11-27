@@ -25,6 +25,8 @@ export type UpdateCareWorkerReq = Omit<
   // first_name: string;
 };
 
+export type Screening = CareWorker;
+
 export type CareWorkersTableUnit = {
   id: number | string;
   name: string;
@@ -41,7 +43,7 @@ export type CreateCareWorker = {
   email: string;
   phone?: string;
   password?: string;
-  user?: string;
+  user?: Record<string, string>;
   preferred_name?: string;
   photo?: File | string;
   pin?: string;
@@ -75,9 +77,10 @@ export type CreateCareWorker = {
 
 export type CareWorker = Omit<
   CreateCareWorker,
-  "name" | "email" | "phone" | "password" | "user"
+  "name" | "email" | "phone" | "password" | "user" | "photo"
 > & {
   user: UserForFetchCareWorker;
+  photo: string;
   is_active: boolean;
   created_at: Date;
   updated_at: Date;

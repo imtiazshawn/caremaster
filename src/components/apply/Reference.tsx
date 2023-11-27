@@ -255,6 +255,17 @@ export const Reference = () => {
     });
   };
 
+  const submitApplication = () => {
+    updateApplicant({
+      email: data.email,
+      unique_id: data.unique_id,
+      first_name: data.first_name,
+      // application_status: JSON.stringify({
+      //   "completed-applicant-form": true,
+      // }) as any,
+    });
+  };
+
   return (
     <div>
       <form
@@ -282,10 +293,11 @@ export const Reference = () => {
             Save
           </LoadingButton>
           <Button
-            type='submit'
+            // type='submit'
             variant='contained'
-            disabled={status.overall === "incomplete"}
-            href='/care-worker/apply/finished'
+            disabled={!status || status.overall === "incomplete"}
+            onClick={submitApplication}
+            // href='/care-worker/apply/finished'
           >
             Finish
           </Button>

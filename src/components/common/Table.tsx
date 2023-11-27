@@ -19,6 +19,7 @@ export type TableProps<TItem extends GridValidRowModel> = {
   isLoading?: boolean;
   sx?: SxProps;
   onRowClick?: GridEventListener<"rowClick"> | undefined;
+  initialPageSize?: number;
 };
 
 export function Table<TItem extends GridValidRowModel>({
@@ -27,6 +28,7 @@ export function Table<TItem extends GridValidRowModel>({
   isLoading = false,
   onRowClick,
   sx,
+  initialPageSize = 5,
 }: TableProps<TItem>) {
   return (
     <DataGrid
@@ -36,9 +38,9 @@ export function Table<TItem extends GridValidRowModel>({
       autoHeight
       disableRowSelectionOnClick
       initialState={{
-        pagination: { paginationModel: { pageSize: 5 } },
+        pagination: { paginationModel: { pageSize: initialPageSize } },
       }}
-      pageSizeOptions={[5, 10, 25]}
+      pageSizeOptions={[5, 10, 15, 25]}
       sx={{
         width: "100%",
         "& .MuiDataGrid-root, .MuiDataGrid-cell:focus, .MuiDataGrid-cell:focus-within, .MuiDataGrid-columnHeader:focus-within":

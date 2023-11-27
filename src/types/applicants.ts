@@ -234,4 +234,7 @@ export type Section =
   | "educationHistory"
   | "documents"
   | "overall";
-export type ApplicationStatus = Record<Section, Status>;
+export type ApplicationStatus = Record<Section, Status> & {
+  completedCount: number;
+  total: number;
+};

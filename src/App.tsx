@@ -10,6 +10,7 @@ import EditCareWorkers from "@/pages/EditCareWorkers";
 import { EditServiceUser } from "@/pages/EditServiceUser";
 import { ServiceUsers } from "@/pages/ServiceUsers";
 import { Settings } from "@/pages/Settings";
+import V2EditCareWorkers from "@/pages/v2/CareWorkers";
 import { v2Routes } from "@/v2/routers";
 import ProvideReference from "@components/ProvideReference";
 import Finished from "@components/apply/Finished";
@@ -56,6 +57,10 @@ function App() {
               <Route
                 path='/care-workers/:id'
                 element={<EditCareWorkers />}
+              />
+              <Route
+                path='/v2/care-workers'
+                element={<V2EditCareWorkers />}
               />
               <Route
                 path='/care-worker/apply/*'

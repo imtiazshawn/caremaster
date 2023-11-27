@@ -68,6 +68,17 @@ export const getApplicationStatus = (
     referencesStatus === "complete" &&
     educationHistoryStatus === "complete" &&
     documnetStatus === "complete";
+
+  const total = 6;
+  const completedCount = [
+    personalDetailsStatus,
+    questionnaireStatus,
+    employmentHistoryStatus,
+    referencesStatus,
+    educationHistoryStatus,
+    documnetStatus,
+  ].filter((status) => status === "complete").length;
+
   return {
     overall: overallStatus ? "complete" : "incomplete",
     personalDetails: personalDetailsStatus,
@@ -76,5 +87,7 @@ export const getApplicationStatus = (
     references: referencesStatus,
     educationHistory: educationHistoryStatus,
     documents: documnetStatus,
+    completedCount,
+    total,
   };
 };

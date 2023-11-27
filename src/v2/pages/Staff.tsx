@@ -3,18 +3,26 @@ import { Layout } from "@/v2/components/Layout";
 import { MaintenanceRightBar } from "@/v2/components/rightbars/MaintenanceRightBar";
 import { Button } from "@common/Button";
 import { Divider } from "@common/Dialog";
+import { Search } from "@common/Search";
 import { Tab, Tabs } from "@common/Tab";
-import { Box, Column } from "@common/index";
+import { Box, Column, FlexBox } from "@common/index";
+import AddCareWorkerModal from "@components/modals/AddCareWorkerModal";
+import AppledTab from "@components/v2/careWorkers/Applicant";
+import ScreeningTab from "@components/v2/careWorkers/Screening";
 import { TabContext, TabPanel } from "@mui/lab";
 import { useGetCareWorkersQuery } from "@reducers/api/careWorkers";
 import { useState } from "react";
 
 export const Staff = () => {
-  const [currentTab, setCurrentTab] = useState("1");
+  const [currentTab, setCurrentTab] = useState("4");
   const { data: careWorkers } = useGetCareWorkersQuery();
-
+  const [isOpenCareWorkerModal, setIsOpenCareWorkerModal] = useState(false);
   return (
     <Layout rightBar={MaintenanceRightBar}>
+      <AddCareWorkerModal
+        isOpen={isOpenCareWorkerModal}
+        onClose={() => setIsOpenCareWorkerModal(false)}
+      />
       <Column
         sx={{
           width: "100%",
@@ -26,21 +34,24 @@ export const Staff = () => {
           sx={{
             width: "100%",
             height: "100%",
-            maxWidth: "50rem",
+            maxWidth: "70rem",
             p: 4,
           }}
         >
-          <Button
-            variant='contained'
-            sx={{
-              height: "4em",
-              fontSize: "1.2em",
-              width: "100%",
-              borderRadius: "0.5em",
-            }}
-          >
-            Create new staff
-          </Button>
+          <FlexBox sx={{ height: "3.5em" }}>
+            <Search />
+            <Button
+              variant='contained'
+              sx={{
+                fontSize: "1.2em",
+                width: "30%",
+                borderRadius: "0.5em",
+              }}
+              onClick={() => setIsOpenCareWorkerModal(true)}
+            >
+              Create new staff
+            </Button>
+          </FlexBox>
           <TabContext value={currentTab}>
             <Tabs
               value={currentTab}
@@ -67,7 +78,7 @@ export const Staff = () => {
               />
               <Tab
                 label='Screening'
-                value='4'
+                value='3'
                 disableRipple
                 sx={{
                   width: "25%",
@@ -75,7 +86,7 @@ export const Staff = () => {
               />
               <Tab
                 label='Applied'
-                value='5'
+                value='4'
                 disableRipple
                 sx={{
                   width: "25%",
@@ -114,6 +125,15 @@ export const Staff = () => {
                   </Box>
                 ))}
               </Column>
+            </TabPanel>
+            <TabPanel value='3'>
+              <ScreeningTab />
+            </TabPanel>
+            <TabPanel
+              sx={{ height: 800 }}
+              value='4'
+            >
+              <AppledTab />
             </TabPanel>
           </TabContext>
         </Column>

@@ -10,6 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { CreateCareWorker } from "$types/careWorkers";
 import { careWorkerSchema } from "@/formSchemas/careWorkers";
+import { getRandomGeneratedPassword } from "@/helper/password";
 import { PostCodeComponent } from "@components/PostCodeComponent";
 import {
   useCreateCareWorkerMutation,
@@ -81,7 +82,7 @@ const AddCareWorkerModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   const handleFormSubmit = async (values: CreateCareWorker) => {
-    values.password = Math.random().toString(36).slice(-8);
+    values.password = getRandomGeneratedPassword();
 
     createCareWorker(values).then(() => {
       onCloseHandler?.();
