@@ -4,8 +4,8 @@ import { CouncilForm } from "@/v2/components/serviceUser/Council";
 import { IdentificationForm } from "@/v2/components/serviceUser/Identification";
 import { OthersForm } from "@/v2/components/serviceUser/Others";
 import Calendar from "@/v2/pages/Calendar";
-import { Client } from "@/v2/pages/Client";
 import ClientRota from "@/v2/pages/ClientRota";
+import { Clients } from "@/v2/pages/Clients";
 import { Dashboard } from "@/v2/pages/Dashboard";
 import { Staff } from "@/v2/pages/Staff";
 import { Route } from "react-router-dom";
@@ -14,6 +14,11 @@ export const v2Routes = [
   <Route
     key='dashboard'
     path=''
+    element={<Dashboard />}
+  />,
+  <Route
+    key='dashboard'
+    path='v2'
     element={<Dashboard />}
   />,
   <Route
@@ -29,7 +34,7 @@ export const v2Routes = [
   <Route
     key='clients'
     path='v2/clients'
-    element={<Client />}
+    element={<Clients />}
   />,
   <Route
     key='staff'

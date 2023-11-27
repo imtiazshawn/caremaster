@@ -92,7 +92,7 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
       onClose={onCloseHandler}
     >
       <DialogTitle sx={{ flexDirection: "row" }}>
-        <ModalTitle>Service Users</ModalTitle>
+        <ModalTitle>Add new client</ModalTitle>
       </DialogTitle>
       <XButton
         onClick={onCloseHandler}
@@ -117,7 +117,7 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 variant='contained'
                 loading={isLoading}
               >
-                Create Service User
+                Create Client
               </LoadingButton>
             </FlexBox>
           </Column>

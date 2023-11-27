@@ -10,7 +10,8 @@ type LayoutProps = {
   children?: ReactNode;
   applyTopHeader?: boolean;
   sidebar?: () => ReactNode;
-  rightBar?: () => ReactNode;
+  rightBar?: (props: any) => ReactNode;
+  bodyColor?: string;
 };
 
 export const Layout: React.FC<LayoutProps> = ({
@@ -18,6 +19,7 @@ export const Layout: React.FC<LayoutProps> = ({
   applyTopHeader = true,
   sidebar = Navbar,
   rightBar = () => <div />,
+  bodyColor = COLORS.WHITE,
 }) => {
   const SidebarComponent = sidebar;
   const RightBarComponent = rightBar;
@@ -25,14 +27,14 @@ export const Layout: React.FC<LayoutProps> = ({
     <FullColumn sx={{ height: "100vh", backgroundColor: COLORS.BACKGROUND }}>
       <Grid
         sx={{
-          gridTemplateColumns: "27.5rem 1fr",
+          gridTemplateColumns: "24rem 1fr",
           height: "100%",
           gap: "2rem",
           marginRight: "2rem",
         }}
       >
         <SidebarComponent />
-        <FullColumn sx={{ gap: "3rem", height: "100vh", marginBottom: "5em" }}>
+        <FullColumn sx={{ gap: "1rem", height: "100vh", marginBottom: "5em" }}>
           {applyTopHeader ? <TopHeader /> : <></>}
           <Box
             sx={{
@@ -43,11 +45,11 @@ export const Layout: React.FC<LayoutProps> = ({
             <FlexBox sx={{ justifyContent: "space-between", height: "100%" }}>
               <Box
                 sx={{
-                  backgroundColor: COLORS.WHITE,
                   minHeight: "100%",
                   pb: 4,
                   width: "100%",
                   overflow: "auto",
+                  backgroundColor: bodyColor,
                 }}
               >
                 {children}

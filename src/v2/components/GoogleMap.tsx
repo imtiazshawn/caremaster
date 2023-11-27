@@ -29,11 +29,12 @@ const GoogleMaps = ({
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
+        marginLeft: "-20px",
       }}
     >
       <LoadScript googleMapsApiKey='AIzaSyCPRih4GYZvz32JJRmRrHZhtRkONM-fywY'>
         <GoogleMap
-          mapContainerStyle={{ height: "100%", width: "100%" }}
+          mapContainerStyle={{ height: "70vh", width: "100%" }}
           center={{ lat: latitude, lng: longitude }}
           zoom={10}
           onLoad={renderMarkers}

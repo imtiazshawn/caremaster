@@ -4,8 +4,8 @@ import {
   formatTimeForBackend,
 } from "@/shared/utils/date";
 import { stringToColor } from "@/shared/utils/random";
-import { ClientsRightBar } from "@/v2/components/ClientsRightBar";
 import { Layout } from "@/v2/components/Layout";
+import { MaintenanceRightBar } from "@/v2/components/rightbars/MaintenanceRightBar";
 import { useServiceUser } from "@/v2/hooks/useServiceUser";
 import BigCalendar from "@common/BigCalender";
 import EventUpdateConfirmationModal from "@components/modals/EventUpdateConfirmationModal";
@@ -113,7 +113,7 @@ export const ClientRota: FC = () => {
   };
 
   return (
-    <Layout rightBar={ClientsRightBar}>
+    <Layout rightBar={MaintenanceRightBar}>
       <BigCalendar
         events={events ?? []}
         onEventDrop={onEventDrop}

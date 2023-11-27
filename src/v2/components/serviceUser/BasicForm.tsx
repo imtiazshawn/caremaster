@@ -4,8 +4,8 @@ import { useEffect } from "react";
 import { ServiceUser } from "$types/serviceUsers";
 import { removeUndefined } from "@/Utils";
 import { useServiceUser } from "@/shared/hooks/useServiceUser";
-import { ClientsRightBar } from "@/v2/components/ClientsRightBar";
 import { Layout } from "@/v2/components/Layout";
+import { MaintenanceRightBar } from "@/v2/components/rightbars/MaintenanceRightBar";
 import { SmartForm } from "@common/SmartForm";
 import { LoadingButton } from "@components/common/LoadingButton";
 import { useUpdateServiceUserMutation } from "@reducers/api/serviceUsers";
@@ -35,9 +35,15 @@ export const BasicForm = () => {
   };
 
   return (
-    <Layout rightBar={ClientsRightBar}>
+    <Layout rightBar={MaintenanceRightBar}>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
-        <Column sx={{ gap: "1em", p: 5 }}>
+        <Column
+          sx={{
+            gap: "1em",
+            p: 5,
+            borderRadius: "1rem",
+          }}
+        >
           <LoadingButton
             sx={{
               alignSelf: "flex-end",

@@ -13,7 +13,7 @@ export const Search: React.FC<{
 
   return (
     <TextField
-      placeholder='Search Here'
+      placeholder='Search here'
       value={value}
       sx={{
         backgroundColor: COLORS.WHITE,
@@ -33,8 +33,14 @@ export const Search: React.FC<{
         }
       }}
       InputProps={{
-        startAdornment: (
-          <ISearch sx={{ mr: "10px", color: "rgb(177 177 177 / 87%)" }} />
+        endAdornment: (
+          <ISearch
+            sx={{
+              mr: "10px",
+              fontSize: "2.2rem",
+              color: "rgb(177 177 177 / 87%)",
+            }}
+          />
         ),
         sx: {
           border: "none",
@@ -44,6 +50,7 @@ export const Search: React.FC<{
           },
           color: "black",
           height: "100%",
+          fontSize: "1.4rem",
         },
       }}
     />

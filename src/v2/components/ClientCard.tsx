@@ -1,4 +1,5 @@
 import { ServiceUser } from "$types/serviceUsers";
+import { COLORS } from "@/shared/constants/colors";
 import { placeholderProfilePicture } from "@/v2/utils/constants";
 import { H3, H4 } from "@common/Typography";
 import { Column, FlexBox } from "@common/index";
@@ -18,6 +19,7 @@ export const ClientCard: React.FC<ClientProps> = ({ client }) => {
         borderRadius: "0.5rem",
         justifyContent: "space-between",
         cursor: "pointer",
+        boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.1)",
       }}
       onClick={() => {
         navigate(`/v2/client/${client.id}/basic`);
@@ -39,7 +41,7 @@ export const ClientCard: React.FC<ClientProps> = ({ client }) => {
         ></img>
         <Column>
           <H3>{client.name}</H3>
-          <H4>{client.address}</H4>
+          <H4 color={COLORS.LIGHT_GREY}>{client.address}</H4>
         </Column>
       </FlexBox>
 

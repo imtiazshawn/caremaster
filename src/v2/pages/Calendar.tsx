@@ -1,7 +1,7 @@
 import { RotaEventGet } from "$types/event";
 import { stringToColor } from "@/shared/utils/random";
-import { DashboardRightBar } from "@/v2/components/DashboardRightBar";
 import { Layout } from "@/v2/components/Layout";
+import { DashboardRightBar } from "@/v2/components/rightbars/DashboardRightBar";
 import BigCalendar from "@common/BigCalender";
 import EventUpdateConfirmationModal from "@components/modals/EventUpdateConfirmationModal";
 import { useGetAllEventsQuery } from "@reducers/api/eventApi";

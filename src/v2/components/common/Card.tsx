@@ -9,9 +9,9 @@ export const Card: React.FC<CardProps> = ({ children, sx }) => {
   return (
     <Column
       sx={{
-        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
+        boxShadow: "0px 4px 5px rgba(0, 0, 0, 0.05)",
         backgroundColor: "white",
-        borderRadius: "0.5rem",
+        borderRadius: "1rem",
         padding: "1rem",
         ...sx,
       }}

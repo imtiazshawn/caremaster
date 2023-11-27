@@ -1,6 +1,6 @@
 import { CareWorkerCard } from "@/v2/components/CareWorkerCard";
-import { ClientsRightBar } from "@/v2/components/ClientsRightBar";
 import { Layout } from "@/v2/components/Layout";
+import { MaintenanceRightBar } from "@/v2/components/rightbars/MaintenanceRightBar";
 import { Button } from "@common/Button";
 import { Divider } from "@common/Dialog";
 import { Tab, Tabs } from "@common/Tab";
@@ -14,7 +14,7 @@ export const Staff = () => {
   const { data: careWorkers } = useGetCareWorkersQuery();
 
   return (
-    <Layout rightBar={ClientsRightBar}>
+    <Layout rightBar={MaintenanceRightBar}>
       <Column
         sx={{
           width: "100%",

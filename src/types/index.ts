@@ -20,3 +20,5 @@ export type ApiResponse<TData> = {
   status: "success";
   response: TData;
 };
+
+export type { SxProps } from "@mui/system";

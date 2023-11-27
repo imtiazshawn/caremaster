@@ -2,10 +2,15 @@ import { Card } from "@/v2/components/common/Card";
 import { H2 } from "@common/Typography";
 import { Column, FlexBox } from "@common/index";
 import { Close } from "@mui/icons-material";
+import { SxProps } from "@mui/system";
 
-export const ClientsRightBar = () => {
+type Props = {
+  sx?: SxProps;
+};
+
+export const MaintenanceRightBar: React.FC<Props> = ({ sx }) => {
   return (
-    <Card sx={{ width: "25rem", p: 3 }}>
+    <Card sx={{ width: "25rem", p: 3, ...sx }}>
       <Column sx={{ gap: 1 }}>
         <H2>Maintenance</H2>
         <FlexBox
