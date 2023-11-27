@@ -13,7 +13,7 @@ export type ActionType = "accept" | "remove";
 const getScreeningColumns = (): TableColumn<Screening>[] => {
   return [
     {
-      flex: 0.25,
+      flex: 1,
       width: 200,
       field: "name",
       headerName: "Name",
@@ -36,7 +36,7 @@ const getScreeningColumns = (): TableColumn<Screening>[] => {
       },
     },
     {
-      flex: 0.25,
+      flex: 1,
       width: 200,
       field: "phone",
       headerName: "Mobile Number",
@@ -47,7 +47,7 @@ const getScreeningColumns = (): TableColumn<Screening>[] => {
       },
     },
     {
-      flex: 0.25,
+      flex: 1,
       width: 200,
       field: "email",
       headerName: "Email Address",

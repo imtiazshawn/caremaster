@@ -7,14 +7,14 @@ import { Search } from "@common/Search";
 import { Tab, Tabs } from "@common/Tab";
 import { Box, Column, FlexBox } from "@common/index";
 import AddCareWorkerModal from "@components/modals/AddCareWorkerModal";
-import AppledTab from "@components/v2/careWorkers/Applicant";
+import AppliedTab from "@components/v2/careWorkers/Applicant";
 import ScreeningTab from "@components/v2/careWorkers/Screening";
 import { TabContext, TabPanel } from "@mui/lab";
 import { useGetCareWorkersQuery } from "@reducers/api/careWorkers";
 import { useState } from "react";
 
 export const Staff = () => {
-  const [currentTab, setCurrentTab] = useState("4");
+  const [currentTab, setCurrentTab] = useState("1");
   const { data: careWorkers } = useGetCareWorkersQuery();
   const [isOpenCareWorkerModal, setIsOpenCareWorkerModal] = useState(false);
   return (
@@ -108,7 +108,6 @@ export const Staff = () => {
                       key={careWorker.id}
                       careWorker={careWorker}
                     />
-                    <Divider />
                   </Box>
                 ))}
               </Column>
@@ -121,7 +120,6 @@ export const Staff = () => {
                       key={careWorker.id}
                       careWorker={careWorker}
                     />
-                    <Divider />
                   </Box>
                 ))}
               </Column>
@@ -133,7 +131,7 @@ export const Staff = () => {
               sx={{ height: 800 }}
               value='4'
             >
-              <AppledTab />
+              <AppliedTab />
             </TabPanel>
           </TabContext>
         </Column>

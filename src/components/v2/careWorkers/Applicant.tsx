@@ -1,12 +1,11 @@
 import { Applicant } from "$types/applicants";
-import getAppliedColumns, {
-  ActionType,
-} from "@/columns/column.careWorker.applied";
+import { ActionType } from "@/columns/column.careWorker.applied";
 import { COLORS } from "@/shared/constants/colors";
+import { CareWorkerCard } from "@/v2/components/CareWorkerCard";
 import ShowShortMessage from "@common/ShortMessage";
-import { Table } from "@common/Table";
-import { FullColumn } from "@common/index";
+import { FlexBox, FullColumn } from "@common/index";
 import ConfirmationDialog from "@components/modals/ConfirmationModal";
+import { Check, Close } from "@mui/icons-material";
 import { useAcceptApplicantMutation } from "@reducers/api/acceptApplicant";
 
 import {
@@ -15,8 +14,9 @@ import {
 } from "@reducers/api/applicants";
 import { useGetCareWorkerQuestionsQuery } from "@reducers/api/careWorkerQuestions";
 import { useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const AppledTab = () => {
+const AppliedTab = () => {
   const {
     data: applicants,
     isLoading: isLoadingApplicants,
@@ -25,10 +25,11 @@ const AppledTab = () => {
   const [updateApplicant] = useUpdateApplicantMutation();
   const [acceptApplicant] = useAcceptApplicantMutation();
   const { data: questions } = useGetCareWorkerQuestionsQuery(null);
-  const [selectedRowIndex, setselectedRowIndex] = useState<null | string>(null);
+  const [selectedRowIndex, setSelectedRowIndex] = useState<null | string>(null);
   const [modalType, setModalType] = useState<ActionType>("accept");
+  const navigate = useNavigate();
 
-  const rows = useMemo(
+  const filteredApplicants = useMemo(
     () =>
       applicants?.filter((applicant) => {
         const is_application_accepted =
@@ -45,7 +46,7 @@ const AppledTab = () => {
     return <></>;
   }
 
-  const questionsIds = questions.map((question) => question.id.toString());
+  // const questionsIds = questions.map((question) => question.id.toString());
   const onSubmitHandler = (unique_id: string) => {
     const applicant = applicants.find(
       ({ unique_id: id }) => id === unique_id,
@@ -69,7 +70,7 @@ const AppledTab = () => {
   };
 
   const handleAction = (unique_id: string, actionType: ActionType) => {
-    setselectedRowIndex(unique_id);
+    setSelectedRowIndex(unique_id);
     setModalType(actionType);
   };
 
@@ -84,28 +85,52 @@ const AppledTab = () => {
         description={modalDescription}
         isOpen={Boolean(selectedRowIndex)}
         onCancel={() => {
-          setselectedRowIndex(null);
+          setSelectedRowIndex(null);
         }}
         onOk={() => {
           onSubmitHandler(selectedRowIndex as string);
-          setselectedRowIndex(null);
+          setSelectedRowIndex(null);
         }}
       />
-      <Table<Applicant>
-        // rows={applicants}
-        // sx={{  }}
 
-        rows={rows}
-        columns={getAppliedColumns(questionsIds, handleAction)}
-        isLoading={isLoading}
-        // onRowClick={({ row }) =>
-        //   navigate(
-        //     `/care-workers/applied/personal-details?uid=${row.unique_id}`,
-        //   )
-        // }
-      />
+      {filteredApplicants?.map((applicant) => (
+        <CareWorkerCard
+          careWorker={{
+            id: applicant.unique_id,
+            user: {
+              name: applicant.first_name,
+            },
+          }}
+          onClick={() =>
+            navigate(
+              `/care-workers/applied/personal-details?uid=${applicant.unique_id}`,
+            )
+          }
+          key={applicant.unique_id}
+        >
+          <FlexBox>
+            <Check
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAction(applicant.unique_id, "accept");
+              }}
+            />
+            <Close
+              onClick={(e) => {
+                e.stopPropagation();
+                handleAction(applicant.unique_id, "remove");
+              }}
+            />
+          </FlexBox>
+        </CareWorkerCard>
+      ))}
+      {filteredApplicants.length === 0 && !isLoading && (
+        <FlexBox sx={{ fontSize: "1.5em", justifyContent: "center" }}>
+          No new applicants
+        </FlexBox>
+      )}
     </FullColumn>
   );
 };
 
-export default AppledTab;
+export default AppliedTab;
