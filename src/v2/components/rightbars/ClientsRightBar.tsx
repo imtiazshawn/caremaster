@@ -10,7 +10,13 @@ export const ClientRightBar = () => {
   const [openServiceUserModal, setOpenServiceUserModal] = useState(false);
 
   return (
-    <Column sx={{ gap: 3, marginTop: "2.5rem", width: "60rem" }}>
+    <Column
+      sx={{
+        gap: 3,
+        marginTop: "2.5rem",
+        width: ["30rem", "30rem", "30rem", "30rem", "40rem"],
+      }}
+    >
       <AddServiceUserModal
         isOpen={openServiceUserModal}
         onClose={() => {

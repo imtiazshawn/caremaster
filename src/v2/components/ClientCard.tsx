@@ -11,6 +11,8 @@ type ClientProps = {
 };
 export const ClientCard: React.FC<ClientProps> = ({ client }) => {
   const navigate = useNavigate();
+  const isPreAdmitted = client.enrollment_status === "Pre-admission";
+
   return (
     <FlexBox
       sx={{
@@ -22,7 +24,11 @@ export const ClientCard: React.FC<ClientProps> = ({ client }) => {
         boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.1)",
       }}
       onClick={() => {
-        navigate(`/v2/client/${client.id}/basic`);
+        if (isPreAdmitted) {
+          navigate(`/v2/client/${client.id}/risk-assessment`);
+        } else {
+          navigate(`/v2/client/${client.id}/tasks`);
+        }
       }}
     >
       <FlexBox

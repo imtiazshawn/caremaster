@@ -12,6 +12,7 @@ import { Link, useLocation } from "react-router-dom";
 
 import { COLORS } from "@/shared/constants/colors";
 
+import { ENROLLMENT_STATUS } from "$types/serviceUsers";
 import { NavBarProfile } from "@/v2/components/Navbar/Profile";
 import { useServiceUser } from "@/v2/hooks/useServiceUser";
 import { H3 } from "@common/Typography";
@@ -67,7 +68,7 @@ const navLinks: (NavLink | "separator" | "spacer")[] = [
 
 const clientNavLinks: (NavLink | "separator" | "spacer")[] = [
   {
-    route: "/v2/tasks",
+    route: "/v2/client/:clientId/tasks",
     icon: TickSquare,
     label: "Tasks",
   },
@@ -75,7 +76,7 @@ const clientNavLinks: (NavLink | "separator" | "spacer")[] = [
     route: "/v2/client/:clientId/basic",
     icon: ProfileUser,
     label: "Profile",
-    activePatterns: ["/v2/client/"],
+    // activePatterns: ["/v2/client/"],
     children: [
       {
         route: "/v2/client/:clientId/basic",
@@ -132,11 +133,55 @@ const clientNavLinks: (NavLink | "separator" | "spacer")[] = [
   },
 ];
 
+const preAdClientNavLinks: (NavLink | "separator" | "spacer")[] = [
+  {
+    route: "/v2/client/:clientId/profile",
+    icon: ProfileUser,
+    label: "Profile",
+  },
+  {
+    route: "/v2/client/:clientId/risk-assessment",
+    icon: ProfileUser,
+    label: "Risk Assessments",
+    // activePatterns: ["/v2/client/"],
+    children: [
+      {
+        route: "/v2/client/:clientId/generic",
+        icon: TickSquare,
+        label: "Generic",
+      },
+      {
+        route: "/v2/client/:clientId/mca",
+        icon: TickSquare,
+        label: "MCA",
+      },
+      {
+        route: "/v2/client/:clientId/medicine",
+        icon: TickSquare,
+        label: "Medicine",
+      },
+    ],
+  },
+  "spacer",
+  {
+    route: "/v2/help-and-support",
+    icon: Message,
+    label: "Help and Support",
+  },
+  {
+    route: "/v2/settings",
+    icon: Settings,
+    label: "Settings",
+  },
+];
+
 export const Navbar = () => {
   const { pathname } = useLocation();
   const { serviceUser } = useServiceUser();
 
   const isClientSelected = pathname.startsWith("/v2/client/");
+  const isPreAdClientSelected =
+    serviceUser?.enrollment_status === ENROLLMENT_STATUS.PRE_ADMISSION;
 
   return (
     <Column
@@ -199,7 +244,18 @@ export const Navbar = () => {
         })}
 
       {isClientSelected &&
+        !isPreAdClientSelected &&
         clientNavLinks.map((navLink, index) => {
+          return (
+            <NavLinkComponent
+              key={index}
+              navLink={navLink}
+            />
+          );
+        })}
+      {isClientSelected &&
+        isPreAdClientSelected &&
+        preAdClientNavLinks.map((navLink, index) => {
           return (
             <NavLinkComponent
               key={index}
@@ -248,16 +304,24 @@ const NavLinkComponent = ({
 
   const Icon = icon;
 
-  let link = route;
-  if (route.includes(":clientId")) {
-    link = route.replace(":clientId", String(clientId));
-  }
+  const replaceClientId = (route: string) => {
+    return route.replace(":clientId", String(clientId));
+  };
+
+  const replaceIds = (route: string) => {
+    return replaceClientId(route);
+  };
+
+  const link = replaceIds(route);
 
   const isActive =
     pathname === link ||
     (pathname === "/v2" && link === "/dashboard") ||
     (link !== "/v2" && pathname.startsWith(link)) ||
-    navLink.activePatterns?.some?.((pattern) => pathname.startsWith(pattern));
+    navLink.activePatterns?.some?.((pattern) => pathname.startsWith(pattern)) ||
+    navLink.children?.some?.((navChild) =>
+      pathname.startsWith(replaceIds(navChild.route)),
+    );
 
   return (
     <Column>

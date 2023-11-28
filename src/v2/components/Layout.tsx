@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 import { COLORS } from "@/shared/constants/colors";
 
-import { Box, FlexBox, FullColumn, Grid } from "@common/index";
+import { Box, FullColumn, Grid } from "@common/index";
 import { Navbar } from "./Navbar";
 import { TopHeader } from "./TopHeader";
 
@@ -18,7 +18,7 @@ export const Layout: React.FC<LayoutProps> = ({
   children,
   applyTopHeader = true,
   sidebar = Navbar,
-  rightBar = () => <div />,
+  rightBar = "none",
   bodyColor = COLORS.WHITE,
 }) => {
   const SidebarComponent = sidebar;
@@ -42,7 +42,14 @@ export const Layout: React.FC<LayoutProps> = ({
               height: "100%",
             }}
           >
-            <FlexBox sx={{ justifyContent: "space-between", height: "100%" }}>
+            <Grid
+              sx={{
+                gridTemplateColumns:
+                  RightBarComponent !== "none" ? "1fr auto" : "1fr",
+                height: "100%",
+                gap: 3,
+              }}
+            >
               <Box
                 sx={{
                   minHeight: "100%",
@@ -54,8 +61,8 @@ export const Layout: React.FC<LayoutProps> = ({
               >
                 {children}
               </Box>
-              <RightBarComponent />
-            </FlexBox>
+              {RightBarComponent !== "none" && <RightBarComponent />}
+            </Grid>
           </Box>
         </FullColumn>
       </Grid>

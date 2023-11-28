@@ -122,8 +122,7 @@ export const DashboardRightBar = () => {
   return (
     <Column
       sx={{
-        width: ["30rem", "30rem", "35rem", "36rem", "40rem"],
-        color: "ButtonShadow",
+        width: ["16rem", "18rem", "20rem", "25rem", "40rem"],
       }}
     >
       <Alerts />

@@ -32,9 +32,14 @@ export const Clients = () => {
     >
       <AddServiceUserModal
         isOpen={openServiceUserModal}
-        onClose={() => {
+        onClose={(successfullyCreated) => {
           setOpenServiceUserModal(false);
           refetch();
+          console.log("~~~ sdf", successfullyCreated);
+
+          if (successfullyCreated) {
+            setCurrentTab("2");
+          }
         }}
       />
       <Column

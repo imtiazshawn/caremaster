@@ -1,3 +1,5 @@
+import { ClientPlanActivity } from "@/v2/components/ClientPlanActivity";
+import { RiskAssessment } from "@/v2/components/RiskAssesment";
 import { BackgroundForm } from "@/v2/components/serviceUser/Background";
 import { BasicForm } from "@/v2/components/serviceUser/BasicForm";
 import { CouncilForm } from "@/v2/components/serviceUser/Council";
@@ -60,6 +62,16 @@ export const v2Routes = [
     key='settings'
     path='v2/settings'
     element={<Dashboard />}
+  />,
+  <Route
+    key='client/id/tasks'
+    path='v2/client/:id/tasks'
+    element={<ClientPlanActivity />}
+  />,
+  <Route
+    key='client/id/tasks'
+    path='v2/client/:id/risk-assessment'
+    element={<RiskAssessment />}
   />,
   <Route
     key='client/id/basic'

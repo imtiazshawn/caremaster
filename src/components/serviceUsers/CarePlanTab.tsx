@@ -60,7 +60,7 @@ const CarePlanTaskTab = () => {
   };
 
   return (
-    <FullColumn sx={{ gap: "1em" }}>
+    <FullColumn sx={{ gap: "1em", width: "100%" }}>
       <UpsertCarePlanTaskModal
         refetch={refetch}
         initialCarePlanTask={
@@ -88,13 +88,7 @@ const CarePlanTaskTab = () => {
         columns={getCarePlanTasksColumns(handleActionCallback)}
         isLoading={isLoading}
         sx={{
-          ".MuiDataGrid-columnHeaders .MuiDataGrid-columnHeader": {
-            height: "3rem !important",
-          },
-          ".MuiDataGrid-columnHeaders": {
-            height: "3rem !important",
-            minHeight: "3rem !important",
-          },
+          fontSize: "1rem",
         }}
       />
     </FullColumn>

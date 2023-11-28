@@ -29,7 +29,7 @@ const defaultValues = {
 
 type Props = {
   isOpen: boolean;
-  onClose?: () => void;
+  onClose?: (successfullyCreated?: boolean) => void;
   onProceed?: () => void;
 };
 
@@ -65,9 +65,9 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
     },
   ];
 
-  const onCloseHandler = () => {
+  const onCloseHandler = (successfullyCreated = false) => {
     reset({ ...defaultValues });
-    onClose?.();
+    onClose?.(successfullyCreated);
   };
 
   const handleFormSubmit = (values: ServiceUserDto) => {
@@ -75,7 +75,7 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
       ...values,
       enrollment_status: ENROLLMENT_STATUS.PRE_ADMISSION,
     }).then(() => {
-      onCloseHandler();
+      onCloseHandler(true);
       refetch();
     });
   };
@@ -89,13 +89,13 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
           width: "40rem",
         },
       }}
-      onClose={onCloseHandler}
+      onClose={() => onCloseHandler(false)}
     >
       <DialogTitle sx={{ flexDirection: "row" }}>
         <ModalTitle>Add new client</ModalTitle>
       </DialogTitle>
       <XButton
-        onClick={onCloseHandler}
+        onClick={() => onCloseHandler(false)}
         sx={{
           position: "absolute",
           right: 24,

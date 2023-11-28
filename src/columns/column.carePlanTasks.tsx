@@ -51,8 +51,8 @@ const getCarePlanTasksColumns = (
       },
     },
     {
-      width: 230,
-      minWidth: 230,
+      width: 150,
+      minWidth: 150,
       field: "action",
       headerName: "Action",
       headerClassName,
