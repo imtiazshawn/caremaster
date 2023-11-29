@@ -13,7 +13,8 @@
     "lint:quiet": "eslint . --ext ts,tsx --quiet --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext ts,tsx --fix",
     "lint:report": "eslint . --ext ts,tsx --output-file eslint_report.json --format json",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "deploy": "git checkout stage && git pull origin main && git push && git checkout -"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
