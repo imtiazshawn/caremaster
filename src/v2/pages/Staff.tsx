@@ -1,11 +1,11 @@
 import { CareWorkerCard } from "@/v2/components/CareWorkerCard";
 import { Layout } from "@/v2/components/Layout";
-import { MaintenanceRightBar } from "@/v2/components/rightbars/MaintenanceRightBar";
-import { Button } from "@common/Button";
+import { StaffsRightBar } from "@/v2/components/rightbars/StaffsRightBar";
 import { Divider } from "@common/Dialog";
 import { Search } from "@common/Search";
+import Select from "@common/Select";
 import { Tab, Tabs } from "@common/Tab";
-import { Box, Column, FlexBox } from "@common/index";
+import { Box, Column, FullColumn, FullRow } from "@common/index";
 import AddCareWorkerModal from "@components/modals/AddCareWorkerModal";
 import AppliedTab from "@components/v2/careWorkers/Applicant";
 import ScreeningTab from "@components/v2/careWorkers/Screening";
@@ -18,7 +18,10 @@ export const Staff = () => {
   const { data: careWorkers } = useGetCareWorkersQuery();
   const [isOpenCareWorkerModal, setIsOpenCareWorkerModal] = useState(false);
   return (
-    <Layout rightBar={MaintenanceRightBar}>
+    <Layout
+      rightBar={StaffsRightBar}
+      bodyColor='transparent'
+    >
       <AddCareWorkerModal
         isOpen={isOpenCareWorkerModal}
         onClose={() => setIsOpenCareWorkerModal(false)}
@@ -38,102 +41,125 @@ export const Staff = () => {
             p: 4,
           }}
         >
-          <FlexBox sx={{ height: "3.5em" }}>
-            <Search />
-            <Button
-              variant='contained'
+          <FullRow>
+            <Search
               sx={{
-                fontSize: "1.2em",
-                width: "30%",
-                borderRadius: "0.5em",
+                borderRadius: ".5rem",
               }}
-              onClick={() => setIsOpenCareWorkerModal(true)}
-            >
-              Create new staff
-            </Button>
-          </FlexBox>
-          <TabContext value={currentTab}>
-            <Tabs
-              value={currentTab}
-              onChange={(_, value) => {
-                setCurrentTab(value as string);
-              }}
-              sx={{ width: "100%" }}
-            >
-              <Tab
-                label='Care workers'
-                value='1'
-                disableRipple
-                sx={{
-                  width: "25%",
-                }}
-              />
-              <Tab
-                label='All staff'
-                value='2'
-                disableRipple
-                sx={{
-                  width: "25%",
-                }}
-              />
-              <Tab
-                label='Screening'
-                value='3'
-                disableRipple
-                sx={{
-                  width: "25%",
-                }}
-              />
-              <Tab
-                label='Applied'
-                value='4'
-                disableRipple
-                sx={{
-                  width: "25%",
-                }}
-              />
-            </Tabs>
-            <Divider />
-            <TabPanel
-              value='1'
+            />
+            <Select
               sx={{
+                borderRadius: ".5rem",
+                width: "50%",
                 height: "100%",
-                overflow: "auto",
+                "& .MuiInputBase-root": {
+                  height: "100%",
+                  outline: "none !important",
+                },
+                backgroundColor: "#fff",
               }}
-            >
-              <Column sx={{ gap: 1, overflow: "auto", height: "100%" }}>
-                {careWorkers?.map((careWorker) => (
-                  <Box key={careWorker.id}>
-                    <CareWorkerCard
-                      key={careWorker.id}
-                      careWorker={careWorker}
-                    />
-                  </Box>
-                ))}
-              </Column>
-            </TabPanel>
-            <TabPanel value='2'>
-              <Column sx={{ gap: 1, overflow: "auto", height: "100%" }}>
-                {careWorkers?.map((careWorker) => (
-                  <Box key={careWorker.id}>
-                    <CareWorkerCard
-                      key={careWorker.id}
-                      careWorker={careWorker}
-                    />
-                  </Box>
-                ))}
-              </Column>
-            </TabPanel>
-            <TabPanel value='3'>
-              <ScreeningTab />
-            </TabPanel>
-            <TabPanel
-              sx={{ height: 800 }}
-              value='4'
-            >
-              <AppliedTab />
-            </TabPanel>
-          </TabContext>
+              SelectDisplayProps={{
+                style: {
+                  display: "flex",
+                  fontSize: "1.4rem",
+                  color: "rgba(0, 0, 0, 0.5)",
+                  alignItems: "center",
+                },
+              }}
+              defaultValue='all'
+              options={[{ label: "All", value: "all" }]}
+            />
+          </FullRow>
+          <FullColumn
+            sx={{
+              backgroundColor: "#fff",
+              borderRadius: ".5rem",
+              pt: 3,
+            }}
+          >
+            <TabContext value={currentTab}>
+              <Tabs
+                value={currentTab}
+                onChange={(_, value) => {
+                  setCurrentTab(value as string);
+                }}
+                sx={{ width: "100%" }}
+              >
+                <Tab
+                  label='Care workers'
+                  value='1'
+                  disableRipple
+                  sx={{
+                    width: "25%",
+                  }}
+                />
+                <Tab
+                  label='All staff'
+                  value='2'
+                  disableRipple
+                  sx={{
+                    width: "25%",
+                  }}
+                />
+                <Tab
+                  label='Screening'
+                  value='3'
+                  disableRipple
+                  sx={{
+                    width: "25%",
+                  }}
+                />
+                <Tab
+                  label='Applied'
+                  value='4'
+                  disableRipple
+                  sx={{
+                    width: "25%",
+                  }}
+                />
+              </Tabs>
+              <Divider />
+              <TabPanel
+                value='1'
+                sx={{
+                  height: "100%",
+                  overflow: "auto",
+                }}
+              >
+                <Column sx={{ gap: 1, overflow: "auto", height: "100%" }}>
+                  {careWorkers?.map((careWorker) => (
+                    <Box key={careWorker.id}>
+                      <CareWorkerCard
+                        key={careWorker.id}
+                        careWorker={careWorker}
+                      />
+                    </Box>
+                  ))}
+                </Column>
+              </TabPanel>
+              <TabPanel value='2'>
+                <Column sx={{ gap: 1, overflow: "auto", height: "100%" }}>
+                  {careWorkers?.map((careWorker) => (
+                    <Box key={careWorker.id}>
+                      <CareWorkerCard
+                        key={careWorker.id}
+                        careWorker={careWorker}
+                      />
+                    </Box>
+                  ))}
+                </Column>
+              </TabPanel>
+              <TabPanel value='3'>
+                <ScreeningTab />
+              </TabPanel>
+              <TabPanel
+                sx={{ height: 800 }}
+                value='4'
+              >
+                <AppliedTab />
+              </TabPanel>
+            </TabContext>
+          </FullColumn>
         </Column>
       </Column>
     </Layout>

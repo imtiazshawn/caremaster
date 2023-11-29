@@ -35,7 +35,6 @@ export const Clients = () => {
         onClose={(successfullyCreated) => {
           setOpenServiceUserModal(false);
           refetch();
-          console.log("~~~ sdf", successfullyCreated);
 
           if (successfullyCreated) {
             setCurrentTab("2");
@@ -53,8 +52,8 @@ export const Clients = () => {
           sx={{
             width: "100%",
             height: "100%",
-            maxWidth: "50rem",
             p: 4,
+            maxWidth: "70rem",
           }}
         >
           <FullRow>
@@ -115,6 +114,7 @@ export const Clients = () => {
                   disableRipple
                   sx={{
                     width: "50%",
+                    flex: 1,
                   }}
                 />
                 <Tab
@@ -122,7 +122,8 @@ export const Clients = () => {
                   value='2'
                   disableRipple
                   sx={{
-                    width: "50%",
+                    width: "100%",
+                    flex: 1,
                   }}
                 />
               </Tabs>
