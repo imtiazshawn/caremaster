@@ -20,6 +20,7 @@
       "@common/*": ["./src/components/common/*"],
       "@serviceUsersUI/*": ["./src/components/serviceUsers/*"],
       "@components/*": ["./src/components/*"],
+      "@shared/*": ["./src/shared/*"],
       "@reducers/*": ["./src/redux/reducers/*"],
       "$types/*": ["./src/types/*"],
       "@redux/*": ["./src/redux/*"],

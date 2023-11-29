@@ -1,8 +1,8 @@
 import { useGetServiceUserQuery } from "@reducers/api/serviceUsers";
-import { useParams } from "react-router-dom";
+import { useServiceUserId } from "@redux/hooks/useServiceUserId";
 
 export const useServiceUser = () => {
-  const id = useParams().id;
+  const id = useServiceUserId();
   const { data, ...rest } = useGetServiceUserQuery(String(id));
   return { serviceUser: data, ...rest };
 };

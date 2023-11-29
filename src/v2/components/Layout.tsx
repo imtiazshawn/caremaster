@@ -3,13 +3,14 @@ import { ReactNode } from "react";
 import { COLORS } from "@/shared/constants/colors";
 
 import { Box, FullColumn, Grid } from "@common/index";
-import { Navbar } from "./Navbar";
+import { Navbar, NavbarProps } from "./Navbar/Navbar";
 import { TopHeader } from "./TopHeader";
 
 type LayoutProps = {
   children?: ReactNode;
   applyTopHeader?: boolean;
   sidebar?: () => ReactNode;
+  sidebarProps?: NavbarProps;
   rightBar?: (props: any) => ReactNode;
   bodyColor?: string;
 };
@@ -20,6 +21,7 @@ export const Layout: React.FC<LayoutProps> = ({
   sidebar = Navbar,
   rightBar = "none",
   bodyColor = COLORS.WHITE,
+  sidebarProps,
 }) => {
   const SidebarComponent = sidebar;
   const RightBarComponent = rightBar;
@@ -33,7 +35,7 @@ export const Layout: React.FC<LayoutProps> = ({
           marginRight: "2rem",
         }}
       >
-        <SidebarComponent />
+        <SidebarComponent {...sidebarProps} />
         <FullColumn sx={{ gap: "1rem", height: "100vh", marginBottom: "5em" }}>
           {applyTopHeader ? <TopHeader /> : <></>}
           <Box

@@ -43,4 +43,6 @@ export const IconButton = ({
   return <MIconButton {...remainingProps}>{icon}</MIconButton>;
 };
 
+export { IconButton as MIconButton } from "@mui/material";
+
 export default IconButton;

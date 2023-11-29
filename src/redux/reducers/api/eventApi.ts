@@ -17,7 +17,7 @@ export const eventsApi = createApi({
         return response.response.data;
       },
     }),
-    getEvents: builder.query<RotaEventGet[], number>({
+    getEvents: builder.query<RotaEventGet[], number | null>({
       query: (serviceUser) => ({
         url: `?service_user=${serviceUser}`,
         method: "GET",

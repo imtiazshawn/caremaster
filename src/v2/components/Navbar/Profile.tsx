@@ -23,7 +23,7 @@ export const NavBarProfile: React.FC<Props> = ({ name, photo, mobile }) => {
       }}
     >
       <img
-        src={photo ?? placeholderProfilePicture}
+        src={photo || placeholderProfilePicture}
         alt='profile'
         className='h-[125px] w-[125px] rounded-full'
         style={{

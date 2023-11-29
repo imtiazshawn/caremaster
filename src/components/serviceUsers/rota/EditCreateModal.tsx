@@ -75,7 +75,7 @@ export const EditCreateModal = ({
       end_type: event.end_type,
       end_after_occurrence: event.end_after_occurrence ?? 1000,
       repeat_on: event.repeat_on ?? "",
-      service_user: serviceUserId,
+      service_user: serviceUserId!,
       care_plan_tasks: event.care_plan_tasks ?? [],
       care_workers: event.care_workers ?? [],
     };
@@ -84,6 +84,9 @@ export const EditCreateModal = ({
   };
 
   const handleSubmitForm = async (values: any) => {
+    if (!serviceUserId) {
+      return;
+    }
     if (isEditing) {
       updateValuesRef.current = mapCalendarEventToEvent(values);
       setUpdateModalOpen(true);

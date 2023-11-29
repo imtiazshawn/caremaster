@@ -1,7 +1,7 @@
+import { CLIENT_ID_PARAM_KEY } from "@/shared/constants/route";
 import { useParams } from "react-router-dom";
 
 export const useServiceUserId = () => {
-  const { id: serviceUserId } = useParams<{ id: string }>();
-
-  return Number(serviceUserId);
+  const { [CLIENT_ID_PARAM_KEY]: serviceUserId } = useParams();
+  return serviceUserId ? Number(serviceUserId) : null;
 };

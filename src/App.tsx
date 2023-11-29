@@ -11,7 +11,7 @@ import { EditServiceUser } from "@/pages/EditServiceUser";
 import { ServiceUsers } from "@/pages/ServiceUsers";
 import { Settings } from "@/pages/Settings";
 import V2EditCareWorkers from "@/pages/v2/CareWorkers";
-import { v2Routes } from "@/v2/routers";
+import { v2Routes } from "@/v2/components/routers/routers";
 import ProvideReference from "@components/ProvideReference";
 import Finished from "@components/apply/Finished";
 import InitialForm from "@components/apply/InitialForm";

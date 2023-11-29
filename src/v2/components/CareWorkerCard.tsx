@@ -16,6 +16,7 @@ type CareWorkerProps = {
   onClick?: () => void;
   children?: React.ReactNode;
 };
+
 export const CareWorkerCard: React.FC<CareWorkerProps> = ({
   careWorker,
   children,
@@ -37,7 +38,7 @@ export const CareWorkerCard: React.FC<CareWorkerProps> = ({
           onClick();
           return;
         }
-        navigate(`/v2/careWorker/${careWorker.id}/basic`);
+        navigate(`/v2/staff/${careWorker.id}/basic`);
       }}
     >
       <FlexBox

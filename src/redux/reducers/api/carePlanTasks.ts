@@ -14,7 +14,7 @@ export const carePlanTasksApi = createApi({
   reducerPath: "carePlanTasksApi",
   baseQuery: getBaseQuery("care-plan-tasks"),
   endpoints: (builder) => ({
-    getCarePlanTasks: builder.query<CarePlanTask[], number>({
+    getCarePlanTasks: builder.query<CarePlanTask[], number | null>({
       query: (id) => ({
         url: `?service_user=${id}`,
         method: "GET",

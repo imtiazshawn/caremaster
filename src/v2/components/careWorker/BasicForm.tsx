@@ -1,39 +1,44 @@
 import { Column } from "@components/common";
 import { useEffect } from "react";
 
-import { ServiceUser } from "$types/serviceUsers";
+import { UpdateCareWorkerReq } from "$types/careWorkers";
 import { removeUndefined } from "@/Utils";
-import { useServiceUser } from "@/shared/hooks/useServiceUser";
 import { Layout } from "@/v2/components/Layout";
 import { MaintenanceRightBar } from "@/v2/components/rightbars/MaintenanceRightBar";
-import { useClientNavLinkProps } from "@/v2/hooks/useClientNavLinkProps";
+import { useStaffNavLinkProps } from "@/v2/hooks/useStaffNavLinkProps";
 import { SmartForm } from "@common/SmartForm";
+import { getDetailsCareWorkerForm } from "@components/careWorkers/PersonalProfileFormTemplates";
 import { LoadingButton } from "@components/common/LoadingButton";
-import { useUpdateServiceUserMutation } from "@reducers/api/serviceUsers";
-import { othersForm } from "@serviceUsersUI/PersonalProfileFormTemplates";
+import { useUpdateCareWorkerMutation } from "@reducers/api/careWorkers";
+import { useCareWorker } from "@shared/hooks/useCareWorker";
 import { useForm } from "react-hook-form";
 
-export const OthersForm = () => {
-  const { serviceUser, refetch } = useServiceUser();
-  const [updateServiceUser, { isLoading }] = useUpdateServiceUserMutation();
+export const StaffBasicForm = () => {
+  const { careWorker, refetch } = useCareWorker();
+  const [updateCareWorker, { isLoading }] = useUpdateCareWorkerMutation();
 
   const { handleSubmit, control, setValue, reset, watch } =
-    useForm<ServiceUser>();
+    useForm<UpdateCareWorkerReq>();
 
-  const navLinkProps = useClientNavLinkProps();
+  const navLinkProps = useStaffNavLinkProps();
 
   useEffect(() => {
-    if (serviceUser) {
-      reset({ ...serviceUser });
+    if (careWorker) {
+      reset({
+        ...careWorker,
+        name: careWorker.user.name,
+        email: careWorker.user.email,
+        phone: careWorker.user.phone,
+      });
     }
-  }, [reset, serviceUser]);
+  }, [reset, careWorker]);
 
-  const handleFormSubmit = async (value: ServiceUser) => {
-    const updatedValue = removeUndefined({ ...value });
+  const handleFormSubmit = async (values: UpdateCareWorkerReq) => {
+    const updatedValue = removeUndefined({ ...values });
     if (typeof updatedValue.photo === "string") {
       delete updatedValue.photo;
     }
-    await updateServiceUser(updatedValue);
+    await updateCareWorker(updatedValue);
     refetch();
   };
 
@@ -43,7 +48,13 @@ export const OthersForm = () => {
       sidebarProps={navLinkProps}
     >
       <form onSubmit={handleSubmit(handleFormSubmit)}>
-        <Column sx={{ gap: "1em", p: 5 }}>
+        <Column
+          sx={{
+            gap: "1em",
+            p: 5,
+            borderRadius: "1rem",
+          }}
+        >
           <LoadingButton
             sx={{
               alignSelf: "flex-end",
@@ -54,9 +65,8 @@ export const OthersForm = () => {
           >
             Save
           </LoadingButton>
-
           <SmartForm
-            template={othersForm}
+            template={getDetailsCareWorkerForm()}
             control={control}
             watch={watch}
             setValue={setValue}
