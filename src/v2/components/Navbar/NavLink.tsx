@@ -1,6 +1,7 @@
 import { NavLink } from "@/v2/types/navLink";
 import { MIconButton } from "@common/IconButton";
-import { Column, FlexBox } from "@common/index";
+import { Column, FlexBox, Grid } from "@common/index";
+import { ChevronRight, ExpandMore } from "@mui/icons-material";
 import { Link, useLocation, useParams } from "react-router-dom";
 
 export const NavLinkComponent = ({
@@ -65,8 +66,19 @@ export const NavLinkComponent = ({
       pathname.startsWith(replaceIds(navChild.route, navChild.paramKey)),
     );
 
+  const hasChildren = Boolean(navLink.children?.length);
+
+  const isExpanded = hasChildren && isActive;
+
   return (
-    <Column>
+    <Column
+      sx={{
+        ...(isExpanded && {
+          backgroundColor: "#F5F5F5",
+          borderRadius: 2,
+        }),
+      }}
+    >
       <Link
         key={route}
         to={link}
@@ -90,21 +102,32 @@ export const NavLinkComponent = ({
             }),
           }}
         >
-          <FlexBox
+          <Grid
             sx={{
               gap: 1.5,
               justifyContent: "left",
               alignItems: "center",
               width: "100%",
               fontSize: "1.2rem",
+              gridTemplateColumns: "2rem 1fr auto",
             }}
           >
             <Icon color={isActive ? "#000" : "inherit"} />
-            {label}
-          </FlexBox>
+            <FlexBox sx={{ justifyContent: "flex-start" }}>{label}</FlexBox>
+            {hasChildren && (
+              <FlexBox
+                sx={{
+                  width: "100%",
+                  justifyContent: "flex-end",
+                }}
+              >
+                {isExpanded ? <ChevronRight /> : <ExpandMore />}
+              </FlexBox>
+            )}
+          </Grid>
         </MIconButton>
       </Link>
-      {navLink.children && (
+      {navLink.children && isExpanded && (
         <Column
           sx={{
             ml: 2,

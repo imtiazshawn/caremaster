@@ -26,10 +26,10 @@ export const Navbar: React.FC<NavbarProps> = ({
     <Column
       sx={{
         height: "100vh",
+        p: 3,
         pb: 5,
         pt: 5,
         gap: 1,
-        pl: 5,
         backgroundColor: COLORS.WHITE,
         overflow: "auto",
       }}
