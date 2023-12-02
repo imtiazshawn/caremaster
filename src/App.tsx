@@ -9,7 +9,7 @@ import { CareWorkers } from "@/pages/CareWorkers";
 import EditCareWorkers from "@/pages/EditCareWorkers";
 import { EditServiceUser } from "@/pages/EditServiceUser";
 import { ServiceUsers } from "@/pages/ServiceUsers";
-import { Settings } from "@/pages/Settings";
+import { Settings } from "@/pages/SettingsOld";
 import V2EditCareWorkers from "@/pages/v2/CareWorkers";
 import { v2Routes } from "@/v2/components/routers/routers";
 import ProvideReference from "@components/ProvideReference";

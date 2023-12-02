@@ -7,9 +7,9 @@ import { Box, FlexBox, FullColumn } from "@components/common";
 import { PageLayout } from "@components/layout/PageLayout";
 import CarePlanTab from "@components/serviceUsers/CarePlanTab";
 import { PersonalProfileTab } from "@components/serviceUsers/PersonalProfileTab";
-import { ServiceUserRecordTab } from "@components/serviceUsers/ServiceUserRecordTab";
 import { TabContext, TabPanel } from "@mui/lab";
 import { Tab, Tabs } from "@mui/material";
+import { ServiceUserRecordTab } from "@serviceUsersUI/ServiceUserRecordTabOld";
 import { useState } from "react";
 
 type ServiceUserTabItem = {

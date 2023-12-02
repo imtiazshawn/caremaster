@@ -10,10 +10,12 @@ import { CouncilForm } from "@/v2/components/serviceUser/Council";
 import { IdentificationForm } from "@/v2/components/serviceUser/Identification";
 import { OthersForm } from "@/v2/components/serviceUser/Others";
 import { RiskAssessment } from "@/v2/components/serviceUser/RiskAssesment";
+import { ServiceUserRecordTab } from "@/v2/components/serviceUser/ServiceUserRecordTab";
 import Calendar from "@/v2/pages/Calendar";
 import ClientRota from "@/v2/pages/ClientRota";
 import { Clients } from "@/v2/pages/Clients";
 import { Dashboard } from "@/v2/pages/Dashboard";
+import { Settings } from "@/v2/pages/Settings";
 import { Staff } from "@/v2/pages/Staff";
 import { Route } from "react-router-dom";
 
@@ -66,7 +68,7 @@ export const v2Routes = [
   <Route
     key='settings'
     path='v2/settings'
-    element={<Dashboard />}
+    element={<Settings />}
   />,
   <Route
     key='client/id/tasks'
@@ -102,6 +104,11 @@ export const v2Routes = [
     key='client/id/others'
     path={`v2/client/:${CLIENT_ID_PARAM_KEY}/others`}
     element={<OthersForm />}
+  />,
+  <Route
+    key='client/id/records'
+    path='v2/client/:id/records'
+    element={<ServiceUserRecordTab />}
   />,
   <Route
     key='client/id/others'
