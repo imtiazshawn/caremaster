@@ -21,8 +21,8 @@ import { formatDate, getOptions } from "@/Utils";
 import { ActionType } from "@/columns/column.careWorkers";
 import { Layout } from "@/v2/components/Layout";
 import { MaintenanceRightBar } from "@/v2/components/rightbars/MaintenanceRightBar";
+import { useClientNavLinkProps } from "@/v2/hooks/useClientNavLinkProps";
 import IconButton from "@common/IconButton";
-import Loader from "@common/Loader";
 import { LoadingButton } from "@common/LoadingButton";
 import { SegHeader } from "@common/SegHeader";
 import ConfirmationDialog from "@components/modals/ConfirmationModal";
@@ -79,11 +79,10 @@ export const ServiceUserRecordTab = () => {
 
   const { records = [], isLoading } = useRecords();
 
-  const {
-    data: serviceUserRecords = [],
-    refetch,
-    isLoading: isLoadingServiceUserRecords,
-  } = useGetServiceUserRecordsQuery((serviceUserId || 0) as number);
+  const { data: serviceUserRecords = [], refetch } =
+    useGetServiceUserRecordsQuery((serviceUserId || 0) as number);
+
+  const navLinkProps = useClientNavLinkProps();
 
   // TODO: Move this function to utils
   const groupedRecordValues = serviceUserRecords.reduce(
@@ -257,12 +256,11 @@ export const ServiceUserRecordTab = () => {
     toggleSegment(segment);
   };
 
-  if (isLoading || isLoadingServiceUserRecords) {
-    return <Loader />;
-  }
-
   return (
-    <Layout rightBar={MaintenanceRightBar}>
+    <Layout
+      rightBar={MaintenanceRightBar}
+      sidebarProps={navLinkProps}
+    >
       <Column sx={{ padding: "40px" }}>
         <LoadingButton
           sx={{
