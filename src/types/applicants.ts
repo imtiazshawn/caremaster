@@ -152,7 +152,7 @@ export type EmploymentHistoryForm = {
   job: string;
   reasonforLeaving: string;
 };
-export const EmploymenHistoryFormItems: (keyof EmploymentHistoryForm)[] = [
+export const EmploymentHistoryFormItems: (keyof EmploymentHistoryForm)[] = [
   "unique_id",
   "startDate",
   "endDate",
@@ -166,18 +166,18 @@ export type EducationHistoryForm = {
   unique_id: string;
   startDate: Date;
   endDate: Date;
-  qualificaiton: string;
+  qualification: string;
   awarding_body: string;
 };
-export const EducationHistoryFormItmes: (keyof EducationHistoryForm)[] = [
+export const EducationHistoryFormItems: (keyof EducationHistoryForm)[] = [
   "unique_id",
   "startDate",
   "endDate",
-  "qualificaiton",
+  "qualification",
   "awarding_body",
 ];
 
-export type ReferenceForm = Record<(typeof ReferenceFormItmes)[number], string>;
+export type ReferenceForm = Record<(typeof ReferenceFormItems)[number], string>;
 
 export const ReferenceFormFileItems = [
   "first_referrer_passport_size_photo",
@@ -209,7 +209,7 @@ export const DocumentItems = [
   "others",
 ] as const;
 
-export const ReferenceFormItmes = [
+export const ReferenceFormItems = [
   "first_referrer_email",
   "first_referrer_name",
   "first_referrer_phone",

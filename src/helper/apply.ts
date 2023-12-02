@@ -3,7 +3,7 @@ import {
   ApplicationStatus,
   DocumentItems,
   PersonalDetailsFormItemsCompulsory,
-  ReferenceFormItmes,
+  ReferenceFormItems,
 } from "$types/applicants";
 
 export const getApplicationStatus = (
@@ -48,14 +48,14 @@ export const getApplicationStatus = (
   const references = applicant.reference;
   const referencesStatus =
     references &&
-    ReferenceFormItmes.every(
+    ReferenceFormItems.every(
       (item) => typeof references[item] === "string" && references[item] !== "",
     )
       ? "complete"
       : "incomplete";
 
   const documents = applicant.documents;
-  const documnetStatus = DocumentItems.every(
+  const documentStatus = DocumentItems.every(
     (item) => documents && typeof documents[item] === "string",
   )
     ? "complete"
@@ -67,7 +67,7 @@ export const getApplicationStatus = (
     employmentHistoryStatus === "complete" &&
     referencesStatus === "complete" &&
     educationHistoryStatus === "complete" &&
-    documnetStatus === "complete";
+    documentStatus === "complete";
 
   const total = 6;
   const completedCount = [
@@ -76,7 +76,7 @@ export const getApplicationStatus = (
     employmentHistoryStatus,
     referencesStatus,
     educationHistoryStatus,
-    documnetStatus,
+    documentStatus,
   ].filter((status) => status === "complete").length;
 
   return {
@@ -86,7 +86,7 @@ export const getApplicationStatus = (
     employmentHistory: employmentHistoryStatus,
     references: referencesStatus,
     educationHistory: educationHistoryStatus,
-    documents: documnetStatus,
+    documents: documentStatus,
     completedCount,
     total,
   };

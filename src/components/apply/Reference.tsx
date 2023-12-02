@@ -1,4 +1,4 @@
-import { ReferenceForm, ReferenceFormItmes } from "$types/applicants";
+import { ReferenceForm, ReferenceFormItems } from "$types/applicants";
 import { removeUndefined } from "@/Utils";
 import { getApplicationStatus } from "@/helper/apply";
 import { Button } from "@common/Button";
@@ -50,7 +50,7 @@ export const Reference = () => {
     if (data && data.reference) {
       const formData: any = {};
       const reference = data.reference;
-      ReferenceFormItmes.forEach((item) => {
+      ReferenceFormItems.forEach((item) => {
         formData[item] = reference[item];
       });
       reset(formData);

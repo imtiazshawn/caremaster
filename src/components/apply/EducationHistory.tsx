@@ -40,7 +40,7 @@ export const EducationHistory = ({
           required: true,
         },
         {
-          name: `${id}.qualificaiton`,
+          name: `${id}.qualification`,
           type: "text",
           label: "Qualification",
           required: true,
