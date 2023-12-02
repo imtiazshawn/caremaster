@@ -2,10 +2,10 @@ import { CareWorkerCard } from "@/v2/components/CareWorkerCard";
 import { Box, FlexBox } from "@common/index";
 import { Check, Close } from "@mui/icons-material";
 import { useGetCareWorkersQuery } from "@reducers/api/careWorkers";
+import { Link } from "react-router-dom";
 
 const ScreeningTab = () => {
   const { data: careWorkers } = useGetCareWorkersQuery(null);
-
   return (
     <Box
       sx={{
@@ -16,23 +16,22 @@ const ScreeningTab = () => {
       }}
     >
       {careWorkers?.map((careWorker) => (
-        <CareWorkerCard
-          careWorker={careWorker}
+        <Link
           key={careWorker.id}
+          to={`/v2/staff/screening/${careWorker.id}/personal-details`}
         >
-          <FlexBox>
-            <Check />
-            <Close />
-          </FlexBox>
-        </CareWorkerCard>
+          <CareWorkerCard
+            careWorker={careWorker}
+            key={careWorker.id}
+            onClick={() => null}
+          >
+            <FlexBox>
+              <Check />
+              <Close />
+            </FlexBox>
+          </CareWorkerCard>
+        </Link>
       ))}
-      {/* <Table<Screening>
-        rows={careWorkers ?? []}
-        columns={getScreeningColumns()}
-        isLoading={isCareWorkersLoading}
-        onRowClick={(row) => navigate(`/care-workers/${row.id}`)}
-        initialPageSize={10}
-      /> */}
     </Box>
   );
 };

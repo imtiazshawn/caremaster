@@ -1,3 +1,4 @@
+import { Applicant } from "$types/applicants";
 import { ApiResponse, ApiResponseArray } from ".";
 
 export enum HOME_TO_FIRST_SHIFT {
@@ -73,6 +74,7 @@ export type CreateCareWorker = {
   travel_pay?: string;
   travel_pay_rate?: string;
   holiday_hours_alloted?: string;
+  applicant?: Applicant;
 };
 
 export type CareWorker = Omit<

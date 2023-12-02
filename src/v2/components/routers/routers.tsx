@@ -1,8 +1,12 @@
 import {
+  APPLICANT_ID_PARAM_KEY,
   CLIENT_ID_PARAM_KEY,
+  SCREENING_ID_PARAM_KEY,
   STAFF_ID_PARAM_KEY,
 } from "@/shared/constants/route";
+import { AppliedProfile } from "@/v2/components/careWorker/AppliedProfile";
 import { StaffBasicForm } from "@/v2/components/careWorker/BasicForm";
+import { ScreeningProfile } from "@/v2/components/careWorker/ScreeningProfile";
 import { BackgroundForm } from "@/v2/components/serviceUser/Background";
 import { BasicForm } from "@/v2/components/serviceUser/BasicForm";
 import { ClientPlanActivity } from "@/v2/components/serviceUser/ClientPlanActivity";
@@ -84,6 +88,16 @@ export const v2Routes = [
     key='client/id/basic'
     path={`v2/client/:${CLIENT_ID_PARAM_KEY}/basic`}
     element={<BasicForm />}
+  />,
+  <Route
+    key='staff/id/screening'
+    path={`v2/staff/applied/:${APPLICANT_ID_PARAM_KEY}/*`}
+    element={<AppliedProfile />}
+  />,
+  <Route
+    key='staff/id/screening'
+    path={`v2/staff/screening/:${SCREENING_ID_PARAM_KEY}/*`}
+    element={<ScreeningProfile />}
   />,
   <Route
     key='client/id/identification'

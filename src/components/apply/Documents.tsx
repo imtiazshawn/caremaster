@@ -14,14 +14,14 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
 
-export const Documents = () => {
+export const Documents = ({ id }: { id?: string }) => {
   const { control, reset, setValue, watch, handleSubmit } =
     useForm<DocumentsForm>({
       // defaultValues: defaultValues,
       // resolver: yupResolver(personalDetailsSchema),
     });
   const [searchParams] = useSearchParams();
-  const uid = searchParams.get("uid");
+  const uid = id ?? searchParams.get("uid");
   const {
     isLoading: isQueryLoading,
     data,

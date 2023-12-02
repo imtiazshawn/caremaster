@@ -1,7 +1,10 @@
 import {
+  Applicant,
+  CreateApplicant,
   PersonalDetailsForm,
   PersonalDetailsFormItems,
 } from "$types/applicants";
+import { ProfileSectionProps } from "$types/profile";
 import { removeUndefined } from "@/Utils";
 import { personalDetailsSchema } from "@/formSchemas/personalDetails";
 import { Button } from "@common/Button";
@@ -11,31 +14,22 @@ import { FormTemplate, SmartForm } from "@common/SmartForm";
 import { FlexBox } from "@common/index";
 import { PostCodeComponent } from "@components/PostCodeComponent";
 import { yupResolver } from "@hookform/resolvers/yup";
-import {
-  useGetApplicantQuery,
-  useUpdateApplicantMutation,
-} from "@reducers/api/applicants";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
 
-export const PersonalDetails = () => {
+export const PersonalDetails = ({
+  data,
+  isDataLoading,
+  refetch,
+  update,
+  isUpdateLoading,
+  nextUrl,
+}: ProfileSectionProps<Applicant, CreateApplicant & { unique_id: string }>) => {
   const { control, setValue, reset, handleSubmit } =
     useForm<PersonalDetailsForm>({
       // defaultValues: defaultValues,
       resolver: yupResolver(personalDetailsSchema),
     });
-  const [searchParams] = useSearchParams();
-  const uid = searchParams.get("uid");
-  const {
-    isLoading: isQueryLoading,
-    data,
-    refetch,
-  } = useGetApplicantQuery(uid as string, {
-    refetchOnMountOrArgChange: true,
-  });
-  const [updateApplicant, { isLoading: isUpdateLoading }] =
-    useUpdateApplicantMutation();
 
   useEffect(() => {
     if (data) {
@@ -47,7 +41,7 @@ export const PersonalDetails = () => {
     }
   }, [reset, data]);
 
-  if (isQueryLoading || !data) {
+  if (isDataLoading || !data) {
     return <></>;
   }
   const personalDetailsFormTemplate: FormTemplate<PersonalDetailsForm>[] = [
@@ -224,7 +218,7 @@ export const PersonalDetails = () => {
   ];
   const handleFormSubmit = async (values: PersonalDetailsForm) => {
     const updatedValue = removeUndefined(values);
-    updateApplicant(updatedValue).then(() => {
+    update(updatedValue).then(() => {
       refetch();
       ShowShortMessage("Saved successfully");
     });
@@ -236,6 +230,27 @@ export const PersonalDetails = () => {
         className='p-4'
         onSubmit={handleSubmit(handleFormSubmit)}
       >
+        <FlexBox
+          sx={{
+            justifyContent: "space-between",
+            marginBottom: "1.5rem",
+            height: "3.5rem",
+            borderRadius: "0.5rem",
+          }}
+        >
+          <Button
+            sx={{ width: "50%" }}
+            variant='contained'
+          >
+            Send Video Meeting Request
+          </Button>
+          <Button
+            sx={{ width: "50%" }}
+            variant='contained'
+          >
+            Send to Screening
+          </Button>
+        </FlexBox>
         <SmartForm
           template={personalDetailsFormTemplate}
           control={control}
@@ -257,7 +272,7 @@ export const PersonalDetails = () => {
           <Button
             type='submit'
             variant='contained'
-            href={`/care-worker/apply/questionnaire?uid=${uid}`}
+            href={nextUrl}
           >
             Next
           </Button>

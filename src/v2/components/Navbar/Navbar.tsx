@@ -5,6 +5,7 @@ import { COLORS } from "@/shared/constants/colors";
 import { NavLinkComponent } from "@/v2/components/Navbar/NavLink";
 import { NavBarProfile } from "@/v2/components/Navbar/Profile";
 import { NavLink } from "@/v2/types/navLink";
+import { Button } from "@common/Button";
 import { H3 } from "@common/Typography";
 import { Column, FlexBox } from "@common/index";
 import { defaultNavLinks } from "./navLinks/defaultNavLinks";
@@ -16,11 +17,15 @@ export type NavbarProps = {
     photo: string | File;
     mobile: string;
   };
+  buttonLabel?: string;
+  buttonOnClickHandler?: () => unknown;
 };
 
 export const Navbar: React.FC<NavbarProps> = ({
   navLinks = defaultNavLinks,
   profile,
+  buttonLabel,
+  buttonOnClickHandler,
 }) => {
   return (
     <Column
@@ -71,7 +76,25 @@ export const Navbar: React.FC<NavbarProps> = ({
           }}
         />
       )}
-
+      {buttonLabel && (
+        <FlexBox
+          sx={{
+            width: "100%",
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            sx={{
+              width: "75%",
+              borderRadius: "30px",
+            }}
+            variant='contained'
+            onClick={buttonOnClickHandler}
+          >
+            {buttonLabel}
+          </Button>
+        </FlexBox>
+      )}
       {navLinks.map((navLink, index) => {
         return (
           <NavLinkComponent

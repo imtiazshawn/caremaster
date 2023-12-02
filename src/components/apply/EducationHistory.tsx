@@ -1,27 +1,24 @@
 import {
   Applicant,
+  CreateApplicant,
   EducationHistoryForm,
   EmploymentHistoryForm,
 } from "$types/applicants";
+import { ProfileSectionProps } from "$types/profile";
 import { DynamicList } from "@common/DynamicList";
 import IconButton from "@common/IconButton";
 import { FormTemplate } from "@common/SmartForm";
-import {
-  useGetApplicantQuery,
-  useUpdateApplicantMutation,
-} from "@reducers/api/applicants";
-import { useSearchParams } from "react-router-dom";
 
 type Template = Record<`${string}.${keyof EducationHistoryForm}`, unknown>;
 
-export const EducationHistory = () => {
-  const [searchParams] = useSearchParams();
-  const uid = searchParams.get("uid");
-
-  const { data: applicantData, refetch } = useGetApplicantQuery(uid as string);
-  const [updateAnswer, { isLoading: isUpdateLoading }] =
-    useUpdateApplicantMutation();
-
+export const EducationHistory = ({
+  data,
+  isDataLoading,
+  refetch,
+  update,
+  isUpdateLoading,
+  nextUrl,
+}: ProfileSectionProps<Applicant, CreateApplicant & { unique_id: string }>) => {
   const getTemplates = (
     id: number,
     handleDelete: (id: number) => void,
@@ -70,27 +67,27 @@ export const EducationHistory = () => {
       ],
     },
   ];
-  if (!applicantData || !uid) {
+  if (isDataLoading || !data) {
     return <></>;
   }
   const header = `Please name any institute or professional body in full and include attainment level.`;
   return (
     <DynamicList<EmploymentHistoryForm, Template, Applicant>
       getTemplates={getTemplates}
-      data={applicantData}
+      data={data}
       topic='qualification'
-      update={updateAnswer}
+      update={update}
       refetch={refetch}
       injectParams={(payload) => ({
         qualification: JSON.stringify(payload) as any,
-        id: applicantData.id,
-        first_name: applicantData.first_name,
-        email: applicantData.email,
-        unique_id: applicantData.unique_id,
+        id: data.id,
+        first_name: data.first_name,
+        email: data.email,
+        unique_id: data.unique_id,
       })}
       isUpdateLoading={isUpdateLoading}
       header={header}
-      next={`/care-worker/apply/documents?uid=${uid}`}
+      next={nextUrl}
     />
   );
 };

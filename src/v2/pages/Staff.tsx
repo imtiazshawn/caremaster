@@ -14,7 +14,7 @@ import { useGetCareWorkersQuery } from "@reducers/api/careWorkers";
 import { useState } from "react";
 
 export const Staff = () => {
-  const [currentTab, setCurrentTab] = useState("1");
+  const [currentTab, setCurrentTab] = useState("4");
   const { data: careWorkers } = useGetCareWorkersQuery();
   const [isOpenCareWorkerModal, setIsOpenCareWorkerModal] = useState(false);
   return (
@@ -137,7 +137,10 @@ export const Staff = () => {
                   ))}
                 </Column>
               </TabPanel>
-              <TabPanel value='2'>
+              <TabPanel
+                value='2'
+                sx={{ overflow: "scroll" }}
+              >
                 <Column sx={{ gap: 1, overflow: "auto", height: "100%" }}>
                   {careWorkers?.map((careWorker) => (
                     <Box key={careWorker.id}>
@@ -149,7 +152,10 @@ export const Staff = () => {
                   ))}
                 </Column>
               </TabPanel>
-              <TabPanel value='3'>
+              <TabPanel
+                value='3'
+                sx={{ overflow: "scroll" }}
+              >
                 <ScreeningTab />
               </TabPanel>
               <TabPanel

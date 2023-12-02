@@ -1,24 +1,22 @@
 import { Applicant, CreateApplicant } from "$types/applicants";
 import { ProfileSectionProps } from "$types/profile";
-import { DBS } from "@components/apply/DBS";
-import { Documents } from "@components/apply/Documents";
+import { Layout } from "@/v2/components/Layout";
+import { StaffsRightBar } from "@/v2/components/rightbars/StaffsRightBar";
+import { useStaffAppliedNavLinkProps } from "@/v2/hooks/useStaffNavLinkProps";
 import { EducationHistory } from "@components/apply/EducationHistory";
 import { EmploymentHistory } from "@components/apply/EmploymentHistory";
-import { EqualMonitoring } from "@components/apply/EqualMonitoring";
-import { Introduction } from "@components/apply/Introduction";
 import { PersonalDetails } from "@components/apply/PersonalDetails";
 import { Questionnaire } from "@components/apply/Questionnaire";
-import { Reference } from "@components/apply/Reference";
-import { ApplicationLayout } from "@components/layout/ApplicationLayout";
 import {
   useGetApplicantQuery,
   useUpdateApplicantMutation,
 } from "@reducers/api/applicants";
-import { Route, Routes, useSearchParams } from "react-router-dom";
+import { useApplicantId } from "@redux/hooks/useApplicantId";
+import { Route, Routes } from "react-router-dom";
 
-export const Apply = () => {
-  const [searchParams] = useSearchParams();
-  const uid = searchParams.get("uid");
+export const AppliedProfile = () => {
+  const navbarProps = useStaffAppliedNavLinkProps();
+  const uid = useApplicantId();
 
   const {
     isLoading: isDataLoading,
@@ -32,7 +30,6 @@ export const Apply = () => {
   if (!data) {
     return <></>;
   }
-
   const childProps: Omit<
     ProfileSectionProps<Applicant, CreateApplicant & { unique_id: string }>,
     "nextUrl"
@@ -44,23 +41,27 @@ export const Apply = () => {
     refetch,
   };
   return (
-    <ApplicationLayout>
+    <Layout
+      sidebarProps={navbarProps}
+      rightBar={StaffsRightBar}
+    >
       <div className='m-8 rounded-sm p-4'>
         <Routes>
           <Route
             path='/'
-            element={<Introduction />}
-          />
-          <Route
-            path='/introduction'
-            element={<Introduction />}
+            element={
+              <PersonalDetails
+                {...childProps}
+                nextUrl={`/v2/staff/applied/${uid}/questionnaire`}
+              />
+            }
           />
           <Route
             path='/personal-details'
             element={
               <PersonalDetails
                 {...childProps}
-                nextUrl={`/care-worker/apply/questionnaire?uid=${uid}`}
+                nextUrl={`/v2/staff/applied/${uid}/questionnaire`}
               />
             }
           />
@@ -69,7 +70,7 @@ export const Apply = () => {
             element={
               <Questionnaire
                 {...childProps}
-                nextUrl={`/care-worker/apply/employment-history?uid=${uid}`}
+                nextUrl={`/v2/staff/applied/${uid}/employment-history`}
               />
             }
           />
@@ -78,7 +79,7 @@ export const Apply = () => {
             element={
               <EmploymentHistory
                 {...childProps}
-                nextUrl={`/care-worker/apply/education-history?uid=${uid}`}
+                nextUrl={`/v2/staff/applied/${uid}/education-history`}
               />
             }
           />
@@ -87,30 +88,21 @@ export const Apply = () => {
             element={
               <EducationHistory
                 {...childProps}
-                nextUrl={`/care-worker/apply/documents?uid=${uid}`}
+                nextUrl={`/v2/staff/applied/${uid}/documents`}
               />
             }
           />
-
-          {/* TODO: We have to pass props to the following components */}
-          <Route
+          {/* <Route
             path='/documents'
-            element={<Documents />}
+            element={<Documents id={id} />}
           />
           <Route
             path='/reference'
-            element={<Reference />}
-          />
-          <Route
-            path='/equal-monitoring'
-            element={<EqualMonitoring />}
-          />
-          <Route
-            path='/dbs'
-            element={<DBS />}
-          />
+            element={<Reference id={id} />}
+          /> */}
+          {/* <R  */}
         </Routes>
       </div>
-    </ApplicationLayout>
+    </Layout>
   );
 };

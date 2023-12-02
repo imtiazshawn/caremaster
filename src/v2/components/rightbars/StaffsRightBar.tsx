@@ -15,7 +15,7 @@ export const StaffsRightBar = () => {
       sx={{
         gap: 3,
         marginTop: "2.5rem",
-        width: ["30rem", "30rem", "30rem", "30rem", "40rem"],
+        width: ["20rem", "23rem", "23rem", "23rem", "35rem"],
       }}
     >
       <AddCareWorkerModal

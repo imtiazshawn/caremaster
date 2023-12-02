@@ -1,38 +1,46 @@
 import { Applicant, CreateApplicant } from "$types/applicants";
 import { ProfileSectionProps } from "$types/profile";
+import { Layout } from "@/v2/components/Layout";
+import { StaffsRightBar } from "@/v2/components/rightbars/StaffsRightBar";
+import { useStaffScreeningNavLinkProps } from "@/v2/hooks/useStaffNavLinkProps";
 import { DBS } from "@components/apply/DBS";
-import { Documents } from "@components/apply/Documents";
 import { EducationHistory } from "@components/apply/EducationHistory";
 import { EmploymentHistory } from "@components/apply/EmploymentHistory";
 import { EqualMonitoring } from "@components/apply/EqualMonitoring";
-import { Introduction } from "@components/apply/Introduction";
 import { PersonalDetails } from "@components/apply/PersonalDetails";
 import { Questionnaire } from "@components/apply/Questionnaire";
-import { Reference } from "@components/apply/Reference";
-import { ApplicationLayout } from "@components/layout/ApplicationLayout";
 import {
   useGetApplicantQuery,
   useUpdateApplicantMutation,
 } from "@reducers/api/applicants";
-import { Route, Routes, useSearchParams } from "react-router-dom";
+import { useScreeningId } from "@redux/hooks/useScreeningId";
+import { useScreening } from "@shared/hooks/useScreening";
 
-export const Apply = () => {
-  const [searchParams] = useSearchParams();
-  const uid = searchParams.get("uid");
+import { Route, Routes } from "react-router-dom";
+
+export const ScreeningProfile = () => {
+  const navbarProps = useStaffScreeningNavLinkProps();
+  const { refetch: refetchScreeningData, screening } = useScreening();
+  const uid = useScreeningId();
 
   const {
     isLoading: isDataLoading,
     data,
-    refetch,
-  } = useGetApplicantQuery(uid as string, {
+    refetch: refetchApplicantData,
+  } = useGetApplicantQuery(screening?.applicant?.unique_id as string, {
     refetchOnMountOrArgChange: true,
   });
+
+  const refetch = async () => {
+    await refetchApplicantData();
+    await refetchScreeningData();
+  };
   const [updateApplicant, { isLoading: isUpdateLoading }] =
     useUpdateApplicantMutation();
+
   if (!data) {
     return <></>;
   }
-
   const childProps: Omit<
     ProfileSectionProps<Applicant, CreateApplicant & { unique_id: string }>,
     "nextUrl"
@@ -43,24 +51,30 @@ export const Apply = () => {
     isUpdateLoading,
     refetch,
   };
+
   return (
-    <ApplicationLayout>
+    <Layout
+      sidebarProps={navbarProps}
+      rightBar={StaffsRightBar}
+    >
       <div className='m-8 rounded-sm p-4'>
         <Routes>
           <Route
             path='/'
-            element={<Introduction />}
-          />
-          <Route
-            path='/introduction'
-            element={<Introduction />}
+            element={
+              <PersonalDetails
+                {...childProps}
+                nextUrl={`/v2/staff/screening/${uid}/questionnaire`}
+              />
+            }
           />
           <Route
             path='/personal-details'
             element={
+              // <>HELLO</>
               <PersonalDetails
                 {...childProps}
-                nextUrl={`/care-worker/apply/questionnaire?uid=${uid}`}
+                nextUrl={`/v2/staff/screening/${uid}/questionnaire`}
               />
             }
           />
@@ -69,7 +83,7 @@ export const Apply = () => {
             element={
               <Questionnaire
                 {...childProps}
-                nextUrl={`/care-worker/apply/employment-history?uid=${uid}`}
+                nextUrl={`/v2/staff/screening/${uid}/employment-history`}
               />
             }
           />
@@ -78,7 +92,7 @@ export const Apply = () => {
             element={
               <EmploymentHistory
                 {...childProps}
-                nextUrl={`/care-worker/apply/education-history?uid=${uid}`}
+                nextUrl={`/v2/staff/screening/${uid}/education-history`}
               />
             }
           />
@@ -87,20 +101,18 @@ export const Apply = () => {
             element={
               <EducationHistory
                 {...childProps}
-                nextUrl={`/care-worker/apply/documents?uid=${uid}`}
+                nextUrl={`/v2/staff/screening/${uid}/documents`}
               />
             }
           />
-
-          {/* TODO: We have to pass props to the following components */}
-          <Route
+          {/* <Route
             path='/documents'
-            element={<Documents />}
+            element={<Documents id={id} />}
           />
           <Route
             path='/reference'
-            element={<Reference />}
-          />
+            element={<Reference id={id} />}
+          /> */}
           <Route
             path='/equal-monitoring'
             element={<EqualMonitoring />}
@@ -111,6 +123,6 @@ export const Apply = () => {
           />
         </Routes>
       </div>
-    </ApplicationLayout>
+    </Layout>
   );
 };

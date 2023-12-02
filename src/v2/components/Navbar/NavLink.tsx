@@ -40,9 +40,7 @@ export const NavLinkComponent = ({
     );
   }
 
-  const { route, icon, label } = navLink;
-
-  const Icon = icon;
+  const { route, icon, label, image } = navLink;
 
   const replaceParamId = (route: string, paramKey: string) => {
     return route.replace(`:${paramKey}`, String(paramId));
@@ -69,6 +67,16 @@ export const NavLinkComponent = ({
   const hasChildren = Boolean(navLink.children?.length);
 
   const isExpanded = hasChildren && isActive;
+
+  let iconComponent = null;
+  if (icon) {
+    const Icon = icon;
+    iconComponent = <Icon color={isActive ? "#000" : "inherit"} />;
+  }
+  if (image) {
+    const Image = image.component;
+    iconComponent = <Image sx={image.sx} />;
+  }
 
   return (
     <Column
@@ -112,8 +120,12 @@ export const NavLinkComponent = ({
               gridTemplateColumns: "2rem 1fr auto",
             }}
           >
-            <Icon color={isActive ? "#000" : "inherit"} />
-            <FlexBox sx={{ justifyContent: "flex-start" }}>{label}</FlexBox>
+            {iconComponent}
+            <FlexBox
+              sx={{ justifyContent: "flex-start", whiteSpace: "nowrap" }}
+            >
+              {label}
+            </FlexBox>
             {hasChildren && (
               <FlexBox
                 sx={{

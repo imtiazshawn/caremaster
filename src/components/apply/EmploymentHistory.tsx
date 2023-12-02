@@ -1,30 +1,30 @@
-import { EmploymentHistoryForm } from "$types/applicants";
+import {
+  Applicant,
+  CreateApplicant,
+  EmploymentHistoryForm,
+} from "$types/applicants";
+import { ProfileSectionProps } from "$types/profile";
 import IconButton from "@common/IconButton";
 import { LoadingButton } from "@common/LoadingButton";
 import ShowShortMessage from "@common/ShortMessage";
 import { FormTemplate, SmartForm } from "@common/SmartForm";
 import { FlexBox, FullColumn } from "@common/index";
 import { Button } from "@mui/material";
-import {
-  useGetApplicantQuery,
-  useUpdateApplicantMutation,
-} from "@reducers/api/applicants";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
 
 type Template = Record<`${string}.${keyof EmploymentHistoryForm}`, unknown>;
 
-export const EmploymentHistory = () => {
+export const EmploymentHistory = ({
+  data,
+  refetch,
+  update,
+  isUpdateLoading,
+  nextUrl,
+}: ProfileSectionProps<Applicant, CreateApplicant & { unique_id: string }>) => {
   const { control, handleSubmit, reset } = useForm<EmploymentHistoryForm>();
   const [employmentIds, setEmploymentIds] = useState([0]);
   const [count, setCount] = useState(0);
-
-  const [searchParams] = useSearchParams();
-  const uid = searchParams.get("uid");
-  const { data: applicantData, refetch } = useGetApplicantQuery(uid as string);
-  const [updateAnswer, { isLoading: isUpdateLoading }] =
-    useUpdateApplicantMutation();
 
   const handleDelete = (id: number) => {
     setEmploymentIds((employmentIds) =>
@@ -33,16 +33,16 @@ export const EmploymentHistory = () => {
   };
 
   useEffect(() => {
-    if (applicantData?.employment_history) {
+    if (data?.employment_history) {
       const ids = [];
-      for (let i = 0; i < applicantData.employment_history.length; i++) {
+      for (let i = 0; i < data.employment_history.length; i++) {
         ids.push(i);
       }
       setEmploymentIds(ids);
 
-      reset({ ...applicantData.employment_history });
+      reset({ ...data.employment_history });
     }
-  }, [reset, applicantData]);
+  }, [reset, data]);
 
   const templates: FormTemplate<Template>[][] = employmentIds.map((id) => [
     {
@@ -106,12 +106,12 @@ export const EmploymentHistory = () => {
       .filter(([key]) => employmentIds.includes(Number.parseInt(key)))
       .map(([, value]) => value);
 
-    if (applicantData) {
-      updateAnswer({
+    if (data) {
+      update({
         employment_history: JSON.stringify(payload) as any,
-        first_name: applicantData.first_name,
-        email: applicantData.email,
-        unique_id: applicantData.unique_id,
+        first_name: data.first_name,
+        email: data.email,
+        unique_id: data.unique_id,
       }).then(() => {
         ShowShortMessage("Saved successfully");
         refetch();
@@ -173,7 +173,7 @@ export const EmploymentHistory = () => {
               type='submit'
               variant='contained'
               size='large'
-              href={`/care-worker/apply/education-history?uid=${uid}`}
+              href={nextUrl}
             >
               Next
             </LoadingButton>

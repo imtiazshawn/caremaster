@@ -2,10 +2,11 @@ import { Applicant } from "$types/applicants";
 import { ActionType } from "@/columns/column.careWorker.applied";
 import { COLORS } from "@/shared/constants/colors";
 import { CareWorkerCard } from "@/v2/components/CareWorkerCard";
+import IconButton from "@common/IconButton";
 import ShowShortMessage from "@common/ShortMessage";
 import { FlexBox, FullColumn } from "@common/index";
 import ConfirmationDialog from "@components/modals/ConfirmationModal";
-import { Check, Close } from "@mui/icons-material";
+
 import { useAcceptApplicantMutation } from "@reducers/api/acceptApplicant";
 
 import {
@@ -14,7 +15,7 @@ import {
 } from "@reducers/api/applicants";
 import { useGetCareWorkerQuestionsQuery } from "@reducers/api/careWorkerQuestions";
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const AppliedTab = () => {
   const {
@@ -25,9 +26,8 @@ const AppliedTab = () => {
   const [updateApplicant] = useUpdateApplicantMutation();
   const [acceptApplicant] = useAcceptApplicantMutation();
   const { data: questions } = useGetCareWorkerQuestionsQuery(null);
-  const [selectedRowIndex, setSelectedRowIndex] = useState<null | string>(null);
+  const [selectedUid, setSelectedUid] = useState<null | string>(null);
   const [modalType, setModalType] = useState<ActionType>("accept");
-  const navigate = useNavigate();
 
   const filteredApplicants = useMemo(
     () =>
@@ -41,6 +41,7 @@ const AppliedTab = () => {
       }) ?? [],
     [applicants],
   );
+
   const isLoading = !applicants || isLoadingApplicants || !questions;
   if (isLoading) {
     return <></>;
@@ -65,12 +66,10 @@ const AppliedTab = () => {
       });
     });
     ShowShortMessage(`Applicant ${modalType}ed successfully`);
-
-    // const careWokerData = getCareWorkerData(applicant);
   };
 
   const handleAction = (unique_id: string, actionType: ActionType) => {
-    setSelectedRowIndex(unique_id);
+    setSelectedUid(unique_id);
     setModalType(actionType);
   };
 
@@ -83,33 +82,47 @@ const AppliedTab = () => {
       <ConfirmationDialog
         title='Please confirm'
         description={modalDescription}
-        isOpen={Boolean(selectedRowIndex)}
+        isOpen={Boolean(selectedUid)}
         onCancel={() => {
-          setSelectedRowIndex(null);
+          setSelectedUid(null);
         }}
         onOk={() => {
-          onSubmitHandler(selectedRowIndex as string);
-          setSelectedRowIndex(null);
+          onSubmitHandler(selectedUid as string);
+          setSelectedUid(null);
         }}
       />
 
       {filteredApplicants?.map((applicant) => (
-        <CareWorkerCard
-          careWorker={{
-            id: applicant.unique_id,
-            user: {
-              name: applicant.first_name,
-            },
-          }}
-          onClick={() =>
-            navigate(
-              `/care-workers/applied/personal-details?uid=${applicant.unique_id}`,
-            )
-          }
-          key={applicant.unique_id}
+        <Link
+          key={`/v2/staff/applied/${applicant.unique_id}/personal-details`}
+          to={`/v2/staff/applied/${applicant.unique_id}/personal-details`}
         >
-          <FlexBox>
-            <Check
+          <CareWorkerCard
+            careWorker={{
+              id: applicant.unique_id,
+              user: {
+                name: applicant.first_name,
+                email: applicant.email,
+                phone: applicant.phone,
+              },
+            }}
+            onClick={() => null}
+            key={applicant.unique_id}
+          >
+            <FlexBox>
+              <IconButton
+                variant='check'
+                onClick={() => {
+                  handleAction(applicant.unique_id, "accept");
+                }}
+              />
+              <IconButton
+                variant='close'
+                onClick={() => {
+                  handleAction(applicant.unique_id, "remove");
+                }}
+              />
+              {/* <Check
               onClick={(e) => {
                 e.stopPropagation();
                 handleAction(applicant.unique_id, "accept");
@@ -120,15 +133,27 @@ const AppliedTab = () => {
                 e.stopPropagation();
                 handleAction(applicant.unique_id, "remove");
               }}
-            />
-          </FlexBox>
-        </CareWorkerCard>
+            /> */}
+            </FlexBox>
+          </CareWorkerCard>
+        </Link>
       ))}
       {filteredApplicants.length === 0 && !isLoading && (
         <FlexBox sx={{ fontSize: "1.5em", justifyContent: "center" }}>
           No new applicants
         </FlexBox>
       )}
+      {/* <Table<Applicant>
+        // rows={applicants}
+        rows={rows}
+        columns={getAppliedColumns(questionsIds, handleAction)}
+        isLoading={isLoading}
+        // onRowClick={({ row }) =>
+        //   navigate(
+        //     `/care-workers/applied/personal-details?uid=${row.unique_id}`,
+        //   )
+        // }
+      /> */}
     </FullColumn>
   );
 };

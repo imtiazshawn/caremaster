@@ -1,43 +1,40 @@
+import { Applicant, CreateApplicant } from "$types/applicants";
 import { CareWorkerQuestion } from "$types/careWorkerQuestions";
+import { ProfileSectionProps } from "$types/profile";
 import { LoadingButton } from "@common/LoadingButton";
 import ShowShortMessage from "@common/ShortMessage";
 import { FormTemplate, SmartForm } from "@common/SmartForm";
 import { FlexBox } from "@common/index";
-import {
-  useGetApplicantQuery,
-  useUpdateApplicantMutation,
-} from "@reducers/api/applicants";
 import { useGetCareWorkerQuestionsQuery } from "@reducers/api/careWorkerQuestions";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
 
 type Template = Record<string, unknown>;
 
-export const Questionnaire = () => {
-  const { data } = useGetCareWorkerQuestionsQuery(null);
+export const Questionnaire = ({
+  data,
+  isUpdateLoading,
+  refetch,
+  update,
+  nextUrl,
+}: ProfileSectionProps<Applicant, CreateApplicant & { unique_id: string }>) => {
   const { control, handleSubmit, reset } = useForm<Template>();
-  const [searchParams] = useSearchParams();
-  const uid = searchParams.get("uid");
-  const { data: applicantData, refetch } = useGetApplicantQuery(uid as string);
-
-  const [updateAnswer, { isLoading: isUpdateLoading }] =
-    useUpdateApplicantMutation();
+  const { data: questions } = useGetCareWorkerQuestionsQuery(null);
 
   useEffect(() => {
-    if (applicantData) {
+    if (data) {
       reset({
-        experience: applicantData.experience,
-        ...applicantData.interview_answers,
+        experience: data.experience,
+        ...data.interview_answers,
       });
     }
-  }, [reset, applicantData]);
+  }, [reset, data]);
 
-  if (!data) {
+  if (!data || !questions) {
     return <></>;
   }
 
-  const formTemplate: FormTemplate<Template>[] = data.map(
+  const formTemplate: FormTemplate<Template>[] = questions.map(
     ({ question, id }: CareWorkerQuestion) => {
       const questionTemplate = {
         type: "text-area",
@@ -59,15 +56,15 @@ export const Questionnaire = () => {
     },
   ];
   const handleFormSubmit = (value: Template) => {
-    if (applicantData) {
+    if (data) {
       const { experience, ...answers } = value;
 
-      updateAnswer({
+      update({
         interview_answers: JSON.stringify(answers) as any,
         experience: experience as string,
-        first_name: applicantData.first_name,
-        email: applicantData.email,
-        unique_id: applicantData.unique_id,
+        first_name: data.first_name,
+        email: data.email,
+        unique_id: data.unique_id,
       }).then(() => {
         refetch();
         ShowShortMessage("Saved successfully");
@@ -104,7 +101,7 @@ export const Questionnaire = () => {
           <LoadingButton
             variant='contained'
             size='large'
-            href={`/care-worker/apply/employment-history?uid=${uid}`}
+            href={nextUrl}
           >
             Next
           </LoadingButton>
