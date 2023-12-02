@@ -368,6 +368,9 @@ const RecordDetails: React.FC<{
       <Table
         columns={getTableColumns(handleAction)}
         rows={tableRows}
+        sx={{
+          width: "100%",
+        }}
       />
       <ConfirmationDialog
         isOpen={isOpenDeleteDialog}

@@ -1,6 +1,7 @@
 import flagIcon from "@assets/flag.svg";
 import { FlexBox } from "@common/index";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { useEffect, useState } from "react";
 
 const latLongs = [
   [51.548_116_720_806_625, -0.057_932_815_739_255_26],
@@ -22,6 +23,21 @@ const GoogleMaps = ({
     });
   };
 
+  const mapKey = Math.random().toString();
+  const [reloadMap, setReloadMap] = useState(false);
+
+  // Note (Paul, 2023-12-02): This is a hack to force the map to reload
+  // when we change the route. Otherwise, the map will not render.
+  useEffect(() => {
+    setReloadMap(false);
+    const timer = setTimeout(() => {
+      setReloadMap(true);
+    }, 1);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, []);
+
   return (
     <FlexBox
       style={{
@@ -31,19 +47,26 @@ const GoogleMaps = ({
         alignItems: "center",
         marginLeft: "-20px",
       }}
+      key={mapKey}
     >
-      <LoadScript googleMapsApiKey='AIzaSyCPRih4GYZvz32JJRmRrHZhtRkONM-fywY'>
-        <GoogleMap
-          mapContainerStyle={{ height: "70vh", width: "100%" }}
-          center={{ lat: latitude, lng: longitude }}
-          zoom={10}
-          onLoad={renderMarkers}
-        >
-          <Marker
-            position={{ lat: latitude, lng: longitude }}
-            icon={flagIcon}
-          />
-        </GoogleMap>
+      <LoadScript
+        googleMapsApiKey='AIzaSyCPRih4GYZvz32JJRmRrHZhtRkONM-fywY'
+        key={mapKey}
+      >
+        {reloadMap && (
+          <GoogleMap
+            mapContainerStyle={{ height: "70vh", width: "100%" }}
+            center={{ lat: latitude, lng: longitude }}
+            zoom={10}
+            onLoad={renderMarkers}
+            key={mapKey}
+          >
+            <Marker
+              position={{ lat: latitude, lng: longitude }}
+              icon={flagIcon}
+            />
+          </GoogleMap>
+        )}
       </LoadScript>
     </FlexBox>
   );
