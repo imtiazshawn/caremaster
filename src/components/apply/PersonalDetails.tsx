@@ -230,27 +230,6 @@ export const PersonalDetails = ({
         className='p-4'
         onSubmit={handleSubmit(handleFormSubmit)}
       >
-        <FlexBox
-          sx={{
-            justifyContent: "space-between",
-            marginBottom: "1.5rem",
-            height: "3.5rem",
-            borderRadius: "0.5rem",
-          }}
-        >
-          <Button
-            sx={{ width: "50%" }}
-            variant='contained'
-          >
-            Send Video Meeting Request
-          </Button>
-          <Button
-            sx={{ width: "50%" }}
-            variant='contained'
-          >
-            Send to Screening
-          </Button>
-        </FlexBox>
         <SmartForm
           template={personalDetailsFormTemplate}
           control={control}

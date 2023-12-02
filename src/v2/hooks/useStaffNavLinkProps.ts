@@ -52,7 +52,7 @@ export const useStaffScreeningNavLinkProps = () => {
       photo: screening?.applicant?.documents?.passport_size_photo ?? "",
       mobile: screening?.applicant?.phone ?? "",
     },
-    buttonLabel: "Send Invitation",
+    buttonLabel: "Confirm Applicant",
     buttonOnClickHandler: () => {
       alert("Implement Invitation handler");
     },

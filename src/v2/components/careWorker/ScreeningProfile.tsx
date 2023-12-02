@@ -3,6 +3,8 @@ import { ProfileSectionProps } from "$types/profile";
 import { Layout } from "@/v2/components/Layout";
 import { StaffsRightBar } from "@/v2/components/rightbars/StaffsRightBar";
 import { useStaffScreeningNavLinkProps } from "@/v2/hooks/useStaffNavLinkProps";
+import { Button } from "@common/Button";
+import { FlexBox } from "@common/index";
 import { DBS } from "@components/apply/DBS";
 import { EducationHistory } from "@components/apply/EducationHistory";
 import { EmploymentHistory } from "@components/apply/EmploymentHistory";
@@ -58,6 +60,27 @@ export const ScreeningProfile = () => {
       rightBar={StaffsRightBar}
     >
       <div className='m-8 rounded-sm p-4'>
+        <FlexBox
+          sx={{
+            justifyContent: "space-between",
+            marginBottom: "1.5rem",
+            height: "3.5rem",
+            borderRadius: "0.5rem",
+          }}
+        >
+          <Button
+            sx={{ width: "50%" }}
+            variant='contained'
+          >
+            Assign Training
+          </Button>
+          <Button
+            sx={{ width: "50%" }}
+            variant='contained'
+          >
+            Confirm Applicant
+          </Button>
+        </FlexBox>
         <Routes>
           <Route
             path='/'

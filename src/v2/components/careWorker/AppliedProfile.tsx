@@ -3,6 +3,8 @@ import { ProfileSectionProps } from "$types/profile";
 import { Layout } from "@/v2/components/Layout";
 import { StaffsRightBar } from "@/v2/components/rightbars/StaffsRightBar";
 import { useStaffAppliedNavLinkProps } from "@/v2/hooks/useStaffNavLinkProps";
+import { Button } from "@common/Button";
+import { FlexBox } from "@common/index";
 import { EducationHistory } from "@components/apply/EducationHistory";
 import { EmploymentHistory } from "@components/apply/EmploymentHistory";
 import { PersonalDetails } from "@components/apply/PersonalDetails";
@@ -46,6 +48,27 @@ export const AppliedProfile = () => {
       rightBar={StaffsRightBar}
     >
       <div className='m-8 rounded-sm p-4'>
+        <FlexBox
+          sx={{
+            justifyContent: "space-between",
+            marginBottom: "1.5rem",
+            height: "3.5rem",
+            borderRadius: "0.5rem",
+          }}
+        >
+          <Button
+            sx={{ width: "50%" }}
+            variant='contained'
+          >
+            Send Video Meeting Request
+          </Button>
+          <Button
+            sx={{ width: "50%" }}
+            variant='contained'
+          >
+            Send to Screening
+          </Button>
+        </FlexBox>
         <Routes>
           <Route
             path='/'
