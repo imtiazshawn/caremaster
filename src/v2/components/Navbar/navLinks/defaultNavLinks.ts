@@ -40,8 +40,25 @@ export const defaultNavLinks: (NavLink | "separator" | "spacer")[] = [
     label: "Help and Support",
   },
   {
-    route: "/v2/settings",
+    route: "/v2/settings/profile",
     icon: Settings,
     label: "Settings",
+    children: [
+      {
+        route: "/v2/settings/profile",
+        label: "Profile",
+        icon: ProfileUser,
+      },
+      {
+        route: "/v2/settings/records",
+        label: "Records",
+        icon: ServiceUser,
+      },
+      {
+        route: "/v2/settings/templates",
+        label: "Templates",
+        icon: ServiceUser,
+      },
+    ],
   },
 ];

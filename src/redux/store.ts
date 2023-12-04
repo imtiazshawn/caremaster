@@ -12,6 +12,10 @@ import { recordValuesApi } from "@reducers/api/recordValue";
 import { recordsApi } from "@reducers/api/records";
 import { serviceUserRecordsApi } from "@reducers/api/serviceUserRecords";
 import { serviceUsersApi } from "@reducers/api/serviceUsers";
+import { templateCategoriesApi } from "@reducers/api/templateCategories";
+import { templateFieldsApi } from "@reducers/api/templateFields";
+import { templateSectionsApi } from "@reducers/api/templateSections";
+import { templatesApi } from "@reducers/api/templates";
 import { authReducer } from "@reducers/authSlice";
 import {
   Action,
@@ -37,6 +41,10 @@ const rootReducer = combineReducers({
   [recordValuesApi.reducerPath]: recordValuesApi.reducer,
   [fileUploadApi.reducerPath]: fileUploadApi.reducer,
   [eventsApi.reducerPath]: eventsApi.reducer,
+  [templatesApi.reducerPath]: templatesApi.reducer,
+  [templateSectionsApi.reducerPath]: templateSectionsApi.reducer,
+  [templateFieldsApi.reducerPath]: templateFieldsApi.reducer,
+  [templateCategoriesApi.reducerPath]: templateCategoriesApi.reducer,
 });
 
 const store = configureStore({
@@ -57,6 +65,10 @@ const store = configureStore({
       recordValuesApi.middleware,
       fileUploadApi.middleware,
       eventsApi.middleware,
+      templatesApi.middleware,
+      templateSectionsApi.middleware,
+      templateFieldsApi.middleware,
+      templateCategoriesApi.middleware,
     ]),
   devTools: import.meta.env.NODE_ENV !== "production",
 });

@@ -43,7 +43,9 @@ export const Records = () => {
   };
 
   return (
-    <FullColumn sx={{ background: COLORS.WHITE, p: 2, marginBottom: 2 }}>
+    <FullColumn
+      sx={{ background: COLORS.WHITE, p: 2, marginBottom: 2, width: "100%" }}
+    >
       <AddRecordModal
         isOpen={isOpenRecordModal}
         onClose={onCloseHandler}
@@ -55,8 +57,14 @@ export const Records = () => {
       >
         Records
       </Typography>
-      <FlexBox sx={{ height: "2.3em", gap: 2 }}>
-        <Search />
+      <FlexBox sx={{ height: "4em", gap: 2, justifyContent: "flex-end" }}>
+        <Search
+          sx={{
+            borderRadius: ".5rem",
+            width: "100%",
+            maxWidth: "20rem",
+          }}
+        />
         <Button
           variant='contained'
           className='rounded-md'
@@ -72,6 +80,7 @@ export const Records = () => {
         rows={records}
         columns={getRecordsColumns(handleActionCallback)}
         isLoading={isLoading}
+        sx={{ width: "100%" }}
       />
       <ConfirmationDialog
         title='Delete Record'

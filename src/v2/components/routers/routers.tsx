@@ -4,6 +4,7 @@ import {
   SCREENING_ID_PARAM_KEY,
   STAFF_ID_PARAM_KEY,
 } from "@/shared/constants/route";
+import { Layout } from "@/v2/components/Layout";
 import { AppliedProfile } from "@/v2/components/careWorker/AppliedProfile";
 import { StaffBasicForm } from "@/v2/components/careWorker/BasicForm";
 import { ScreeningProfile } from "@/v2/components/careWorker/ScreeningProfile";
@@ -19,8 +20,9 @@ import Calendar from "@/v2/pages/Calendar";
 import ClientRota from "@/v2/pages/ClientRota";
 import { Clients } from "@/v2/pages/Clients";
 import { Dashboard } from "@/v2/pages/Dashboard";
-import { Settings } from "@/v2/pages/Settings";
+import { RecordSettings } from "@/v2/pages/RecordSettings";
 import { Staff } from "@/v2/pages/Staff";
+import { TemplateSettings } from "@/v2/pages/TemplateSettings";
 import { Route } from "react-router-dom";
 
 export const v2Routes = [
@@ -70,9 +72,19 @@ export const v2Routes = [
     element={<Dashboard />}
   />,
   <Route
-    key='settings'
-    path='v2/settings'
-    element={<Settings />}
+    key='settings/records'
+    path='v2/settings/records'
+    element={<RecordSettings />}
+  />,
+  <Route
+    key='settings/profile'
+    path='v2/settings/profile'
+    element={<Layout></Layout>}
+  />,
+  <Route
+    key='settings/templates'
+    path='v2/settings/templates'
+    element={<TemplateSettings />}
   />,
   <Route
     key='client/id/tasks'
