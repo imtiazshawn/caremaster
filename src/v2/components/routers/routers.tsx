@@ -3,6 +3,7 @@ import {
   CLIENT_ID_PARAM_KEY,
   SCREENING_ID_PARAM_KEY,
   STAFF_ID_PARAM_KEY,
+  TEMPLATE_ID_PARAM_KEY,
 } from "@/shared/constants/route";
 import { Layout } from "@/v2/components/Layout";
 import { AppliedProfile } from "@/v2/components/careWorker/AppliedProfile";
@@ -16,6 +17,7 @@ import { IdentificationForm } from "@/v2/components/serviceUser/Identification";
 import { OthersForm } from "@/v2/components/serviceUser/Others";
 import { RiskAssessment } from "@/v2/components/serviceUser/RiskAssesment";
 import { ServiceUserRecordTab } from "@/v2/components/serviceUser/ServiceUserRecordTab";
+import { TemplateForm } from "@/v2/components/template/TemplateForm";
 import Calendar from "@/v2/pages/Calendar";
 import ClientRota from "@/v2/pages/ClientRota";
 import { Clients } from "@/v2/pages/Clients";
@@ -140,6 +142,11 @@ export const v2Routes = [
     key='client/id/others'
     path={`v2/client/:${CLIENT_ID_PARAM_KEY}/rota`}
     element={<ClientRota />}
+  />,
+  <Route
+    key='client/id/template'
+    path={`v2/client/:${CLIENT_ID_PARAM_KEY}/:${TEMPLATE_ID_PARAM_KEY}`}
+    element={<TemplateForm />}
   />,
   <Route
     key='client/calendar'

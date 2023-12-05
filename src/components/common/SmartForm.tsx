@@ -263,6 +263,7 @@ export const SmartForm: SmartFormComponentType = ({
           name={templateName}
           label={template.label}
           options={template.options ?? []}
+          labelPosition={labelPosition}
         />
       );
     case "multi-checkbox":

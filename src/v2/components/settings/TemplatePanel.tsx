@@ -156,8 +156,8 @@ const SectionComponent: React.FC<SectionProps> = ({ section, depth }) => {
 
   const isOdd = depth % 2 === 1;
 
-  const evenColor = "#bbbbbb";
-  const oddColor = "#e2e2e2";
+  const evenColor = "rgba(0,0,0,.07)";
+  const oddColor = "white";
 
   const onSaveFields = useSaveFields(fields, section.fields || []);
 

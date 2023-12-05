@@ -2,9 +2,10 @@ import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
 
 import { Column, FlexBox } from "@components/common";
 import { Button, XButton } from "@components/common/Button";
-import { ModalTitle } from "@components/common/Typography";
+import { H3, ModalTitle } from "@components/common/Typography";
 
 import { TemplateFieldDTO } from "$types/templateField";
+import Select from "@common/Select";
 import TextField from "@common/TextField";
 import { Close } from "@mui/icons-material";
 import React, { useEffect } from "react";
@@ -23,6 +24,62 @@ type Props = {
 //   // template: yup.number().required(),
 //   // parent: yup.number().nullable().required(),
 // });
+
+const commonlyUsedOptions: {
+  name: string;
+  options: { score: number; name: string }[];
+}[] = [
+  {
+    name: "Agreement",
+    options: [
+      {
+        score: 1,
+        name: "Strongly Disagree",
+      },
+      {
+        score: 2,
+        name: "Disagree",
+      },
+      {
+        score: 3,
+        name: "Neutral",
+      },
+      {
+        score: 4,
+        name: "Agree",
+      },
+      {
+        score: 5,
+        name: "Strongly Agree",
+      },
+    ],
+  },
+  {
+    name: "Frequency",
+    options: [
+      {
+        score: 1,
+        name: "Never",
+      },
+      {
+        score: 2,
+        name: "Rarely",
+      },
+      {
+        score: 3,
+        name: "Sometimes",
+      },
+      {
+        score: 4,
+        name: "Often",
+      },
+      {
+        score: 5,
+        name: "Always",
+      },
+    ],
+  },
+];
 
 const OptionsModal: React.FC<Props> = ({
   isOpen,
@@ -69,39 +126,55 @@ const OptionsModal: React.FC<Props> = ({
       <DialogContent>
         <Column>
           <Column>
-            <FlexBox
-              sx={{
-                flexWrap: "wrap",
-              }}
-            >
-              {localOptions?.map((option: any, index: number) => {
-                return (
-                  <FlexBox key={option.name}>
-                    <FlexBox
-                      sx={{
-                        borderRadius: "50px",
-                        padding: "10px",
-                        backgroundColor: "#e0e0e0",
-                      }}
-                    >
-                      {option.name + (option.score ? `(${option.score})` : "")}
-                      <Close
-                        sx={{ marginLeft: "10px", cursor: "pointer" }}
-                        onClick={() => {
-                          const newOptions = localOptions.filter(
-                            (_: any, i: number) => i !== index,
-                          );
-                          setLocalOptions(newOptions);
-                          setField({ ...field, options: newOptions });
+            <FlexBox>
+              <FlexBox
+                sx={{
+                  flexWrap: "wrap",
+                }}
+              >
+                {localOptions?.map((option: any, index: number) => {
+                  return (
+                    <FlexBox key={option.name}>
+                      <FlexBox
+                        sx={{
+                          borderRadius: "50px",
+                          padding: "10px",
+                          backgroundColor: "#e0e0e0",
                         }}
-                      />
+                      >
+                        {option.name +
+                          (option.score ? `(${option.score})` : "")}
+                        <Close
+                          sx={{ marginLeft: "10px", cursor: "pointer" }}
+                          onClick={() => {
+                            const newOptions = localOptions.filter(
+                              (_: any, i: number) => i !== index,
+                            );
+                            setLocalOptions(newOptions);
+                            setField({ ...field, options: newOptions });
+                          }}
+                        />
+                      </FlexBox>
                     </FlexBox>
-                  </FlexBox>
-                );
-              })}
+                  );
+                })}
+              </FlexBox>
             </FlexBox>
           </Column>
-          <FlexBox sx={{ justifyContent: "flex-start" }}>New Option</FlexBox>
+          <FlexBox sx={{ justifyContent: "space-between" }}>
+            <H3>New Option</H3>
+
+            <Select
+              defaultValue='Choose'
+              onChange={(e) => {
+                const newOptions = commonlyUsedOptions.find(
+                  (option) => option.name === e.target.value,
+                )?.options;
+                setLocalOptions(newOptions);
+              }}
+              options={commonlyUsedOptions.map((option) => option.name)}
+            ></Select>
+          </FlexBox>
           <FlexBox sx={{ justifyContent: "flex-start" }}>
             <TextField
               label='Option'

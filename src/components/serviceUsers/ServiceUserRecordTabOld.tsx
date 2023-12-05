@@ -26,6 +26,7 @@ import Loader from "@common/Loader";
 import ConfirmationDialog from "@components/modals/ConfirmationModal";
 import { useCreateFileUploadMutation } from "@reducers/api/fileUpload";
 import { useServiceUserId } from "@redux/hooks/useServiceUserId";
+import { getFormFieldTypeFromFieldType } from "@shared/utils/template";
 
 type RecordSegment = {
   label: string;
@@ -42,34 +43,6 @@ type RecordSegment = {
   record: RecordWithFields;
   //  TODO: We need to fix the naming and write down the purpose of this
   recordValueMap: Record<number, Record<string, number>>;
-};
-
-// TODO: Move this function to utils
-export const getFormFieldTypeFromFieldType = (
-  fieldType: FieldTypeEnum,
-): FormTemplate<any>["type"] => {
-  switch (fieldType) {
-    case FieldTypeEnum.TEXT:
-      return "text";
-    case FieldTypeEnum.NUMBER:
-      return "number";
-    case FieldTypeEnum.DATE:
-      return "date";
-    case FieldTypeEnum.IMAGE:
-      return "image";
-    case FieldTypeEnum.FILE:
-      return "file";
-    case FieldTypeEnum.CHECKBOX:
-      return "multi-checkbox";
-    case FieldTypeEnum.RADIO:
-      return "radio";
-    case FieldTypeEnum.SELECT:
-      return "select";
-    // case FieldTypeEnum.TEXTAREA:
-    //   return "textarea";
-    default:
-      return "text";
-  }
 };
 
 export const ServiceUserRecordTab = () => {

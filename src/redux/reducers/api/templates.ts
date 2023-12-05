@@ -11,11 +11,13 @@ export const templatesApi = createApi({
   reducerPath: "templatesApi",
   baseQuery: getBaseQuery("templates"),
   endpoints: (builder) => ({
-    getTemplates: builder.query<Template[], void>({
-      query: () => ({
-        url: "",
-        method: "GET",
-      }),
+    getTemplates: builder.query<Template[], number | void>({
+      query: (id) => {
+        return {
+          url: id ? `?template_category=${id}` : "",
+          method: "GET",
+        };
+      },
       transformResponse: (response: TemplatesResponse) => {
         return response.response.data;
       },

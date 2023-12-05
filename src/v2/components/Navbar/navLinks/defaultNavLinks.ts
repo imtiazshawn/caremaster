@@ -7,6 +7,29 @@ import { ReactComponent as TickSquare } from "@assets/tick-square.svg";
 import { ReactComponent as Training } from "@assets/training.svg";
 import { NavLink } from "../../../types/navLink";
 
+export const settingsNavLink: NavLink = {
+  route: "/v2/settings/profile",
+  icon: Settings,
+  label: "Settings",
+  children: [
+    {
+      route: "/v2/settings/profile",
+      label: "Profile",
+      icon: ProfileUser,
+    },
+    {
+      route: "/v2/settings/records",
+      label: "Records",
+      icon: ServiceUser,
+    },
+    {
+      route: "/v2/settings/templates",
+      label: "Templates",
+      icon: ServiceUser,
+    },
+  ],
+};
+
 export const defaultNavLinks: (NavLink | "separator" | "spacer")[] = [
   {
     route: "/v2",
@@ -39,26 +62,5 @@ export const defaultNavLinks: (NavLink | "separator" | "spacer")[] = [
     icon: Message,
     label: "Help and Support",
   },
-  {
-    route: "/v2/settings/profile",
-    icon: Settings,
-    label: "Settings",
-    children: [
-      {
-        route: "/v2/settings/profile",
-        label: "Profile",
-        icon: ProfileUser,
-      },
-      {
-        route: "/v2/settings/records",
-        label: "Records",
-        icon: ServiceUser,
-      },
-      {
-        route: "/v2/settings/templates",
-        label: "Templates",
-        icon: ServiceUser,
-      },
-    ],
-  },
+  settingsNavLink,
 ];

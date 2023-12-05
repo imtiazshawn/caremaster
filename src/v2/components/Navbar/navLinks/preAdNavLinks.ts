@@ -1,9 +1,9 @@
 import { ReactComponent as Message } from "@assets/message-circle.svg";
 import { ReactComponent as ProfileUser } from "@assets/profile-user.svg";
-import { ReactComponent as Settings } from "@assets/settings.svg";
 import { ReactComponent as TickSquare } from "@assets/tick-square.svg";
 
 import { CLIENT_ID_PARAM_KEY } from "@/shared/constants/route";
+import { settingsNavLink } from "@/v2/components/Navbar/navLinks/defaultNavLinks";
 import { NavLink } from "@/v2/types/navLink";
 
 export const preAdClientNavLinks: (NavLink | "separator" | "spacer")[] = [
@@ -45,9 +45,5 @@ export const preAdClientNavLinks: (NavLink | "separator" | "spacer")[] = [
     icon: Message,
     label: "Help and Support",
   },
-  {
-    route: "/v2/settings",
-    icon: Settings,
-    label: "Settings",
-  },
+  settingsNavLink,
 ];

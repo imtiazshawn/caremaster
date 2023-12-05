@@ -8,8 +8,10 @@ import { FormTemplate, SmartForm } from "@components/common/SmartForm";
 import { ModalTitle } from "@components/common/Typography";
 
 import { Template, TemplateDTO } from "$types/template";
+import ConfirmationDialog from "@components/modals/ConfirmationModal";
 import {
   useCreateTemplateMutation,
+  useDeleteTemplateMutation,
   useGetTemplateQuery,
   useGetTemplatesQuery,
   useUpdateTemplateMutation,
@@ -54,6 +56,7 @@ const AddTemplateModal: React.FC<Props> = ({
   const { refetch } = useGetTemplatesQuery();
   const { refetch: refetchTemplate } = useGetTemplateQuery(template?.id ?? 0);
   const [createTemplate, { isLoading }] = useCreateTemplateMutation();
+  const [deleteTemplate] = useDeleteTemplateMutation();
   const [updateTemplate] = useUpdateTemplateMutation();
 
   useEffect(() => {
@@ -103,6 +106,7 @@ const AddTemplateModal: React.FC<Props> = ({
   };
 
   const submitButtonText = isEditing ? "Update Template" : "Create Template";
+  const [isConfirmationOpen, setIsConfirmationOpen] = React.useState(false);
   return (
     <Dialog
       open={isOpen}
@@ -134,7 +138,30 @@ const AddTemplateModal: React.FC<Props> = ({
               control={control}
               labelPosition='top'
             />
+            <ConfirmationDialog
+              isOpen={isConfirmationOpen}
+              onCancel={() => setIsConfirmationOpen(false)}
+              onOk={async () => {
+                setIsConfirmationOpen(false);
+                await deleteTemplate(template?.id ?? 0);
+                refetch();
+                refetchTemplate();
+                onCloseHandler();
+              }}
+              title='Are you sure you want to delete?'
+              description='All forms created will be deleted! Be super sure before doing this.'
+            />
             <FlexBox sx={{ justifyContent: "flex-end" }}>
+              {isEditing && (
+                <LoadingButton
+                  variant='contained'
+                  color='error'
+                  loading={isLoading}
+                  onClick={() => setIsConfirmationOpen(true)}
+                >
+                  Delete
+                </LoadingButton>
+              )}
               <LoadingButton
                 type='submit'
                 variant='contained'

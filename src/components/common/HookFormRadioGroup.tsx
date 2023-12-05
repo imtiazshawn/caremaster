@@ -53,6 +53,10 @@ export const HookFormRadioGroup: FC<HookFormRadioProps> = ({
                   // defaultValue='Never'cd
                   {...field}
                   value={field.value}
+                  sx={{
+                    flexDirection: labelPosition === "left" ? "row" : "column",
+                    gap: 0,
+                  }}
                 >
                   {options.map((option, index) => (
                     <FlexBox

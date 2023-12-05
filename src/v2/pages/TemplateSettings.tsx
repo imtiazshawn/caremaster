@@ -13,29 +13,36 @@ import { useEffect, useState } from "react";
 export const TemplateSettings = () => {
   const { data: templates } = useGetTemplatesQuery();
   const { data: templateCategories } = useGetTemplateCategoriesQuery();
-  const [upperTabValue, setUpperTabValue] = useState("1");
+  const [tabValue, setTabValue] = useState("1");
   const [isAddTemplateModalOpen, setIsAddTemplateModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(0);
 
   useEffect(() => {
     if (templates?.[0]?.id) {
-      setUpperTabValue(String(templates?.[0]?.id));
+      setTabValue(String(templates?.[0]?.id));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templates?.[0]?.id]);
 
   const selectedTemplate = templates?.find(
-    (template) => String(template.id) === upperTabValue,
+    (template) => String(template.id) === tabValue,
   );
 
   return (
     <Layout>
       <FullColumn sx={{ p: 3 }}>
-        <TabContext value={upperTabValue}>
-          <FlexBox>
+        <TabContext value={tabValue}>
+          <FlexBox
+            sx={{
+              gap: 3,
+            }}
+          >
             <Tabs
-              value={upperTabValue}
+              value={tabValue}
               onChange={(_, value) => {
-                setUpperTabValue(value);
+                if (value) {
+                  setTabValue(value);
+                }
               }}
               orientation='vertical'
               sx={{
@@ -43,6 +50,12 @@ export const TemplateSettings = () => {
               }}
             >
               <Column>
+                <AddTemplateModal
+                  isOpen={isAddTemplateModalOpen}
+                  category={selectedCategory}
+                  onClose={() => setIsAddTemplateModalOpen(false)}
+                  key={selectedCategory}
+                />
                 {templateCategories?.map((category) => {
                   return (
                     <Column key={category.id}>
@@ -53,21 +66,19 @@ export const TemplateSettings = () => {
                             cursor: "pointer",
                             color: "#ec6245",
                           }}
-                          onClick={() => setIsAddTemplateModalOpen(true)}
+                          onClick={() => {
+                            setSelectedCategory(category.id);
+                            setIsAddTemplateModalOpen(true);
+                          }}
                         />
                       </FlexBox>
-                      <AddTemplateModal
-                        isOpen={isAddTemplateModalOpen}
-                        category={category.id}
-                        onClose={() => setIsAddTemplateModalOpen(false)}
-                        key={category.id}
-                      />
+
                       {templates?.map((template) => {
                         if (template.category !== category.id) {
                           return null;
                         }
 
-                        const isActive = upperTabValue === String(template.id);
+                        const isActive = tabValue === String(template.id);
 
                         return (
                           <Tab
@@ -83,7 +94,7 @@ export const TemplateSettings = () => {
                               width: "100%",
                             }}
                             onClick={() => {
-                              setUpperTabValue(String(template.id));
+                              setTabValue(String(template.id));
                             }}
                           />
                         );

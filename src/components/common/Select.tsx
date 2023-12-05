@@ -112,5 +112,4 @@ const Select: FC<SelectProps> = ({
     {error && <FormHelperText error={error}>{helperText}</FormHelperText>}
   </FormControl>
 );
-
 export default Select;
