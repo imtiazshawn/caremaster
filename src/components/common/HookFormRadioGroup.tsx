@@ -50,7 +50,6 @@ export const HookFormRadioGroup: FC<HookFormRadioProps> = ({
               control={
                 <RadioGroup
                   aria-labelledby='demo-radio-buttons-group-label'
-                  // defaultValue='Never'cd
                   {...field}
                   value={field.value}
                   sx={{
@@ -63,17 +62,22 @@ export const HookFormRadioGroup: FC<HookFormRadioProps> = ({
                       key={index}
                       sx={{
                         alignItems: "center",
-                        gap: 1,
+                        gap: 0,
                       }}
                     >
                       <Radio
                         name={field.name}
+                        id={String(option.value)}
                         value={option.value}
                         checked={
                           field.value?.toString() === option.value.toString()
                         }
                       />
-                      <H5>{option.label}</H5>
+                      <H5>
+                        <label htmlFor={String(option.value)}>
+                          {option.label}
+                        </label>
+                      </H5>
                     </FlexBox>
                   ))}
                 </RadioGroup>

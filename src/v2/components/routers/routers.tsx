@@ -17,12 +17,13 @@ import { IdentificationForm } from "@/v2/components/serviceUser/Identification";
 import { OthersForm } from "@/v2/components/serviceUser/Others";
 import { RiskAssessment } from "@/v2/components/serviceUser/RiskAssesment";
 import { ServiceUserRecordTab } from "@/v2/components/serviceUser/ServiceUserRecordTab";
-import { TemplateForm } from "@/v2/components/template/TemplateForm";
 import Calendar from "@/v2/pages/Calendar";
+import { CarePlanPage } from "@/v2/pages/CarePlan";
 import ClientRota from "@/v2/pages/ClientRota";
 import { Clients } from "@/v2/pages/Clients";
 import { Dashboard } from "@/v2/pages/Dashboard";
 import { RecordSettings } from "@/v2/pages/RecordSettings";
+import { RiskAssessmentPage } from "@/v2/pages/RiskAssessment";
 import { Staff } from "@/v2/pages/Staff";
 import { TemplateSettings } from "@/v2/pages/TemplateSettings";
 import { Route } from "react-router-dom";
@@ -135,8 +136,13 @@ export const v2Routes = [
   />,
   <Route
     key='client/id/records'
-    path='v2/client/:id/records'
+    path={`v2/client/:${CLIENT_ID_PARAM_KEY}/records`}
     element={<ServiceUserRecordTab />}
+  />,
+  <Route
+    key='client/id/care-plan'
+    path={`v2/client/:${CLIENT_ID_PARAM_KEY}/care-plan`}
+    element={<CarePlanPage />}
   />,
   <Route
     key='client/id/others'
@@ -145,8 +151,8 @@ export const v2Routes = [
   />,
   <Route
     key='client/id/template'
-    path={`v2/client/:${CLIENT_ID_PARAM_KEY}/:${TEMPLATE_ID_PARAM_KEY}`}
-    element={<TemplateForm />}
+    path={`v2/client/forms/:${CLIENT_ID_PARAM_KEY}/:${TEMPLATE_ID_PARAM_KEY}`}
+    element={<RiskAssessmentPage />}
   />,
   <Route
     key='client/calendar'

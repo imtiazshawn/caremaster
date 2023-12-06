@@ -1,25 +1,95 @@
-import { TemplateSectionFull } from "$types/template";
-import { Layout } from "@/v2/components/Layout";
-import { useClientNavLinkProps } from "@/v2/hooks/useClientNavLinkProps";
+import { TemplateFull, TemplateSectionFull } from "$types/template";
+import { removeUndefined } from "@/Utils";
 import { useTemplate } from "@/v2/hooks/useTemplate";
-import { Form } from "@common/Form";
+import { Form, FormRef } from "@common/Form";
+import { LoadingButton } from "@common/LoadingButton";
+import ShowShortMessage from "@common/ShortMessage";
 import { SmartForm } from "@common/SmartForm";
 import { H1, H3 } from "@common/Typography";
 import { Column, FlexBox } from "@common/index";
-import { getFormFieldTypeFromFieldType } from "@shared/utils/template";
-import { useForm } from "react-hook-form";
+import {
+  useCreateTemplateValueMutation,
+  useGetTemplateValuesQuery,
+  useUpdateTemplateValueMutation,
+} from "@reducers/api/templateValues";
+import { useServiceUserId } from "@redux/hooks/useServiceUserId";
+import {
+  getFormFieldTypeFromFieldType,
+  mapFieldDataToFormValues,
+  mapFormFieldValuesToData,
+} from "@shared/utils/template";
+import { FC, useEffect, useRef } from "react";
+import { useFormContext } from "react-hook-form";
 import { TemplateField } from "../../../types/templateField";
 
-export const TemplateForm = () => {
-  const { template } = useTemplate();
-  const navLinkProps = useClientNavLinkProps();
+type TemplateFormProps = {
+  overrideTemplate?: TemplateFull | undefined;
+};
+
+export const TemplateForm: FC<TemplateFormProps> = ({ overrideTemplate }) => {
+  const { template: templateFromRoute } = useTemplate();
+  const template = overrideTemplate ?? templateFromRoute;
+  const serviceUserId = useServiceUserId();
+  const { data: templateValue } = useGetTemplateValuesQuery({
+    templateId: template?.id ?? 0,
+    serviceUserId: serviceUserId ?? 0,
+  });
+
+  const [updateTemplateValue] = useUpdateTemplateValueMutation();
+  const [createTemplateValue] = useCreateTemplateValueMutation();
+
+  const formRef = useRef<FormRef>(null);
+
+  useEffect(() => {
+    if (!templateValue?.[0]) {
+      return;
+    }
+    formRef.current?.api.reset(
+      mapFieldDataToFormValues(templateValue?.[0].data),
+    );
+  }, [formRef, templateValue]);
+
+  const onSubmit = async (values: Record<string, any>) => {
+    removeUndefined(values);
+
+    const fieldData = mapFormFieldValuesToData(values);
+    if (!templateValue?.[0]) {
+      await createTemplateValue({
+        template: template?.id ?? 0,
+        service_user: serviceUserId ?? 0,
+        data: fieldData,
+      });
+    } else {
+      await updateTemplateValue({
+        id: templateValue?.[0].id ?? 0,
+        template: template?.id ?? 0,
+        service_user: serviceUserId ?? 0,
+        data: fieldData,
+      });
+    }
+    ShowShortMessage("Template saved successfully");
+  };
+
   return (
-    <Layout sidebarProps={navLinkProps}>
+    <Form
+      onSubmit={onSubmit}
+      ref={formRef}
+    >
       <Column sx={{ p: 3, gap: 3 }}>
         <Column>
-          <H1>{template?.name}</H1>
+          <FlexBox sx={{ justifyContent: "space-between" }}>
+            <H1>{template?.name}</H1>
+            <LoadingButton
+              type='submit'
+              variant='contained'
+              color='primary'
+            >
+              Save
+            </LoadingButton>
+          </FlexBox>
           <H3>{template?.description}</H3>
         </Column>
+
         <TemplateFieldArray
           fields={template?.fields}
           depth={0}
@@ -37,7 +107,7 @@ export const TemplateForm = () => {
           );
         })}
       </Column>
-    </Layout>
+    </Form>
   );
 };
 
@@ -107,27 +177,21 @@ const SectionArray = ({
   sectionId: number | null;
 }) => {
   return (
-    <Form
-      onSubmit={() => {
-        // console.log("~~~ submit", values);
+    <Column
+      sx={{
+        ml: depth > 0 ? 3 : 0,
       }}
     >
-      <Column
-        sx={{
-          ml: depth > 0 ? 3 : 0,
-        }}
-      >
-        {sections?.map((section) => {
-          return (
-            <SectionComponent
-              key={section.id}
-              section={section}
-              depth={depth + 1}
-            />
-          );
-        })}
-      </Column>
-    </Form>
+      {sections?.map((section) => {
+        return (
+          <SectionComponent
+            key={section.id}
+            section={section}
+            depth={depth + 1}
+          />
+        );
+      })}
+    </Column>
   );
 };
 
@@ -141,6 +205,7 @@ const TemplateFieldComponent = ({
   labelPosition = "left",
 }: TemplateFieldProps) => {
   const type = getFormFieldTypeFromFieldType(field.field_type);
+  const methods = useFormContext();
 
   const templates = [
     {
@@ -150,17 +215,16 @@ const TemplateFieldComponent = ({
       options:
         field.options?.map((option: any) => ({
           label: option.name,
-          value: option.score,
+          value: option.name,
         })) ?? [],
     },
   ];
-  const { control } = useForm();
 
   return (
     <SmartForm
       template={templates as any}
       labelPosition={labelPosition}
-      control={control}
+      control={methods.control}
     />
   );
 };

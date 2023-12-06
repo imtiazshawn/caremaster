@@ -132,10 +132,12 @@ export const ServiceUserRecordTab = () => {
                   </a>
                 );
               }
-              if (field.field_type === FieldTypeEnum.CHECKBOX) {
+              if (field.field_type === FieldTypeEnum.CHECKBOX && params.value) {
+                const value = Array.isArray(params.value) ? params.value : [];
+
                 return (
                   <FlexBox sx={{ gap: "5px" }}>
-                    {params.value
+                    {value
                       ?.map((v: boolean, index: number) => {
                         const value = field.options?.split(",")?.[index];
                         if (!value || !v) {

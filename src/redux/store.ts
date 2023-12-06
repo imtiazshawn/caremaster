@@ -15,6 +15,7 @@ import { serviceUsersApi } from "@reducers/api/serviceUsers";
 import { templateCategoriesApi } from "@reducers/api/templateCategories";
 import { templateFieldsApi } from "@reducers/api/templateFields";
 import { templateSectionsApi } from "@reducers/api/templateSections";
+import { templateValuesApi } from "@reducers/api/templateValues";
 import { templatesApi } from "@reducers/api/templates";
 import { authReducer } from "@reducers/authSlice";
 import {
@@ -45,6 +46,7 @@ const rootReducer = combineReducers({
   [templateSectionsApi.reducerPath]: templateSectionsApi.reducer,
   [templateFieldsApi.reducerPath]: templateFieldsApi.reducer,
   [templateCategoriesApi.reducerPath]: templateCategoriesApi.reducer,
+  [templateValuesApi.reducerPath]: templateValuesApi.reducer,
 });
 
 const store = configureStore({
@@ -69,6 +71,7 @@ const store = configureStore({
       templateSectionsApi.middleware,
       templateFieldsApi.middleware,
       templateCategoriesApi.middleware,
+      templateValuesApi.middleware,
     ]),
   devTools: import.meta.env.NODE_ENV !== "production",
 });

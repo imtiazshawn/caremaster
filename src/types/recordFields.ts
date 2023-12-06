@@ -7,6 +7,9 @@ export enum FieldTypeEnum {
   CHECKBOX = "checkbox",
   RADIO = "radio",
   SELECT = "select",
+  BIG_TEXT = "big_text",
+  DATE_TIME = "date_time",
+  TIME = "time",
 }
 
 export const recordFieldTypes: FieldTypeEnum[] = [
@@ -18,6 +21,9 @@ export const recordFieldTypes: FieldTypeEnum[] = [
   FieldTypeEnum.CHECKBOX,
   FieldTypeEnum.RADIO,
   FieldTypeEnum.SELECT,
+  FieldTypeEnum.BIG_TEXT,
+  FieldTypeEnum.DATE_TIME,
+  FieldTypeEnum.TIME,
 ];
 
 export type RecordField = {

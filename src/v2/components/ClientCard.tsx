@@ -1,5 +1,6 @@
 import { ServiceUser } from "$types/serviceUsers";
 import { COLORS } from "@/shared/constants/colors";
+import { useFirstRiskAssessmentLink } from "@/v2/hooks/useClientNavLinkProps";
 import { placeholderProfilePicture } from "@/v2/utils/constants";
 import { H3, H4 } from "@common/Typography";
 import { Column, FlexBox } from "@common/index";
@@ -12,6 +13,7 @@ type ClientProps = {
 export const ClientCard: React.FC<ClientProps> = ({ client }) => {
   const navigate = useNavigate();
   const isPreAdmitted = client.enrollment_status === "Pre-admission";
+  const getFirstRiskAssessmentLink = useFirstRiskAssessmentLink();
 
   return (
     <FlexBox
@@ -25,7 +27,7 @@ export const ClientCard: React.FC<ClientProps> = ({ client }) => {
       }}
       onClick={() => {
         if (isPreAdmitted) {
-          navigate(`/v2/client/${client.id}/risk-assessment`);
+          navigate(getFirstRiskAssessmentLink(client.id ?? 0));
         } else {
           navigate(`/v2/client/${client.id}/tasks`);
         }

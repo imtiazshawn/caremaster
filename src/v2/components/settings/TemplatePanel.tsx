@@ -42,6 +42,9 @@ const useSaveFields = (
     await Promise.all(
       fields.map(async (field: any) => {
         if (field.id) {
+          if (field.section === 0 || field.section === null) {
+            delete field.section;
+          }
           await updateField({
             ...field,
             options:
@@ -50,7 +53,7 @@ const useSaveFields = (
                 : JSON.stringify(field.options),
           });
         } else {
-          if (field.section === 0) {
+          if (field.section === 0 || field.section === null) {
             delete field.section;
           }
           await createField({
