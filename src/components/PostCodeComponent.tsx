@@ -24,8 +24,9 @@ export const PostCodeComponent: React.FC<PostCodeComponentProps> = ({
 
   const suggestions = useFetchAddresses(searchKey);
   const modifiedAddressList = suggestions?.map((suggestion) => ({
-    value:
-      suggestion?.address.formatted_address.filter(Boolean).join(", ") ?? "",
+    value: `${
+      suggestion?.address.formatted_address.filter(Boolean).join(", ") ?? ""
+    }, ${suggestion?.address.postcode ?? ""}`,
     id: suggestion?.id ?? "",
   }));
 
