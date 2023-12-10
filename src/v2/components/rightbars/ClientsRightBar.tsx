@@ -5,7 +5,7 @@ import AddServiceUserModal from "@components/modals/AddServiceUserModal";
 import { useGetServiceUsersQuery } from "@reducers/api/serviceUsers";
 import { useState } from "react";
 export const ClientRightBar = () => {
-  const { refetch } = useGetServiceUsersQuery(null);
+  const { refetch } = useGetServiceUsersQuery();
 
   const [openServiceUserModal, setOpenServiceUserModal] = useState(false);
 

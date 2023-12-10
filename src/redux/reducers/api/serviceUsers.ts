@@ -13,11 +13,14 @@ export const serviceUsersApi = createApi({
   reducerPath: "serviceUsersApi",
   baseQuery: getBaseQuery("service-users"),
   endpoints: (builder) => ({
-    getServiceUsers: builder.query<ServiceUsersResponse, null>({
+    getServiceUsers: builder.query<ServiceUser[], void>({
       query: () => ({
         url: "",
         method: "GET",
       }),
+      transformResponse: (res: ServiceUsersResponse) => {
+        return res.response.data;
+      },
     }),
     getServiceUser: builder.query<ServiceUser, string>({
       query: (id) => ({

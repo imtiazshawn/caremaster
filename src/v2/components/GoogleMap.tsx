@@ -1,23 +1,36 @@
 import flagIcon from "@assets/flag.svg";
 import { FlexBox } from "@common/index";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { useGetServiceUsersQuery } from "@reducers/api/serviceUsers";
 import { useEffect, useState } from "react";
 
-const latLongs = [
-  [51.548_116_720_806_625, -0.057_932_815_739_255_26],
-  [51.517_224_275_022_1, -0.137_743_373_411_877_76],
-];
+const centerLatLong = [51.548_116_720_806_625, -0.057_932_815_739_255_26];
 
-const GoogleMaps = ({
-  latitude = 51.517_224_275_022_1,
-  longitude = -0.137_743_373_411_877_76,
-}) => {
+const GoogleMapComponent = () => {
+  const { data: serviceUsers } = useGetServiceUsersQuery();
+
   const renderMarkers = async (map: any) => {
-    latLongs.forEach((latLong) => {
+    serviceUsers?.forEach(({ latitude, longitude }) => {
+      if (Number.isNaN(Number(latitude)) || Number.isNaN(Number(longitude))) {
+        return undefined;
+      }
       const marker = new window.google.maps.Marker({
-        position: { lat: latLong[0], lng: latLong[1] },
+        position: { lat: Number(latitude), lng: Number(longitude) },
         map,
-        icon: flagIcon,
+        // icon: {
+        //   url: "",
+        //   // url: `${proPic}?pro-pic=true`, // url
+        //   scaledSize: new google.maps.Size(40, 40), // scaled size
+        //   origin: new google.maps.Point(0, 0), // origin
+        //   anchor: new google.maps.Point(0, 0), // anchor
+        //   // path: google.maps.SymbolPath.CIRCLE,
+        //   strokeColor: "red",
+        //   strokeWeight: 2,
+        //   fillColor: "red",
+        //   strokeOpacity: 1,
+        // },
+
+        // icon: placeholderProfilePicture,
       });
       return marker;
     });
@@ -47,6 +60,12 @@ const GoogleMaps = ({
         alignItems: "center",
         marginLeft: "-20px",
       }}
+      sx={{
+        [`img [src~="pro-pic"]`]: {
+          borderRadius: "50%",
+          border: "2px solid #fff",
+        },
+      }}
       key={mapKey}
     >
       <LoadScript
@@ -56,13 +75,13 @@ const GoogleMaps = ({
         {reloadMap && (
           <GoogleMap
             mapContainerStyle={{ height: "70vh", width: "100%" }}
-            center={{ lat: latitude, lng: longitude }}
+            center={{ lat: centerLatLong[0], lng: centerLatLong[1] }}
             zoom={10}
             onLoad={renderMarkers}
             key={mapKey}
           >
             <Marker
-              position={{ lat: latitude, lng: longitude }}
+              position={{ lat: centerLatLong[0], lng: centerLatLong[1] }}
               icon={flagIcon}
             />
           </GoogleMap>
@@ -72,4 +91,4 @@ const GoogleMaps = ({
   );
 };
 
-export default GoogleMaps;
+export default GoogleMapComponent;

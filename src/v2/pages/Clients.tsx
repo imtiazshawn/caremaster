@@ -13,8 +13,8 @@ import { useState } from "react";
 
 export const Clients = () => {
   const [currentTab, setCurrentTab] = useState("1");
-  const { data, refetch } = useGetServiceUsersQuery(null);
-  const serviceUsers = data?.response.data;
+  const { data: serviceUsers, refetch } = useGetServiceUsersQuery();
+
   const liveClients = serviceUsers?.filter(
     (serviceUser) => serviceUser.enrollment_status !== "Pre-admission",
   );

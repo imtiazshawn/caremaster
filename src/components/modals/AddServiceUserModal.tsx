@@ -40,7 +40,7 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
       resolver: yupResolver(serviceUserSchema),
     });
 
-  const { refetch } = useGetServiceUsersQuery(null);
+  const { refetch } = useGetServiceUsersQuery();
   const [createServiceUser, { isLoading }] = useCreateServiceUserMutation();
 
   const ServiceUsersApplyForm: FormTemplate<ServiceUser>[] = [

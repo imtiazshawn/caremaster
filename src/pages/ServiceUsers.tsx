@@ -21,9 +21,8 @@ import { useNavigate } from "react-router-dom";
 import { allEnrollmentStatuses } from "../shared/constants/service-user";
 
 export const ServiceUsers = () => {
-  const { data, isLoading, refetch } = useGetServiceUsersQuery(null);
+  const { data: serviceUsers, isLoading, refetch } = useGetServiceUsersQuery();
   const navigate = useNavigate();
-  const serviceUsers: ServiceUser[] | undefined = data?.response?.data;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedServiceUserId, setSelectedServiceUserId] =
     useState<string>("");
