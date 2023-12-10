@@ -28,7 +28,7 @@ const defaultValues: CreateApplicant = {
   address: "",
 };
 const InitialForm: React.FC = () => {
-  const { handleSubmit, control, setValue } = useForm<CreateApplicant>({
+  const { handleSubmit, control, setValue, watch } = useForm<CreateApplicant>({
     defaultValues: defaultValues,
     resolver: yupResolver(applicantSchema),
   });
@@ -57,7 +57,9 @@ const InitialForm: React.FC = () => {
       type: "custom",
       component: (
         <PostCodeComponent
+          postcode={watch("postcode")}
           labelPosition='top'
+          setValue={setValue}
           setAddress={(address) => setValue("address", address)}
           setPostcode={(postcode) => setValue("postcode", postcode)}
         />

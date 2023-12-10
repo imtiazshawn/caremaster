@@ -78,6 +78,7 @@ export const getRoleAndAccessForm = (
 
 export const getBackgroundForm = ({
   setValue,
+  watch,
 }: FormTemplateParams): FormTemplate<UpdateCareWorkerReq>[] => {
   return [
     {
@@ -100,6 +101,8 @@ export const getBackgroundForm = ({
       type: "custom",
       component: (
         <PostCodeComponent
+          setValue={setValue}
+          postcode={watch("postcode")}
           labelPosition='left'
           setAddress={(address) => setValue("address", address)}
           setPostcode={(postcode) => setValue("postcode", postcode)}

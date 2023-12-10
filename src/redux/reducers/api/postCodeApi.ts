@@ -1,26 +1,38 @@
+import Client from "getaddress-api";
 import { useQuery } from "react-query";
 
-const postCodeApi = "https://api.getaddress.io/v2/uk";
-
+// const postCodeApi = "https://api.getaddress.io/v2/uk";
 // TODO: We have to remove this API KEY and place it to the .env file
 const apiKey = "3Ihph0lYAU6P1llsphU68Q5211";
 
-type PostCodeResponse = {
-  Latitude: number;
-  Longitude: number;
-  Addresses: string[];
-};
+const addressApi = new Client(apiKey);
 
 export const fetchAddressesFromPostCode = async (postCode: string) => {
   const nonSpacedPostCode = postCode.replace(/\s/g, "");
   try {
-    const response = await fetch(
-      `${postCodeApi}/${nonSpacedPostCode}?api-key=${apiKey}`,
-    );
+    const autocompleteResult = await addressApi.autocomplete(nonSpacedPostCode);
+    if (autocompleteResult.isSuccess) {
+      const success = autocompleteResult.toSuccess();
 
-    const postCodeResponse = (await response.json()) as PostCodeResponse;
+      const allSuggestions = await Promise.all(
+        success.suggestions.map(async (suggestion) => ({
+          suggestion: await addressApi.get(suggestion.id),
+          id: suggestion.id,
+        })),
+      );
 
-    return postCodeResponse.Addresses;
+      const all = allSuggestions
+        .map(({ suggestion, id }) => {
+          if (suggestion.isSuccess) {
+            return { id, address: suggestion.toSuccess().address };
+          }
+          return null;
+        })
+        .filter(Boolean);
+
+      return all;
+    }
+    return [];
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log("### error fetching address", error);
@@ -29,8 +41,13 @@ export const fetchAddressesFromPostCode = async (postCode: string) => {
 };
 
 export const useFetchAddresses = (searchKey: string) => {
-  const { data } = useQuery(`addresses_${searchKey}`, () =>
-    fetchAddressesFromPostCode(searchKey),
-  );
+  const { data } = useQuery(`addresses_${searchKey}`, () => {
+    try {
+      const response = fetchAddressesFromPostCode(searchKey);
+      return response;
+    } catch {
+      return [];
+    }
+  });
   return data ?? [];
 };

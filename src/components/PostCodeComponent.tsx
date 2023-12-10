@@ -1,32 +1,43 @@
 import { Autocomplete } from "@common/Autocomplete";
 import { styleLeftLabel } from "@common/SmartForm";
 import { useFetchAddresses } from "@reducers/api/postCodeApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { UseFormSetValue } from "react-hook-form";
 import TextField from "./common/TextField";
 
 type PostCodeComponentProps = {
   labelPosition: "left" | "top";
   setAddress: (address: string) => void;
   setPostcode: (postcode: string) => void;
+  setValue: UseFormSetValue<any>;
+  postcode: string | undefined;
 };
 
 export const PostCodeComponent: React.FC<PostCodeComponentProps> = ({
   labelPosition,
   setAddress,
   setPostcode,
+  postcode,
+  setValue,
 }) => {
   const [searchKey, setSearchKey] = useState<string>("");
 
-  const addressList = useFetchAddresses(searchKey);
-  const modifiedAddressList = addressList?.map((address) =>
-    // eslint-disable-next-line unicorn/better-regex
-    address.replace(/[,\s]+/g, ", ").replace(/,\s$/g, ""),
-  );
+  const suggestions = useFetchAddresses(searchKey);
+  const modifiedAddressList = suggestions?.map((suggestion) => ({
+    value:
+      suggestion?.address.formatted_address.filter(Boolean).join(", ") ?? "",
+    id: suggestion?.id ?? "",
+  }));
+
+  useEffect(() => {
+    if (postcode) {
+      setSearchKey(postcode);
+    }
+  }, [postcode]);
 
   return (
-    <Autocomplete<string, false>
+    <Autocomplete<{ value: string; id: string }, false>
       options={modifiedAddressList}
-      value={searchKey}
       inputValue={searchKey}
       fullWidth={labelPosition !== "left"}
       renderInput={(params) => (
@@ -39,6 +50,11 @@ export const PostCodeComponent: React.FC<PostCodeComponentProps> = ({
           placeholder='Postcode'
           sx={labelPosition !== "left" ? null : styleLeftLabel}
         />
+      )}
+      renderOption={(props, option) => (
+        <li {...props}>
+          <div>{option.value}</div>
+        </li>
       )}
       filterOptions={(options) => {
         return options;
@@ -53,7 +69,13 @@ export const PostCodeComponent: React.FC<PostCodeComponentProps> = ({
         setSearchKey(value);
       }}
       onChange={(_, value) => {
-        setAddress(value ?? "");
+        setAddress(value?.value ?? "");
+        const suggestion = suggestions.find(
+          (suggestion) => suggestion?.id === value?.id,
+        );
+        setPostcode(suggestion?.address.postcode ?? "");
+        setValue("latitude", suggestion?.address.latitude);
+        setValue("longitude", suggestion?.address.longitude);
       }}
     />
   );

@@ -34,10 +34,11 @@ type Props = {
 };
 
 const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { handleSubmit, control, setValue, reset } = useForm<ServiceUserDto>({
-    defaultValues: defaultValues,
-    resolver: yupResolver(serviceUserSchema),
-  });
+  const { handleSubmit, control, setValue, reset, watch } =
+    useForm<ServiceUserDto>({
+      defaultValues: defaultValues,
+      resolver: yupResolver(serviceUserSchema),
+    });
 
   const { refetch } = useGetServiceUsersQuery(null);
   const [createServiceUser, { isLoading }] = useCreateServiceUserMutation();
@@ -52,6 +53,8 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
       type: "custom",
       component: (
         <PostCodeComponent
+          setValue={setValue}
+          postcode={watch("postcode")}
           setAddress={(address) => setValue("address", address)}
           setPostcode={(postcode) => setValue("postcode", postcode)}
           labelPosition='top'

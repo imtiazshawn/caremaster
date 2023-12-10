@@ -25,7 +25,7 @@ export const PersonalDetails = ({
   isUpdateLoading,
   nextUrl,
 }: ProfileSectionProps<Applicant, CreateApplicant & { unique_id: string }>) => {
-  const { control, setValue, reset, handleSubmit } =
+  const { control, setValue, reset, handleSubmit, watch } =
     useForm<PersonalDetailsForm>({
       // defaultValues: defaultValues,
       resolver: yupResolver(personalDetailsSchema),
@@ -81,6 +81,8 @@ export const PersonalDetails = ({
           type: "custom",
           component: (
             <PostCodeComponent
+              setValue={setValue}
+              postcode={watch("postcode")}
               labelPosition='top'
               setAddress={(address) => setValue("address", address)}
               setPostcode={(postcode) => setValue("postcode", postcode)}

@@ -138,6 +138,7 @@ export const identificationForm = ({
 
 export const backgroundInfoForm = ({
   setValue,
+  watch,
 }: FormTemplateParams): FormTemplate<ServiceUser>[] => {
   return [
     {
@@ -172,6 +173,8 @@ export const backgroundInfoForm = ({
       type: "custom",
       component: (
         <PostCodeComponent
+          setValue={setValue}
+          postcode={watch("postcode")}
           labelPosition='left'
           setAddress={(address) => setValue("address", address)}
           setPostcode={(postcode) => setValue("postcode", postcode)}

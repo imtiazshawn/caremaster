@@ -39,10 +39,11 @@ const defaultValues: CreateApplicant = {
   address: "",
 };
 const AddCareWorkerModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { handleSubmit, control, reset, setValue } = useForm<CreateApplicant>({
-    defaultValues: defaultValues,
-    resolver: yupResolver(applicantSchema),
-  });
+  const { handleSubmit, control, reset, setValue, watch } =
+    useForm<CreateApplicant>({
+      defaultValues: defaultValues,
+      resolver: yupResolver(applicantSchema),
+    });
   // const [showSuccess, setShowSuccess] = React.useState<boolean>(false);
   const { refetch } = useGetApplicantsQuery(null);
   const [createApplicant, { isLoading }] = useCreateApplicantMutation();
@@ -69,6 +70,8 @@ const AddCareWorkerModal: React.FC<Props> = ({ isOpen, onClose }) => {
       type: "custom",
       component: (
         <PostCodeComponent
+          setValue={setValue}
+          postcode={watch("postcode")}
           setAddress={(address) => setValue("address", address)}
           setPostcode={(postcode) => setValue("postcode", postcode)}
           labelPosition='top'
