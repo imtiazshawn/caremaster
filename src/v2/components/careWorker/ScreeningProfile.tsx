@@ -1,20 +1,25 @@
-import { Applicant, CreateApplicant } from "$types/applicants";
+import { Applicant, UpdateApplicant } from "$types/applicants";
+import { EMPLOYMENT_STATUS } from "$types/careWorkers";
 import { ProfileSectionProps } from "$types/profile";
 import { Layout } from "@/v2/components/Layout";
-import { StaffsRightBar } from "@/v2/components/rightbars/StaffsRightBar";
+import { ScreeningProfileRightBar } from "@/v2/components/rightbars/ScreeningProfileRightBar";
 import { useStaffScreeningNavLinkProps } from "@/v2/hooks/useStaffNavLinkProps";
 import { Button } from "@common/Button";
+import ShowShortMessage from "@common/ShortMessage";
 import { FlexBox } from "@common/index";
 import { DBS } from "@components/apply/DBS";
+import { Documents } from "@components/apply/Documents";
 import { EducationHistory } from "@components/apply/EducationHistory";
 import { EmploymentHistory } from "@components/apply/EmploymentHistory";
 import { EqualMonitoring } from "@components/apply/EqualMonitoring";
 import { PersonalDetails } from "@components/apply/PersonalDetails";
 import { Questionnaire } from "@components/apply/Questionnaire";
+import { Reference } from "@components/apply/Reference";
 import {
   useGetApplicantQuery,
   useUpdateApplicantMutation,
 } from "@reducers/api/applicants";
+import { useUpdateCareWorkerMutation } from "@reducers/api/careWorkers";
 import { useScreeningId } from "@redux/hooks/useScreeningId";
 import { useScreening } from "@shared/hooks/useScreening";
 
@@ -32,7 +37,7 @@ export const ScreeningProfile = () => {
   } = useGetApplicantQuery(screening?.applicant?.unique_id as string, {
     refetchOnMountOrArgChange: true,
   });
-
+  const [updateScreening] = useUpdateCareWorkerMutation();
   const refetch = async () => {
     await refetchApplicantData();
     await refetchScreeningData();
@@ -44,7 +49,7 @@ export const ScreeningProfile = () => {
     return <></>;
   }
   const childProps: Omit<
-    ProfileSectionProps<Applicant, CreateApplicant & { unique_id: string }>,
+    ProfileSectionProps<Applicant, UpdateApplicant & { unique_id: string }>,
     "nextUrl"
   > = {
     data,
@@ -53,11 +58,23 @@ export const ScreeningProfile = () => {
     isUpdateLoading,
     refetch,
   };
+  const handleConfirm = async () => {
+    if (!uid) {
+      return;
+    }
 
+    updateScreening({
+      id: Number.parseInt(uid),
+      employment_status: EMPLOYMENT_STATUS.CURRENT,
+    } as any).then(() => {
+      refetchScreeningData();
+      ShowShortMessage("Applicant Has been Confirmed");
+    });
+  };
   return (
     <Layout
       sidebarProps={navbarProps}
-      rightBar={StaffsRightBar}
+      rightBar={ScreeningProfileRightBar}
     >
       <div className='m-8 rounded-sm p-4'>
         <FlexBox
@@ -77,8 +94,11 @@ export const ScreeningProfile = () => {
           <Button
             sx={{ width: "50%" }}
             variant='contained'
+            onClick={handleConfirm}
           >
-            Confirm Applicant
+            {screening?.employment_status === EMPLOYMENT_STATUS.CURRENT
+              ? "Accepted"
+              : "Confirm Applicant"}
           </Button>
         </FlexBox>
         <Routes>
@@ -128,21 +148,37 @@ export const ScreeningProfile = () => {
               />
             }
           />
-          {/* <Route
+          <Route
             path='/documents'
-            element={<Documents id={id} />}
+            element={
+              <Documents
+                {...childProps}
+                nextUrl={`/v2/staff/screening/${uid}/reference`}
+              />
+            }
           />
           <Route
             path='/reference'
-            element={<Reference id={id} />}
-          /> */}
+            element={
+              <Reference
+                {...childProps}
+                isAdmin
+                nextUrl={`/v2/staff/screening/${uid}/dbs`}
+              />
+            }
+          />
           <Route
             path='/equal-monitoring'
             element={<EqualMonitoring />}
           />
           <Route
             path='/dbs'
-            element={<DBS />}
+            element={
+              <DBS
+                {...childProps}
+                nextUrl={`/v2/staff/screening/${uid}/dbs`}
+              />
+            }
           />
         </Routes>
       </div>

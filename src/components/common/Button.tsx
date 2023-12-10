@@ -1,7 +1,7 @@
 import CloseIcon from "@mui/icons-material/Close";
 import { ButtonProps, Button as MButton } from "@mui/material";
 
-export const Button: React.FC<ButtonProps> = (props) => {
+export const Button: React.FC<ButtonProps> = ({ ...props }) => {
   return <MButton {...props} />;
 };
 

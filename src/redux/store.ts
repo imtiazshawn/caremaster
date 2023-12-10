@@ -10,6 +10,8 @@ import { fileUploadApi } from "@reducers/api/fileUpload";
 import { recordFieldsApi } from "@reducers/api/recordFields";
 import { recordValuesApi } from "@reducers/api/recordValue";
 import { recordsApi } from "@reducers/api/records";
+import { referenceApi } from "@reducers/api/reference";
+import { sendEmail } from "@reducers/api/sendEmail";
 import { serviceUserRecordsApi } from "@reducers/api/serviceUserRecords";
 import { serviceUsersApi } from "@reducers/api/serviceUsers";
 import { templateCategoriesApi } from "@reducers/api/templateCategories";
@@ -36,6 +38,7 @@ const rootReducer = combineReducers({
   [careWorkerQuestionsApi.reducerPath]: careWorkerQuestionsApi.reducer,
   [applicantsApi.reducerPath]: applicantsApi.reducer,
   [acceptApplicantApi.reducerPath]: acceptApplicantApi.reducer,
+  [sendEmail.reducerPath]: sendEmail.reducer,
   [recordsApi.reducerPath]: recordsApi.reducer,
   [recordFieldsApi.reducerPath]: recordFieldsApi.reducer,
   [serviceUserRecordsApi.reducerPath]: serviceUserRecordsApi.reducer,
@@ -47,6 +50,7 @@ const rootReducer = combineReducers({
   [templateFieldsApi.reducerPath]: templateFieldsApi.reducer,
   [templateCategoriesApi.reducerPath]: templateCategoriesApi.reducer,
   [templateValuesApi.reducerPath]: templateValuesApi.reducer,
+  [referenceApi.reducerPath]: referenceApi.reducer,
 });
 
 const store = configureStore({
@@ -61,6 +65,8 @@ const store = configureStore({
       careWorkerQuestionsApi.middleware,
       applicantsApi.middleware,
       acceptApplicantApi.middleware,
+      sendEmail.middleware,
+      referenceApi.middleware,
       recordsApi.middleware,
       recordFieldsApi.middleware,
       serviceUserRecordsApi.middleware,

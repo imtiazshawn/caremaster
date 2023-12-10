@@ -6,6 +6,7 @@ import {
   ApplicantsResponse,
   CreateApplicant,
   CreateApplicantResponse,
+  UpdateApplicant,
 } from "$types/applicants";
 import { getBaseQuery } from "./apiUtils";
 
@@ -48,24 +49,23 @@ export const applicantsApi = createApi({
         },
       },
     ),
-    updateApplicant: builder.mutation<
-      CreateApplicantResponse,
-      CreateApplicant & { unique_id: string }
-    >({
-      query(applicant) {
-        const bodyFormData = new FormData();
-        Object.entries(applicant).forEach(([key, value]) => {
-          bodyFormData.append(key, value as string);
-        });
+    updateApplicant: builder.mutation<CreateApplicantResponse, UpdateApplicant>(
+      {
+        query(applicant) {
+          const bodyFormData = new FormData();
+          Object.entries(applicant).forEach(([key, value]) => {
+            bodyFormData.append(key, value as string);
+          });
 
-        return {
-          url: `/${applicant.unique_id}`,
-          method: "PATCH",
-          body: bodyFormData,
-          formData: true,
-        };
+          return {
+            url: `/${applicant.unique_id}`,
+            method: "PATCH",
+            body: bodyFormData,
+            formData: true,
+          };
+        },
       },
-    }),
+    ),
   }),
 });
 

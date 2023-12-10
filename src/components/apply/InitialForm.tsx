@@ -1,4 +1,4 @@
-import { aplicentSchema } from "@/formSchemas/aplicants";
+import { applicantSchema } from "@/formSchemas/aplicants";
 import ShowShortMessage from "@common/ShortMessage";
 import { FormTemplate, SmartForm } from "@common/SmartForm";
 import { H2, H4 } from "@common/Typography";
@@ -30,7 +30,7 @@ const defaultValues: CreateApplicant = {
 const InitialForm: React.FC = () => {
   const { handleSubmit, control, setValue } = useForm<CreateApplicant>({
     defaultValues: defaultValues,
-    resolver: yupResolver(aplicentSchema),
+    resolver: yupResolver(applicantSchema),
   });
 
   const { refetch } = useGetApplicantsQuery(null);

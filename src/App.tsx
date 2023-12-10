@@ -4,12 +4,13 @@ import store from "@redux/store";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import { Apply } from "@/pages/Apply";
 import { CareWorkers } from "@/pages/CareWorkers";
 import EditCareWorkers from "@/pages/EditCareWorkers";
 import { EditServiceUser } from "@/pages/EditServiceUser";
 import { ServiceUsers } from "@/pages/ServiceUsers";
 import { Settings } from "@/pages/SettingsOld";
+import { Apply } from "@/pages/apply/Apply";
+import { ApplicantScreening } from "@/pages/apply/Screening";
 import V2EditCareWorkers from "@/pages/v2/CareWorkers";
 import { v2Routes } from "@/v2/components/routers/routers";
 import ProvideReference from "@components/ProvideReference";
@@ -65,6 +66,10 @@ function App() {
               <Route
                 path='/care-worker/apply/*'
                 element={<Apply />}
+              />
+              <Route
+                path='/care-worker/screening/*'
+                element={<ApplicantScreening />}
               />
 
               <Route

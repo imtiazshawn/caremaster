@@ -65,7 +65,6 @@ export const PersonalDetails = ({
           type: "text",
           label: "Middle Name",
           name: "middle_name",
-          required: true,
         },
         {
           type: "text",
@@ -216,6 +215,7 @@ export const PersonalDetails = ({
       ],
     },
   ];
+
   const handleFormSubmit = async (values: PersonalDetailsForm) => {
     const updatedValue = removeUndefined(values);
     update(updatedValue).then(() => {

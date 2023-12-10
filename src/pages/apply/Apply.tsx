@@ -1,6 +1,5 @@
-import { Applicant, CreateApplicant } from "$types/applicants";
+import { Applicant, UpdateApplicant } from "$types/applicants";
 import { ProfileSectionProps } from "$types/profile";
-import { DBS } from "@components/apply/DBS";
 import { Documents } from "@components/apply/Documents";
 import { EducationHistory } from "@components/apply/EducationHistory";
 import { EmploymentHistory } from "@components/apply/EmploymentHistory";
@@ -16,6 +15,15 @@ import {
 } from "@reducers/api/applicants";
 import { Route, Routes, useSearchParams } from "react-router-dom";
 
+const introDescription = `
+        Welcome to the Care Master family! We're excited that you're
+          interested in joining our team as a care worker. Your dedication to
+          making a positive impact on the lives of others is commendable. Please
+          take a moment to share your qualifications and experiences with us.
+          Let's work together to create a nurturing and supportive community for
+          those in need.
+`;
+
 export const Apply = () => {
   const [searchParams] = useSearchParams();
   const uid = searchParams.get("uid");
@@ -29,12 +37,13 @@ export const Apply = () => {
   });
   const [updateApplicant, { isLoading: isUpdateLoading }] =
     useUpdateApplicantMutation();
+
   if (!data) {
     return <></>;
   }
 
   const childProps: Omit<
-    ProfileSectionProps<Applicant, CreateApplicant & { unique_id: string }>,
+    ProfileSectionProps<Applicant, UpdateApplicant & { unique_id: string }>,
     "nextUrl"
   > = {
     data,
@@ -49,11 +58,11 @@ export const Apply = () => {
         <Routes>
           <Route
             path='/'
-            element={<Introduction />}
+            element={<Introduction description={introDescription} />}
           />
           <Route
             path='/introduction'
-            element={<Introduction />}
+            element={<Introduction description={introDescription} />}
           />
           <Route
             path='/personal-details'
@@ -91,24 +100,33 @@ export const Apply = () => {
               />
             }
           />
-
-          {/* TODO: We have to pass props to the following components */}
           <Route
             path='/documents'
-            element={<Documents />}
+            element={
+              <Documents
+                {...childProps}
+                nextUrl={`/care-worker/apply/reference?uid=${uid}`}
+              />
+            }
           />
           <Route
             path='/reference'
-            element={<Reference />}
+            element={
+              <Reference
+                {...childProps}
+                showFinishButton={true}
+                nextUrl='/care-worker/apply/finished'
+              />
+            }
           />
           <Route
             path='/equal-monitoring'
             element={<EqualMonitoring />}
           />
-          <Route
+          {/* <Route
             path='/dbs'
             element={<DBS />}
-          />
+          /> */}
         </Routes>
       </div>
     </ApplicationLayout>

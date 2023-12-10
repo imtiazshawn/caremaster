@@ -13,6 +13,8 @@ export enum COLORS {
   INCOMPLETE = "#c1c1c1",
   GREY = "#a2a2a2",
   LIGHT_GREY = "#585858",
+  RED = "#990000",
+  DARK_RED = "#800000",
 }
 
 export const EnrollmentStatusColors: Record<ENROLLMENT_STATUS, string> = {

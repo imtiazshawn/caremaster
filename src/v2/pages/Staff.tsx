@@ -14,7 +14,7 @@ import { useGetCareWorkersQuery } from "@reducers/api/careWorkers";
 import { useState } from "react";
 
 export const Staff = () => {
-  const [currentTab, setCurrentTab] = useState("4");
+  const [currentTab, setCurrentTab] = useState("3");
   const { data: careWorkers } = useGetCareWorkersQuery();
   const [isOpenCareWorkerModal, setIsOpenCareWorkerModal] = useState(false);
   return (

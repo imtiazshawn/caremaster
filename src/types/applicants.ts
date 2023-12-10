@@ -20,8 +20,10 @@ export enum bi {
   "no" = 0,
 }
 
+export type ActionType = "accept" | "remove";
+
 export type Applicant = {
-  id: string;
+  id: number;
   unique_id: string;
   post?: string;
   title?: string;
@@ -67,6 +69,7 @@ export type Applicant = {
   expiry_date?: Date;
   is_completed?: boolean;
   interview_answers?: Record<string, any>;
+  dbs?: Record<string, any>;
 };
 
 export type ApplicantResponse = ApiResponse<Applicant>;
@@ -75,7 +78,10 @@ export type ApplicantsResponse = ApiResponseArray<Applicant>;
 export type CreateApplicant = Omit<Applicant, "id" | "unique_id">;
 export type CreateApplicantResponse = ApiResponse<string>;
 
-export type UpdateApplicant = Omit<Applicant, "id">;
+export type UpdateApplicant = Omit<Applicant, "id" | "first_name" | "email"> & {
+  first_name?: string;
+  email?: string;
+};
 export type UpdateApplicantResponse = ApiResponse<string>;
 
 export type DBSForm = {
@@ -141,6 +147,15 @@ export const PersonalDetailsFormItemsCompulsory: (keyof PersonalDetailsForm)[] =
 export const PersonalDetailsFormItems: (keyof PersonalDetailsForm)[] = [
   ...PersonalDetailsFormItemsCompulsory,
   ...PersonalDetailsFormItemsOptional,
+];
+
+export const DBSFormItems: (keyof DBSForm)[] = [
+  "ni_number",
+  "passport_number",
+  "passport_expiry_date",
+  "has_driving_license",
+  "has_convictions_endorsements",
+  "is_disabled_person",
 ];
 
 export type EmploymentHistoryForm = {
@@ -233,7 +248,8 @@ export type Section =
   | "references"
   | "educationHistory"
   | "documents"
-  | "overall";
+  | "overall"
+  | "dbs";
 export type ApplicationStatus = Record<Section, Status> & {
   completedCount: number;
   total: number;

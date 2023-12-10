@@ -8,24 +8,14 @@ import { FormTemplate, SmartForm } from "@components/common/SmartForm";
 import { ModalTitle } from "@components/common/Typography";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import { CreateCareWorker } from "$types/careWorkers";
-import { careWorkerSchema } from "@/formSchemas/careWorkers";
-import { getRandomGeneratedPassword } from "@/helper/password";
+import { applicantSchema } from "@/formSchemas/aplicants";
+import ShowShortMessage from "@common/ShortMessage";
 import { PostCodeComponent } from "@components/PostCodeComponent";
 import {
-  useCreateCareWorkerMutation,
-  useGetCareWorkersQuery,
-} from "@reducers/api/careWorkers";
+  useCreateApplicantMutation,
+  useGetApplicantsQuery,
+} from "@reducers/api/applicants";
 import React from "react";
-
-const defaultValues: CreateCareWorker = {
-  email: "",
-  phone: "",
-  name: "",
-  postcode: "",
-  address: "",
-  password: "",
-};
 
 type Props = {
   isOpen: boolean;
@@ -33,31 +23,47 @@ type Props = {
   onProceed?: () => void;
 };
 
+type CreateApplicant = {
+  first_name: string;
+  surname: string;
+  email: string;
+  address: string;
+  postcode: string;
+};
+
+const defaultValues: CreateApplicant = {
+  first_name: "",
+  surname: "",
+  email: "",
+  postcode: "",
+  address: "",
+};
 const AddCareWorkerModal: React.FC<Props> = ({ isOpen, onClose }) => {
-  const { handleSubmit, control, reset, setValue } = useForm<CreateCareWorker>({
+  const { handleSubmit, control, reset, setValue } = useForm<CreateApplicant>({
     defaultValues: defaultValues,
-    resolver: yupResolver(careWorkerSchema),
+    resolver: yupResolver(applicantSchema),
   });
+  // const [showSuccess, setShowSuccess] = React.useState<boolean>(false);
+  const { refetch } = useGetApplicantsQuery(null);
+  const [createApplicant, { isLoading }] = useCreateApplicantMutation();
 
-  const { refetch } = useGetCareWorkersQuery(null);
-  const [createCareWorker, { isLoading }] = useCreateCareWorkerMutation();
-
-  const careWorkerFormTemplate: FormTemplate<CreateCareWorker>[] = [
+  const careWorkerFormTemplate: FormTemplate<CreateApplicant>[] = [
     {
       type: "text",
-      label: "Name",
-      name: "name",
+      label: "First Name",
+      name: "first_name",
+      required: true,
+    },
+    {
+      type: "text",
+      label: "Surname",
+      name: "surname",
       required: true,
     },
     {
       type: "text",
       label: "Email",
       name: "email",
-    },
-    {
-      type: "text",
-      label: "Phone Number(UK)",
-      name: "phone",
     },
     {
       type: "custom",
@@ -81,14 +87,21 @@ const AddCareWorkerModal: React.FC<Props> = ({ isOpen, onClose }) => {
     onClose?.();
   };
 
-  const handleFormSubmit = async (values: CreateCareWorker) => {
-    values.password = getRandomGeneratedPassword();
-
-    createCareWorker(values).then(() => {
+  const handleFormSubmit = async (values: CreateApplicant) => {
+    createApplicant(values).then(() => {
+      ShowShortMessage("Applied successfully");
       onCloseHandler?.();
       refetch();
     });
   };
+  // const handleFormSubmit = async (values: CreateApplicant) => {
+  //   values.password = getRandomGeneratedPassword();
+
+  //   createApplicant(values).then(() => {
+  //     onCloseHandler?.();
+  //     refetch();
+  //   });
+  // };
 
   return (
     <Dialog
@@ -127,7 +140,7 @@ const AddCareWorkerModal: React.FC<Props> = ({ isOpen, onClose }) => {
                 variant='contained'
                 loading={isLoading}
               >
-                Create Care Worker
+                Create A New Applicant
               </LoadingButton>
             </FlexBox>
           </Column>

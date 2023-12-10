@@ -1,36 +1,34 @@
-import { DocumentItems, DocumentsForm } from "$types/applicants";
+import {
+  Applicant,
+  CreateApplicant,
+  DocumentItems,
+  DocumentsForm,
+} from "$types/applicants";
+import { ProfileSectionProps } from "$types/profile";
 import { removeUndefined } from "@/Utils";
 import { Button } from "@common/Button";
 import { LoadingButton } from "@common/LoadingButton";
 import ShowShortMessage from "@common/ShortMessage";
 import { FormTemplate, SmartForm } from "@common/SmartForm";
 import { FlexBox } from "@common/index";
-import {
-  useGetApplicantQuery,
-  useUpdateApplicantMutation,
-} from "@reducers/api/applicants";
 import { useCreateFileUploadMutation } from "@reducers/api/fileUpload";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
 
-export const Documents = ({ id }: { id?: string }) => {
+export const Documents = ({
+  data,
+  isDataLoading,
+  refetch,
+  update,
+  isUpdateLoading,
+  nextUrl,
+}: ProfileSectionProps<Applicant, CreateApplicant & { unique_id: string }>) => {
   const { control, reset, setValue, watch, handleSubmit } =
     useForm<DocumentsForm>({
       // defaultValues: defaultValues,
       // resolver: yupResolver(personalDetailsSchema),
     });
-  const [searchParams] = useSearchParams();
-  const uid = id ?? searchParams.get("uid");
-  const {
-    isLoading: isQueryLoading,
-    data,
-    refetch,
-  } = useGetApplicantQuery(uid as string, {
-    refetchOnMountOrArgChange: true,
-  });
-  const [updateApplicant, { isLoading: isUpdateLoading }] =
-    useUpdateApplicantMutation();
+
   const [createFileUpload] = useCreateFileUploadMutation();
 
   useEffect(() => {
@@ -40,7 +38,7 @@ export const Documents = ({ id }: { id?: string }) => {
     }
   }, [reset, data]);
 
-  if (isQueryLoading || !data) {
+  if (!data || isDataLoading) {
     return <></>;
   }
 
@@ -133,7 +131,6 @@ export const Documents = ({ id }: { id?: string }) => {
   ];
 
   const handleFormSubmit = async (values: DocumentsForm) => {
-    // console.log({ values, removed: removeUndefined(values) });
     const updatedValue = removeUndefined(values);
 
     const uploadResult = DocumentItems.map(async (fileItem) => {
@@ -158,7 +155,7 @@ export const Documents = ({ id }: { id?: string }) => {
       }
     });
 
-    updateApplicant({
+    update({
       documents: JSON.stringify(documents) as Partial<DocumentsForm>,
       email: data.email,
       unique_id: data.unique_id,
@@ -198,7 +195,7 @@ export const Documents = ({ id }: { id?: string }) => {
           <Button
             type='submit'
             variant='contained'
-            href={`/care-worker/apply/reference?uid=${uid}`}
+            href={nextUrl}
           >
             Next
           </Button>

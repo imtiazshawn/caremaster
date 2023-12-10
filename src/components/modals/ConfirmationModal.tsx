@@ -41,7 +41,11 @@ const ConfirmationDialog: React.FC<Props> = ({
           {description}
         </DialogContentText>
       </DialogContent>
-      <DialogActions>
+      <DialogActions
+        sx={{
+          padding: "1.25rem",
+        }}
+      >
         <Button
           variant='outlined'
           onClick={onCancel}

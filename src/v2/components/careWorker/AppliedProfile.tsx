@@ -1,25 +1,38 @@
-import { Applicant, CreateApplicant } from "$types/applicants";
+import { Applicant, UpdateApplicant } from "$types/applicants";
 import { ProfileSectionProps } from "$types/profile";
 import { Layout } from "@/v2/components/Layout";
-import { StaffsRightBar } from "@/v2/components/rightbars/StaffsRightBar";
+import useModalHook from "@/v2/components/careWorker/useModalHook";
+import { AppliedProfileRightBar } from "@/v2/components/rightbars/AppliedProfileRightBar";
 import { useStaffAppliedNavLinkProps } from "@/v2/hooks/useStaffNavLinkProps";
 import { Button } from "@common/Button";
+import ShowShortMessage from "@common/ShortMessage";
 import { FlexBox } from "@common/index";
+import { Documents } from "@components/apply/Documents";
 import { EducationHistory } from "@components/apply/EducationHistory";
 import { EmploymentHistory } from "@components/apply/EmploymentHistory";
 import { PersonalDetails } from "@components/apply/PersonalDetails";
 import { Questionnaire } from "@components/apply/Questionnaire";
+import { Reference } from "@components/apply/Reference";
+import ConfirmationDialog from "@components/modals/ConfirmationModal";
+import SendMeetingReqModal from "@components/modals/SendMeetingReqModal";
+import { useAcceptApplicantMutation } from "@reducers/api/acceptApplicant";
 import {
   useGetApplicantQuery,
   useUpdateApplicantMutation,
 } from "@reducers/api/applicants";
 import { useApplicantId } from "@redux/hooks/useApplicantId";
+import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
 export const AppliedProfile = () => {
-  const navbarProps = useStaffAppliedNavLinkProps();
+  const modalHook = useModalHook();
+  const navbarProps = useStaffAppliedNavLinkProps(() =>
+    modalHook.setIsModalOpen(true),
+  );
+  const [isSendMeetingReqModalOpen, setIsSendMeetingReqModalOpen] =
+    useState<boolean>(false);
   const uid = useApplicantId();
-
+  const [acceptApplicant] = useAcceptApplicantMutation();
   const {
     isLoading: isDataLoading,
     data,
@@ -33,7 +46,7 @@ export const AppliedProfile = () => {
     return <></>;
   }
   const childProps: Omit<
-    ProfileSectionProps<Applicant, CreateApplicant & { unique_id: string }>,
+    ProfileSectionProps<Applicant, UpdateApplicant & { unique_id: string }>,
     "nextUrl"
   > = {
     data,
@@ -42,11 +55,49 @@ export const AppliedProfile = () => {
     isUpdateLoading,
     refetch,
   };
+
+  const changeApplicantStatus = (value: boolean) => {
+    const applicant = data;
+    acceptApplicant({ unique_id: applicant.unique_id }).then(() => {
+      updateApplicant({
+        unique_id: applicant.unique_id,
+        application_status: JSON.stringify({
+          ...applicant.application_status,
+          is_application_accepted: value,
+        }) as any,
+      }).then(() => {
+        ShowShortMessage(
+          value
+            ? `Applicant has been sent to screening`
+            : `Applicant has been rejected`,
+        );
+        refetch();
+      });
+    });
+    modalHook.setIsModalOpen(false);
+  };
+
   return (
     <Layout
       sidebarProps={navbarProps}
-      rightBar={StaffsRightBar}
+      rightBar={AppliedProfileRightBar}
     >
+      <SendMeetingReqModal
+        email={data.email}
+        isOpen={isSendMeetingReqModalOpen}
+        onClose={() => setIsSendMeetingReqModalOpen(false)}
+      />
+      <ConfirmationDialog
+        title='Please confirm'
+        description='Are you sure you want to send to screening?'
+        isOpen={modalHook.isModalOpen}
+        onOk={() => {
+          changeApplicantStatus(true);
+        }}
+        onCancel={() => {
+          modalHook.setIsModalOpen(false);
+        }}
+      />
       <div className='m-8 rounded-sm p-4'>
         <FlexBox
           sx={{
@@ -59,14 +110,22 @@ export const AppliedProfile = () => {
           <Button
             sx={{ width: "50%" }}
             variant='contained'
+            onClick={() => {
+              setIsSendMeetingReqModalOpen(true);
+            }}
           >
             Send Video Meeting Request
           </Button>
           <Button
             sx={{ width: "50%" }}
             variant='contained'
+            onClick={() => {
+              modalHook.setIsModalOpen(true);
+            }}
           >
-            Send to Screening
+            {data.application_status?.is_application_accepted
+              ? "Send to Screening Again"
+              : "Send to Screening"}
           </Button>
         </FlexBox>
         <Routes>
@@ -115,15 +174,25 @@ export const AppliedProfile = () => {
               />
             }
           />
-          {/* <Route
+          <Route
             path='/documents'
-            element={<Documents id={id} />}
+            element={
+              <Documents
+                {...childProps}
+                nextUrl={`/v2/staff/applied/${uid}/documents`}
+              />
+            }
           />
           <Route
             path='/reference'
-            element={<Reference id={id} />}
-          /> */}
-          {/* <R  */}
+            element={
+              <Reference
+                {...childProps}
+                isAdmin
+                nextUrl={`/v2/staff/applied/${uid}/documents`}
+              />
+            }
+          />
         </Routes>
       </div>
     </Layout>

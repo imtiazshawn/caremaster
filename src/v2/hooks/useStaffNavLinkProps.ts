@@ -1,3 +1,4 @@
+import { EMPLOYMENT_STATUS } from "$types/careWorkers";
 import { NavbarProps } from "@/v2/components/Navbar/Navbar";
 import { getAppliedNavLinks } from "@/v2/components/Navbar/navLinks/appliedNavLinks";
 import { getScreeningNavLinks } from "@/v2/components/Navbar/navLinks/screeningNavLinks";
@@ -21,10 +22,11 @@ export const useStaffNavLinkProps = () => {
   return navbarProps;
 };
 
-export const useStaffAppliedNavLinkProps = () => {
+export const useStaffAppliedNavLinkProps = (
+  buttonOnClickHandler: () => unknown,
+) => {
   const { applicant } = useApplicant();
   const { data: questions } = useGetCareWorkerQuestionsQuery(null);
-
   const navbarProps: NavbarProps = {
     navLinks: !applicant ? [] : getAppliedNavLinks(applicant, questions),
     profile: {
@@ -32,10 +34,10 @@ export const useStaffAppliedNavLinkProps = () => {
       photo: applicant?.documents?.passport_size_photo ?? "",
       mobile: applicant?.phone ?? "",
     },
-    buttonLabel: "Send To Screening",
-    buttonOnClickHandler: () => {
-      alert("Implement applicant acceptance handler");
-    },
+    buttonLabel: applicant?.application_status?.is_application_accepted
+      ? "Send Again"
+      : "Send To Screening",
+    buttonOnClickHandler,
   };
   return navbarProps;
 };
@@ -52,7 +54,10 @@ export const useStaffScreeningNavLinkProps = () => {
       photo: screening?.applicant?.documents?.passport_size_photo ?? "",
       mobile: screening?.applicant?.phone ?? "",
     },
-    buttonLabel: "Confirm Applicant",
+    buttonLabel:
+      screening?.employment_status === EMPLOYMENT_STATUS.CURRENT
+        ? "Accepted"
+        : "Confirm Applicant",
     buttonOnClickHandler: () => {
       alert("Implement Invitation handler");
     },

@@ -1,5 +1,5 @@
-import { Applicant } from "$types/applicants";
-import { ActionType } from "@/columns/column.careWorker.applied";
+import { ActionType, Applicant } from "$types/applicants";
+import { getApplicationStatus } from "@/helper/apply";
 import { COLORS } from "@/shared/constants/colors";
 import { CareWorkerCard } from "@/v2/components/CareWorkerCard";
 import IconButton from "@common/IconButton";
@@ -47,7 +47,7 @@ const AppliedTab = () => {
     return <></>;
   }
 
-  // const questionsIds = questions.map((question) => question.id.toString());
+  const questionsIds = questions.map((question) => question.id.toString());
   const onSubmitHandler = (unique_id: string) => {
     const applicant = applicants.find(
       ({ unique_id: id }) => id === unique_id,
@@ -55,8 +55,6 @@ const AppliedTab = () => {
     acceptApplicant({ unique_id: applicant.unique_id }).then(() => {
       updateApplicant({
         unique_id: applicant.unique_id,
-        email: applicant.email,
-        first_name: applicant.first_name,
         application_status: JSON.stringify({
           ...applicant.application_status,
           is_application_accepted: modalType === "accept",
@@ -92,68 +90,57 @@ const AppliedTab = () => {
         }}
       />
 
-      {filteredApplicants?.map((applicant) => (
-        <Link
-          key={`/v2/staff/applied/${applicant.unique_id}/personal-details`}
-          to={`/v2/staff/applied/${applicant.unique_id}/personal-details`}
-        >
-          <CareWorkerCard
-            careWorker={{
-              id: applicant.unique_id,
-              user: {
-                name: applicant.first_name,
-                email: applicant.email,
-                phone: applicant.phone,
-              },
-            }}
-            onClick={() => null}
-            key={applicant.unique_id}
+      {filteredApplicants?.map((applicant) => {
+        const { completedCount, total } = getApplicationStatus(
+          applicant,
+          questionsIds,
+        );
+
+        return (
+          <Link
+            key={`/v2/staff/applied/${applicant.unique_id}/personal-details`}
+            to={`/v2/staff/applied/${applicant.unique_id}/personal-details`}
           >
-            <FlexBox>
-              <IconButton
-                variant='check'
-                onClick={() => {
-                  handleAction(applicant.unique_id, "accept");
-                }}
-              />
-              <IconButton
-                variant='close'
-                onClick={() => {
-                  handleAction(applicant.unique_id, "remove");
-                }}
-              />
-              {/* <Check
-              onClick={(e) => {
-                e.stopPropagation();
-                handleAction(applicant.unique_id, "accept");
+            <CareWorkerCard
+              careWorker={{
+                id: applicant.unique_id,
+                user: {
+                  name: applicant.first_name,
+                  email: applicant.email,
+                  phone: applicant.phone,
+                },
+                photo: applicant?.documents?.passport_size_photo,
+                completedCount: completedCount,
+                total: total,
               }}
-            />
-            <Close
-              onClick={(e) => {
-                e.stopPropagation();
-                handleAction(applicant.unique_id, "remove");
-              }}
-            /> */}
-            </FlexBox>
-          </CareWorkerCard>
-        </Link>
-      ))}
+              onClick={() => null}
+              key={applicant.unique_id}
+            >
+              <FlexBox>
+                <IconButton
+                  variant='check'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleAction(applicant.unique_id, "accept");
+                  }}
+                />
+                <IconButton
+                  variant='close'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleAction(applicant.unique_id, "remove");
+                  }}
+                />
+              </FlexBox>
+            </CareWorkerCard>
+          </Link>
+        );
+      })}
       {filteredApplicants.length === 0 && !isLoading && (
         <FlexBox sx={{ fontSize: "1.5em", justifyContent: "center" }}>
           No new applicants
         </FlexBox>
       )}
-      {/* <Table<Applicant>
-        // rows={applicants}
-        rows={rows}
-        columns={getAppliedColumns(questionsIds, handleAction)}
-        isLoading={isLoading}
-        // onRowClick={({ row }) =>
-        //   navigate(
-        //     `/care-workers/applied/personal-details?uid=${row.unique_id}`,
-        //   )
-        // }
-      /> */}
     </FullColumn>
   );
 };

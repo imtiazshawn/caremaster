@@ -52,7 +52,12 @@ export const HookFormFileUpload = ({
       {fileSrc && (
         <Link
           to={fileSrc}
-          style={{ color: "blue", textDecoration: "underline" }}
+          style={{
+            width: "min-content",
+            color: "blue",
+            textDecoration: "underline",
+            fontSize: "10px",
+          }}
         >
           View File
         </Link>
@@ -62,14 +67,14 @@ export const HookFormFileUpload = ({
           alignSelf='center'
           color={COLORS.ICON_ACTIVE_COLOR}
         >
-          <FileCopy sx={{ fontSize: "49px" }} />
+          <FileCopy sx={{ fontSize: "22px" }} />
         </H5>
       )}
       <Button
         variant='outlined'
         startIcon={<UploadFileIcon fontSize='small' />}
         component='label'
-        sx={{ ml: 2 }}
+        sx={{ ml: 2, fontSize: "0.6rem", height: "2rem", width: "6rem" }}
       >
         Upload
         <VisuallyHiddenInput

@@ -1,10 +1,7 @@
 import { ApplicationStatus } from "$types/applicants";
 import { getApplicationStatus } from "@/helper/apply";
 import { COLORS } from "@/shared/constants/colors";
-import { ReactComponent as Dashboard } from "@assets/dashboard.svg";
 import { ReactComponent as Logo } from "@assets/logo.svg";
-import { ReactComponent as ServiceUser } from "@assets/service-user.svg";
-import { ReactComponent as TickSquare } from "@assets/tick-square.svg";
 import { H3, Span } from "@common/Typography";
 import { Column, FlexBox } from "@common/index";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -14,59 +11,58 @@ import { useGetCareWorkerQuestionsQuery } from "@reducers/api/careWorkerQuestion
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 type NavLink = {
   route: string;
-  icon: React.FunctionComponent<React.SVGAttributes<SVGElement>>;
   label: string;
+  hideIcon?: boolean;
   statusKey: keyof ApplicationStatus;
 };
 
-const navLinks: (NavLink | "separator" | "spacer")[] = [
-  {
-    route: "/care-worker/apply/personal-details",
-    icon: Dashboard,
-    label: "Personal Details",
-    statusKey: "personalDetails",
-  },
-  {
-    route: "/care-worker/apply/questionnaire",
-    icon: TickSquare,
-    label: "Questionnaire",
-    statusKey: "questionnaire",
-  },
-  {
-    route: "/care-worker/apply/employment-history",
-    icon: ServiceUser,
-    label: "Employment History",
-    statusKey: "employmentHistory",
-  },
-  {
-    route: "/care-worker/apply/education-history",
-    icon: ServiceUser,
-    label: "Education History",
-    statusKey: "educationHistory",
-  },
-  {
-    route: "/care-worker/apply/documents",
-    icon: TickSquare,
-    label: "Documents",
-    statusKey: "documents",
-  },
-  {
-    route: "/care-worker/apply/reference",
-    icon: TickSquare,
-    label: "Reference",
-    statusKey: "references",
-  },
-  // {
-  //   route: "/care-worker/apply/equal-monitoring",
-  //   icon: Dashboard,
-  //   label: "Equal Monitoring",
-  // },
-  // {
-  //   route: "/care-worker/apply/dbs",
-  //   icon: TickSquare,
-  //   label: "DBS",
-  // },
-];
+const getNavLinks = (
+  type: "apply" | "screening",
+): (NavLink | "separator" | "spacer")[] => {
+  const links: (NavLink | "separator" | "spacer")[] = [
+    {
+      route: `/care-worker/${type}/personal-details`,
+      label: "Personal Details",
+      statusKey: "personalDetails",
+    },
+    {
+      route: `/care-worker/${type}/questionnaire`,
+      label: "Questionnaire",
+      statusKey: "questionnaire",
+    },
+    {
+      route: `/care-worker/${type}/employment-history`,
+      label: "Employment History",
+      statusKey: "employmentHistory",
+    },
+    {
+      route: `/care-worker/${type}/education-history`,
+      label: "Education History",
+      statusKey: "educationHistory",
+    },
+    {
+      route: `/care-worker/${type}/documents`,
+      label: "Documents",
+      statusKey: "documents",
+    },
+    {
+      route: `/care-worker/${type}/reference`,
+      label: "Reference",
+      statusKey: "references",
+    },
+    {
+      route: `/care-worker/${type}/dbs`,
+      label: "DBS",
+      hideIcon: true,
+      statusKey: "dbs",
+    },
+  ];
+  let newLinks = links;
+  if (type === "apply") {
+    newLinks = links.slice(0, -1);
+  }
+  return newLinks;
+};
 
 export const Sidebar = () => {
   const { pathname } = useLocation();
@@ -77,7 +73,9 @@ export const Sidebar = () => {
     refetchOnMountOrArgChange: true,
   });
   const { data: questions } = useGetCareWorkerQuestionsQuery(null);
-
+  const type = pathname.startsWith("/care-worker/screening")
+    ? "screening"
+    : "apply";
   const status =
     applicant && questions
       ? getApplicationStatus(
@@ -122,7 +120,7 @@ export const Sidebar = () => {
         }}
       />
 
-      {navLinks.map((navLink, index) => {
+      {getNavLinks(type).map((navLink, index) => {
         if (navLink === "separator") {
           return (
             <FlexBox
@@ -151,7 +149,7 @@ export const Sidebar = () => {
           );
         }
 
-        const { route, label, statusKey } = navLink;
+        const { route, label, statusKey, hideIcon } = navLink;
         const isComplete = status ? status[statusKey] === "complete" : false;
         const isActive =
           pathname === route ||
@@ -169,6 +167,7 @@ export const Sidebar = () => {
               sx={{
                 p: "0.75rem",
                 px: "2.5rem",
+                pl: hideIcon ? "2.75rem" : "1.5rem",
                 borderRadius: 2,
                 borderTopLeftRadius: 0,
                 borderBottomLeftRadius: 0,
@@ -194,17 +193,19 @@ export const Sidebar = () => {
               >
                 {/* <Icon "#1ba81b" color={} /> */}
 
-                <CheckCircleIcon
-                  sx={{
-                    color: isComplete ? COLORS.COMPLETED : COLORS.INCOMPLETE,
-                    fontSize: 23,
-                  }}
-                />
-
+                {!hideIcon && (
+                  <CheckCircleIcon
+                    sx={{
+                      color: isComplete ? COLORS.COMPLETED : COLORS.INCOMPLETE,
+                      fontSize: 23,
+                    }}
+                  />
+                )}
                 <Span
                   sx={{
                     fontWeight: isActive ? "bold" : "inherit",
                     color: isActive ? COLORS.BLUE : "inherit",
+                    marginLeft: hideIcon ? "20px" : "inherit",
                   }}
                 >
                   {label}

@@ -5,7 +5,7 @@ import { COLORS } from "@/shared/constants/colors";
 import { NavLinkComponent } from "@/v2/components/Navbar/NavLink";
 import { NavBarProfile } from "@/v2/components/Navbar/Profile";
 import { NavLink } from "@/v2/types/navLink";
-import { Button } from "@common/Button";
+import { LoadingButton } from "@common/LoadingButton";
 import { H3 } from "@common/Typography";
 import { Column, FlexBox } from "@common/index";
 import { defaultNavLinks } from "./navLinks/defaultNavLinks";
@@ -19,6 +19,7 @@ export type NavbarProps = {
   };
   buttonLabel?: string;
   buttonOnClickHandler?: () => unknown;
+  isButtonLoading?: boolean;
 };
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -26,6 +27,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   profile,
   buttonLabel,
   buttonOnClickHandler,
+  isButtonLoading,
 }) => {
   return (
     <Column
@@ -83,7 +85,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             justifyContent: "center",
           }}
         >
-          <Button
+          <LoadingButton
+            loading={isButtonLoading}
             sx={{
               width: "75%",
               borderRadius: "30px",
@@ -92,7 +95,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={buttonOnClickHandler}
           >
             {buttonLabel}
-          </Button>
+          </LoadingButton>
         </FlexBox>
       )}
       {navLinks.map((navLink, index) => {
