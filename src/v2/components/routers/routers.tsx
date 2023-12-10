@@ -7,6 +7,7 @@ import {
 } from "@/shared/constants/route";
 import { Layout } from "@/v2/components/Layout";
 import { AppliedProfile } from "@/v2/components/careWorker/AppliedProfile";
+import { AvailabilityComponent } from "@/v2/components/careWorker/Availability";
 import { StaffBasicForm } from "@/v2/components/careWorker/BasicForm";
 import { ScreeningProfile } from "@/v2/components/careWorker/ScreeningProfile";
 import { BackgroundForm } from "@/v2/components/serviceUser/Background";
@@ -163,5 +164,10 @@ export const v2Routes = [
     key='staff/id/basic'
     path={`v2/staff/:${STAFF_ID_PARAM_KEY}/basic`}
     element={<StaffBasicForm />}
+  />,
+  <Route
+    key='staff/id/available'
+    path={`v2/staff/:${STAFF_ID_PARAM_KEY}/available`}
+    element={<AvailabilityComponent />}
   />,
 ];

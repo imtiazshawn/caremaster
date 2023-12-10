@@ -57,7 +57,7 @@ export enum SERVICE_LEVEL {
   DOMICILIARY_SUPPORT_GENERIC = "Domiciliary Support - Generic Domiciliary Services",
   DOMICILIARY_SUPPORT_COMPLEX = "Domiciliary Support - Complex",
   DOMICILIARY_SUPPORT_NON_WEIGHT_BEARING = "Domiciliary Support - Non-Weight Bearing Pathway",
-  HC_CAREWORKER = "HC - Careworker",
+  HC_CAREWORKER = "HC - CareWorker",
   HEALTH_DOMICILIARY_SUPPORT_GENERIC = "Health Domiciliary Support - Generic Health Domiciliary Services",
   HEALTH_DOMICILIARY_SUPPORT_COMPLEX = "Health Domiciliary Support - Complex",
   MAINTENANCE = "Maintenance",

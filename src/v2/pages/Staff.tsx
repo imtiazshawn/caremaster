@@ -118,6 +118,7 @@ export const Staff = () => {
                   }}
                 />
               </Tabs>
+
               <Divider />
               <TabPanel
                 value='1'

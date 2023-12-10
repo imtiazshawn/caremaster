@@ -1,4 +1,4 @@
-import { ENROLLMENT_STATUS } from "$types/serviceUsers";
+import { ENROLLMENT_STATUS, ServiceUser } from "$types/serviceUsers";
 import { ClientCard } from "@/v2/components/ClientCard";
 import { Layout } from "@/v2/components/Layout";
 import { ClientRightBar } from "@/v2/components/rightbars/ClientsRightBar";
@@ -25,6 +25,24 @@ export const Clients = () => {
 
   const [openServiceUserModal, setOpenServiceUserModal] = useState(false);
 
+  const [searchResult, setSearchResult] = useState<ServiceUser[]>([]);
+  const SearchChangeHandler = (e: string) => {
+    if (e.trim().length > 0) {
+      const result = serviceUsers?.filter((serviceUser) => {
+        const s = serviceUser.name.toLocaleLowerCase();
+        const c = e.toLowerCase();
+        return s.includes(c);
+      });
+
+      if (!result || result?.length === 0) {
+        setSearchResult([]);
+      } else {
+        setSearchResult(result);
+      }
+    } else {
+      setSearchResult([]);
+    }
+  };
   return (
     <Layout
       rightBar={ClientRightBar}
@@ -61,6 +79,7 @@ export const Clients = () => {
               sx={{
                 borderRadius: ".5rem",
               }}
+              onChange={SearchChangeHandler}
             />
             <Select
               sx={{
@@ -100,64 +119,110 @@ export const Clients = () => {
               pt: 3,
             }}
           >
-            <TabContext value={currentTab}>
-              <Tabs
-                value={currentTab}
-                onChange={(_, value) => {
-                  setCurrentTab(value as string);
-                }}
-                sx={{ width: "100%", borderBottom: "1px solid #E0E0E0" }}
-              >
-                <Tab
-                  label='Client'
+            {searchResult.length === 0 ? (
+              <TabContext value={currentTab}>
+                <Tabs
+                  value={currentTab}
+                  onChange={(_, value) => {
+                    setCurrentTab(value as string);
+                  }}
+                  sx={{ width: "100%", borderBottom: "1px solid #E0E0E0" }}
+                >
+                  <Tab
+                    label='Client'
+                    value='1'
+                    disableRipple
+                    sx={{
+                      width: "33%",
+                      flex: 1,
+                    }}
+                  />
+                  <Tab
+                    label='Pre admission'
+                    value='2'
+                    disableRipple
+                    sx={{
+                      width: "33%",
+                      flex: 1,
+                    }}
+                  />
+                  <Tab
+                    label='All'
+                    value='3'
+                    disableRipple
+                    sx={{
+                      width: "33%",
+                      flex: 1,
+                    }}
+                  />
+                </Tabs>
+                <TabPanel
                   value='1'
-                  disableRipple
                   sx={{
-                    width: "50%",
-                    flex: 1,
+                    height: "100%",
+                    overflow: "auto",
                   }}
-                />
-                <Tab
-                  label='Pre admission'
+                >
+                  <Column sx={{ gap: 1, overflow: "auto", height: "100%" }}>
+                    {liveClients?.map((serviceUser) => (
+                      <Box key={serviceUser.id}>
+                        <ClientCard
+                          key={serviceUser.id}
+                          client={serviceUser}
+                        />
+                      </Box>
+                    ))}
+                  </Column>
+                </TabPanel>
+                <TabPanel
                   value='2'
-                  disableRipple
                   sx={{
-                    width: "100%",
-                    flex: 1,
+                    height: "100%",
+                    overflow: "auto",
                   }}
-                />
-              </Tabs>
-              <TabPanel
-                value='1'
-                sx={{
-                  height: "100%",
-                  overflow: "auto",
-                }}
-              >
-                <Column sx={{ gap: 1, overflow: "auto", height: "100%" }}>
-                  {liveClients?.map((serviceUser) => (
-                    <Box key={serviceUser.id}>
-                      <ClientCard
-                        key={serviceUser.id}
-                        client={serviceUser}
-                      />
-                    </Box>
-                  ))}
-                </Column>
-              </TabPanel>
-              <TabPanel value='2'>
-                <Column sx={{ gap: 1, overflow: "auto", height: "100%" }}>
-                  {preAdmittedClients?.map((serviceUser) => (
-                    <Box key={serviceUser.id}>
-                      <ClientCard
-                        key={serviceUser.id}
-                        client={serviceUser}
-                      />
-                    </Box>
-                  ))}
-                </Column>
-              </TabPanel>
-            </TabContext>
+                >
+                  <Column sx={{ gap: 1, overflow: "auto", height: "100%" }}>
+                    {preAdmittedClients?.map((serviceUser) => (
+                      <Box key={serviceUser.id}>
+                        <ClientCard
+                          key={serviceUser.id}
+                          client={serviceUser}
+                        />
+                      </Box>
+                    ))}
+                  </Column>
+                </TabPanel>
+                <TabPanel
+                  value='3'
+                  sx={{
+                    height: "100%",
+                    overflow: "auto",
+                  }}
+                >
+                  <Column sx={{ gap: 1, overflow: "scroll", height: "100%" }}>
+                    {serviceUsers?.map((serviceUser) => (
+                      <Box key={serviceUser.id}>
+                        <ClientCard
+                          key={serviceUser.id}
+                          client={serviceUser}
+                        />
+                      </Box>
+                    ))}
+                  </Column>
+                </TabPanel>
+              </TabContext>
+            ) : (
+              <Column sx={{ gap: 1, overflow: "scroll", height: "100%" }}>
+                {searchResult?.map((serviceUser) => (
+                  <Box key={serviceUser.id}>
+                    <ClientCard
+                      key={serviceUser.id}
+                      client={serviceUser}
+                    />
+                  </Box>
+                ))}
+              </Column>
+            )}
           </FullColumn>
         </Column>
       </Column>

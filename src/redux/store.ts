@@ -1,6 +1,7 @@
 import { acceptApplicantApi } from "@reducers/api/acceptApplicant";
 import { applicantsApi } from "@reducers/api/applicants";
 import { authApi } from "@reducers/api/authApi";
+import { careWorkerAvailabilityApi } from "@reducers/api/availability";
 import { carePlanCategoriesApi } from "@reducers/api/carePlanCategories";
 import { carePlanTasksApi } from "@reducers/api/carePlanTasks";
 import { careWorkerQuestionsApi } from "@reducers/api/careWorkerQuestions";
@@ -49,6 +50,7 @@ const rootReducer = combineReducers({
   [templateSectionsApi.reducerPath]: templateSectionsApi.reducer,
   [templateFieldsApi.reducerPath]: templateFieldsApi.reducer,
   [templateCategoriesApi.reducerPath]: templateCategoriesApi.reducer,
+  [careWorkerAvailabilityApi.reducerPath]: careWorkerAvailabilityApi.reducer,
   [templateValuesApi.reducerPath]: templateValuesApi.reducer,
   [referenceApi.reducerPath]: referenceApi.reducer,
 });
@@ -77,6 +79,7 @@ const store = configureStore({
       templateSectionsApi.middleware,
       templateFieldsApi.middleware,
       templateCategoriesApi.middleware,
+      careWorkerAvailabilityApi.middleware,
       templateValuesApi.middleware,
     ]),
   devTools: import.meta.env.NODE_ENV !== "production",

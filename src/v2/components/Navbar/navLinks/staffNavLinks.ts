@@ -45,6 +45,12 @@ export const staffNavLinks: (NavLink | "separator" | "spacer")[] = [
         label: "Council",
       },
       {
+        route: `/v2/staff/:${STAFF_ID_PARAM_KEY}/available`,
+        paramKey: STAFF_ID_PARAM_KEY,
+        icon: TickSquare,
+        label: "Availability",
+      },
+      {
         route: `/v2/staff/:${STAFF_ID_PARAM_KEY}/others`,
         paramKey: STAFF_ID_PARAM_KEY,
         icon: TickSquare,
