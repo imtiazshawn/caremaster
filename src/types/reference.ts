@@ -7,6 +7,7 @@ export type ReferenceComment = {
 
 export type Reference = {
   id: number;
+  unique_id: string;
   name?: string;
   job_title?: string;
   company?: string;
@@ -19,9 +20,9 @@ export type Reference = {
   applicant: number;
 };
 
-export type CreateReference = Omit<Reference, "id">;
+export type CreateReference = Omit<Reference, "id" | "unique_id">;
 
-export type UpdateReference = CreateReference & { id: number };
+export type UpdateReference = CreateReference & { unique_id: string };
 
 export type ReferencesResponse = ApiResponseArray<Reference>;
 export type ReferenceResponse = ApiResponse<Reference>;

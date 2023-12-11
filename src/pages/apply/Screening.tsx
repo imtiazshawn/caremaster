@@ -9,6 +9,7 @@ import { Introduction } from "@components/apply/Introduction";
 import { PersonalDetails } from "@components/apply/PersonalDetails";
 import { Questionnaire } from "@components/apply/Questionnaire";
 import { Reference } from "@components/apply/Reference";
+import { Training } from "@components/apply/Training";
 import { ApplicationScreeningLayout } from "@components/layout/ApplicantScreeningLayout";
 import {
   useGetApplicantQuery,
@@ -124,6 +125,15 @@ export const ApplicantScreening = () => {
             path='/dbs'
             element={
               <DBS
+                {...childProps}
+                nextUrl='care-worker/apply/training'
+              />
+            }
+          />
+          <Route
+            path='/training'
+            element={
+              <Training
                 {...childProps}
                 showFinishButton
                 nextUrl='care-worker/apply/finished'

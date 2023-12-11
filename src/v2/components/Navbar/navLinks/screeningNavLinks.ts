@@ -129,6 +129,21 @@ export const getScreeningNavLinks = (
       },
       label: "DBS",
     },
+    {
+      route: `/v2/staff/screening/:${SCREENING_ID_PARAM_KEY}/training`,
+      paramKey: SCREENING_ID_PARAM_KEY,
+      image: {
+        component: CheckCircleIcon,
+        sx: {
+          color:
+            status.references === "complete"
+              ? COLORS.COMPLETED
+              : COLORS.INCOMPLETE,
+          fontSize: 23,
+        },
+      },
+      label: "Training",
+    },
 
     // "spacer",
     // {

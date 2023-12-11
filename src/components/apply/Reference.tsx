@@ -1,7 +1,7 @@
 import {
   Applicant,
+  KinItems,
   ReferenceForm,
-  ReferenceFormItems,
   UpdateApplicant,
 } from "$types/applicants";
 import { ProfileSectionProps } from "$types/profile";
@@ -14,6 +14,7 @@ import ShowShortMessage from "@common/ShortMessage";
 import { FormTemplate, SmartForm } from "@common/SmartForm";
 import { H3, H6 } from "@common/Typography";
 import { FlexBox } from "@common/index";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useGetCareWorkerQuestionsQuery } from "@reducers/api/careWorkerQuestions";
 import {
   useCreateReferenceMutation,
@@ -43,6 +44,7 @@ export const Reference = ({
   refetch,
   isUpdateLoading,
   submitApplication,
+  update,
   nextUrl,
   showNextButton = false,
   showFinishButton = false,
@@ -73,7 +75,7 @@ export const Reference = ({
   const [firstRef, secondRef] = refData ?? [];
 
   useEffect(() => {
-    reset({
+    const formData: any = {
       first_referrer_name: firstRef?.name,
       first_referrer_email: firstRef?.email,
       first_referrer_phone: firstRef?.telephone,
@@ -86,22 +88,16 @@ export const Reference = ({
       second_referrer_company: secondRef?.company,
       second_referrer_job_title: secondRef?.job_title,
       second_referrer_address: secondRef?.address,
+    };
+    KinItems.forEach((item) => {
+      formData[item] = data[item];
     });
-  }, [firstRef, secondRef, reset]);
+    reset(formData);
+  }, [data, firstRef, secondRef, reset]);
 
   const [createReference] = useCreateReferenceMutation();
   const [updateReference] = useUpdateReferenceMutation();
   const [sendEmail] = useSendEmailMutation();
-  useEffect(() => {
-    if (data && data.reference) {
-      const formData: any = {};
-      const reference = data.reference;
-      ReferenceFormItems.forEach((item) => {
-        formData[item] = reference[item];
-      });
-      reset(formData);
-    }
-  }, [reset, data]);
 
   if (isDataLoading || !data) {
     return <></>;
@@ -111,15 +107,19 @@ export const Reference = ({
     data,
     questions?.map((item) => item.id.toString()),
   );
-  const handleSendEmail = async (email: string, name: string, id: number) => {
+  const handleSendEmail = async (
+    email: string,
+    name: string,
+    unique_id: string,
+  ) => {
     if (firstRef) {
       sendEmail({
         email: email,
         subject: "Reference Request",
-        message: `We are writing to you to request a reference for ${data?.first_name} ${data?.surname}.\n\nPlease click on the link below to complete the reference.\n\nhttp://localhost:5173/care-worker/apply/reference-verification?uid=${id}\n\nThank you for your time.\n\nKind Regards,\n\nCareMaster Team`,
+        message: `We are writing to you to request a reference for ${data?.first_name} ${data?.surname}.\n\nPlease click on the link below to complete the reference.\n\nhttp://localhost:5173/care-worker/apply/reference-verification?uid=${unique_id}\n\nThank you for your time.\n\nKind Regards,\n\nCareMaster Team`,
       }).then(async () => {
         await updateReference({
-          id,
+          unique_id,
           name,
           is_email_sent: true,
           applicant: data.id,
@@ -129,6 +129,63 @@ export const Reference = ({
       });
     }
   };
+
+  let firstReferenseResponse = <></>;
+  if (firstRef?.comment) {
+    firstReferenseResponse = isAdmin ? (
+      <FlexBox
+        sx={{
+          width: "100%",
+          // height: "6rem",
+          borderWidth: "1px",
+          borderColor: COLORS.COMPLETED,
+          borderRadius: "10px",
+          padding: "1rem",
+          flexDirection: "column",
+        }}
+      >
+        <H6>{`Reason for leaving: ${
+          firstRef?.comment.reason_for_leaving ?? ""
+        }`}</H6>
+        <H6>{`Summary of Duties: ${
+          firstRef?.comment.summary_of_duties ?? ""
+        }`}</H6>
+        <H6>{`Do you refer us this person: ${
+          firstRef?.comment.doYouRefer ? "Yes" : "No"
+        }`}</H6>
+      </FlexBox>
+    ) : (
+      <></>
+    );
+  }
+  let secondReferenseResponse = <></>;
+  if (secondRef?.comment) {
+    secondReferenseResponse = isAdmin ? (
+      <FlexBox
+        sx={{
+          width: "100%",
+          // height: "6rem",
+          borderWidth: "1px",
+          borderColor: COLORS.COMPLETED,
+          borderRadius: "10px",
+          padding: "1rem",
+          flexDirection: "column",
+        }}
+      >
+        <H6>{`Reason for leaving: ${
+          secondRef?.comment.reason_for_leaving ?? ""
+        }`}</H6>
+        <H6>{`Summary of Duties: ${
+          secondRef?.comment.summary_of_duties ?? ""
+        }`}</H6>
+        <H6>{`Do you refer us this person: ${
+          secondRef?.comment.doYouRefer ? "Yes" : "No"
+        }`}</H6>
+      </FlexBox>
+    ) : (
+      <></>
+    );
+  }
 
   const personalDetailsFormTemplate: FormTemplate<ReferenceForm>[] = [
     {
@@ -145,7 +202,7 @@ export const Reference = ({
               }}
             >
               <H3 sx={{ textDecoration: "underline" }}>First Referrer:</H3>
-              {firstRef && firstRef.is_email_sent && (
+              {firstRef && firstRef.is_email_sent && !firstRef.is_confirmed && (
                 <H3
                   sx={{
                     color: COLORS.COMPLETED,
@@ -158,6 +215,14 @@ export const Reference = ({
                 >
                   Email Sent
                 </H3>
+              )}
+              {firstRef && firstRef.is_confirmed && (
+                <CheckCircleIcon
+                  sx={{
+                    color: COLORS.COMPLETED,
+                    fontSize: 20,
+                  }}
+                />
               )}
             </FlexBox>
           ),
@@ -179,7 +244,7 @@ export const Reference = ({
                       handleSendEmail(
                         getValues("first_referrer_email"),
                         getValues("first_referrer_name"),
-                        firstRef?.id,
+                        firstRef?.unique_id,
                       )
                     }
                   >
@@ -194,32 +259,7 @@ export const Reference = ({
     },
     {
       type: "custom",
-      component:
-        isAdmin && firstRef?.comment ? (
-          <FlexBox
-            sx={{
-              width: "100%",
-              // height: "6rem",
-              borderWidth: "1px",
-              borderColor: COLORS.COMPLETED,
-              borderRadius: "10px",
-              padding: "1rem",
-              flexDirection: "column",
-            }}
-          >
-            <H6>{`Reason for leaving: ${
-              firstRef?.comment.reason_for_leaving ?? ""
-            }`}</H6>
-            <H6>{`Summary of Duties: ${
-              firstRef?.comment.summary_of_duties ?? ""
-            }`}</H6>
-            <H6>{`Do you refer us this person: ${
-              firstRef?.comment.doYouRefer ? "Yes" : "No"
-            }`}</H6>
-          </FlexBox>
-        ) : (
-          <></>
-        ),
+      component: firstReferenseResponse,
     },
     {
       type: "column",
@@ -276,19 +316,29 @@ export const Reference = ({
               }}
             >
               <H3 sx={{ textDecoration: "underline" }}>Second Referrer:</H3>
-              {secondRef && secondRef.is_email_sent && (
-                <H3
+              {secondRef &&
+                secondRef.is_email_sent &&
+                !secondRef.is_confirmed && (
+                  <H3
+                    sx={{
+                      color: COLORS.COMPLETED,
+                      borderWidth: "1px",
+                      padding: "2px",
+                      borderColor: COLORS.COMPLETED,
+                      borderRadius: "10px",
+                      paddingX: "10px",
+                    }}
+                  >
+                    Email Sent
+                  </H3>
+                )}
+              {secondRef && secondRef.is_confirmed && (
+                <CheckCircleIcon
                   sx={{
                     color: COLORS.COMPLETED,
-                    borderWidth: "1px",
-                    padding: "2px",
-                    borderColor: COLORS.COMPLETED,
-                    borderRadius: "10px",
-                    paddingX: "10px",
+                    fontSize: 20,
                   }}
-                >
-                  Email Sent
-                </H3>
+                />
               )}
             </FlexBox>
           ),
@@ -310,7 +360,7 @@ export const Reference = ({
                       handleSendEmail(
                         getValues("second_referrer_email"),
                         getValues("second_referrer_name"),
-                        secondRef?.id,
+                        secondRef?.unique_id,
                       )
                     }
                   >
@@ -325,32 +375,7 @@ export const Reference = ({
     },
     {
       type: "custom",
-      component:
-        isAdmin && secondRef?.comment ? (
-          <FlexBox
-            sx={{
-              width: "100%",
-              // height: "6rem",
-              borderWidth: "1px",
-              borderColor: COLORS.COMPLETED,
-              borderRadius: "10px",
-              padding: "1rem",
-              flexDirection: "column",
-            }}
-          >
-            <H6>{`Reason for leaving: ${
-              secondRef?.comment.reason_for_leaving ?? ""
-            }`}</H6>
-            <H6>{`Summary of Duties: ${
-              secondRef?.comment.summary_of_duties ?? ""
-            }`}</H6>
-            <H6>{`Do you refer us this person: ${
-              secondRef?.comment.doYouRefer ? "Yes" : "No"
-            }`}</H6>
-          </FlexBox>
-        ) : (
-          <></>
-        ),
+      component: secondReferenseResponse,
     },
     {
       type: "column",
@@ -459,9 +484,19 @@ export const Reference = ({
 
   const handleFormSubmit = async (values: ReferenceForm) => {
     const { firstReferrer, secondReferrer } = extractReferrer(values, data.id);
+    await update({
+      unique_id: data.unique_id,
+      next_of_kin_address: values.next_of_kin_address,
+      next_of_kin_forename: values.next_of_kin_forename,
+      next_of_kin_phone: values.next_of_kin_phone,
+      next_of_kin_postcode: values.next_of_kin_postcode,
+      next_of_kin_relationship: values.next_of_kin_relationship,
+      next_of_kin_surname: values.next_of_kin_surname,
+      next_of_kin_title: values.next_of_kin_title,
+    });
     if (firstRef) {
       await updateReference({
-        id: firstRef.id,
+        unique_id: firstRef.unique_id,
         ...firstReferrer,
         is_email_sent: firstRef.is_email_sent,
       });
@@ -470,7 +505,7 @@ export const Reference = ({
     }
     if (secondRef) {
       await updateReference({
-        id: secondRef.id,
+        unique_id: secondRef.unique_id,
         ...secondReferrer,
         is_email_sent: secondRef.is_email_sent,
       });

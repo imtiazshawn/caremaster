@@ -55,7 +55,7 @@ export const referenceApi = createApi({
             bodyFormData.append(key, value as string);
           });
           return {
-            url: `/${reference.id}`,
+            url: `/${reference.unique_id}`,
             method: "PATCH",
             body: bodyFormData,
             formData: true,

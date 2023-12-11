@@ -249,8 +249,12 @@ export type Section =
   | "educationHistory"
   | "documents"
   | "overall"
-  | "dbs";
-export type ApplicationStatus = Record<Section, Status> & {
+  | "dbs"
+  | "training";
+export type ApplicationStatus = Record<
+  Exclude<Section, "dbs" | "training">,
+  Status
+> & {
   completedCount: number;
   total: number;
 };

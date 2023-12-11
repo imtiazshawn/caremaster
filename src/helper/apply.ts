@@ -1,7 +1,6 @@
 import {
   Applicant,
   ApplicationStatus,
-  DBSFormItems,
   DocumentItems,
   PersonalDetailsFormItemsCompulsory,
   ReferenceFormItems,
@@ -70,13 +69,6 @@ export const getApplicationStatus = (
     educationHistoryStatus === "complete" &&
     documentStatus === "complete";
 
-  const dbs = applicant.dbs;
-  const dbsStatus = DBSFormItems.every(
-    (item) => dbs && typeof dbs[item] === "string",
-  )
-    ? "complete"
-    : "incomplete";
-
   const total = 6;
   const completedCount = [
     personalDetailsStatus,
@@ -97,6 +89,5 @@ export const getApplicationStatus = (
     documents: documentStatus,
     completedCount,
     total,
-    dbs: dbsStatus,
   };
 };

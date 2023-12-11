@@ -122,7 +122,8 @@ const ProvideReference: React.FC = () => {
         summary_of_duties: value.summary_of_duties,
       }) as any,
       applicant: value.applicant,
-      id: value.id,
+      unique_id: uid as string,
+      name: value.name,
       is_confirmed: true,
     });
     ShowShortMessage("Thanks for the referral!");

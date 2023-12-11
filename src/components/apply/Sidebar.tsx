@@ -13,7 +13,7 @@ type NavLink = {
   route: string;
   label: string;
   hideIcon?: boolean;
-  statusKey: keyof ApplicationStatus;
+  statusKey?: keyof ApplicationStatus;
 };
 
 const getNavLinks = (
@@ -54,12 +54,16 @@ const getNavLinks = (
       route: `/care-worker/${type}/dbs`,
       label: "DBS",
       hideIcon: true,
-      statusKey: "dbs",
+    },
+    {
+      route: `/care-worker/${type}/training`,
+      label: "Training",
+      hideIcon: true,
     },
   ];
   let newLinks = links;
   if (type === "apply") {
-    newLinks = links.slice(0, -1);
+    newLinks = links.slice(0, -2);
   }
   return newLinks;
 };
@@ -150,7 +154,8 @@ export const Sidebar = () => {
         }
 
         const { route, label, statusKey, hideIcon } = navLink;
-        const isComplete = status ? status[statusKey] === "complete" : false;
+        const isComplete =
+          status && statusKey ? status[statusKey] === "complete" : false;
         const isActive =
           pathname === route ||
           (pathname === "/admin" && route === "/admin/dashboard") ||
