@@ -1,5 +1,6 @@
 import flagIcon from "@assets/flag.svg";
 import { FlexBox } from "@common/index";
+import { config } from "@config/index";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 import { useGetServiceUsersQuery } from "@reducers/api/serviceUsers";
 import { useEffect, useState } from "react";
@@ -17,6 +18,7 @@ const GoogleMapComponent = () => {
       const marker = new window.google.maps.Marker({
         position: { lat: Number(latitude), lng: Number(longitude) },
         map,
+        // this is for to show any image on map don't wanna lose it that's why commented
         // icon: {
         //   url: "",
         //   // url: `${proPic}?pro-pic=true`, // url
@@ -29,8 +31,6 @@ const GoogleMapComponent = () => {
         //   fillColor: "red",
         //   strokeOpacity: 1,
         // },
-
-        // icon: placeholderProfilePicture,
       });
       return marker;
     });
@@ -69,7 +69,7 @@ const GoogleMapComponent = () => {
       key={mapKey}
     >
       <LoadScript
-        googleMapsApiKey='AIzaSyCPRih4GYZvz32JJRmRrHZhtRkONM-fywY'
+        googleMapsApiKey={config.GOOGLE_MAPS_API_KEY}
         key={mapKey}
       >
         {reloadMap && (

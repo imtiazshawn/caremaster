@@ -24,6 +24,7 @@ import Dashboard from "./pages/DashBoard";
 const queryClient = new QueryClient();
 
 function App() {
+  console.log("~~~ import.meta.env.MODE", import.meta.env);
   return (
     <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
       <Provider store={store}>

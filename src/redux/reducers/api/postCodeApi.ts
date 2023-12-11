@@ -1,9 +1,10 @@
+import { config } from "@config/index";
 import Client from "getaddress-api";
 import { useQuery } from "react-query";
 
 // const postCodeApi = "https://api.getaddress.io/v2/uk";
 // TODO: We have to remove this API KEY and place it to the .env file
-const apiKey = "3Ihph0lYAU6P1llsphU68Q5211";
+const apiKey = config.GET_ADDRESS_API_KEY;
 
 const addressApi = new Client(apiKey);
 

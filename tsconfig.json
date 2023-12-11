@@ -25,6 +25,7 @@
       "$types/*": ["./src/types/*"],
       "@redux/*": ["./src/redux/*"],
       "@assets/*": ["./src/assets/*"],
+      "@config/*": ["./src/config/*"],
       "@/*": ["./src/*"]
     }
   },

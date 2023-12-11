@@ -1,16 +1,13 @@
+import { config } from "@config/index";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
 
 const getTokenFromLocalStorage = () => {
   return localStorage.getItem("token") || "";
 };
 
-const testApiUrl = "https://care.mubeendroid.com";
-
 export const getBaseQuery = (url: string, accept?: string) => {
   const token = getTokenFromLocalStorage();
-  const baseUrl = `${
-    import.meta.env.CAREMASTER_BACKEND_URL || testApiUrl
-  }/api/${url}`;
+  const baseUrl = `${config.BACKEND_URL}/api/${url}`;
   return fetchBaseQuery({
     baseUrl,
     prepareHeaders: (headers) => {

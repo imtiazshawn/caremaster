@@ -21,6 +21,7 @@ const getAliasesFromTsConfig = () => {
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  envPrefix: "CAREMASTER_",
   plugins: [
     svgr(),
     react(),
