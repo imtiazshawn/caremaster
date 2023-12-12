@@ -6,6 +6,7 @@ import {
 import { stringToColor } from "@/shared/utils/random";
 import { Layout } from "@/v2/components/Layout";
 import { MaintenanceRightBar } from "@/v2/components/rightbars/MaintenanceRightBar";
+import { useClientNavLinkProps } from "@/v2/hooks/useClientNavLinkProps";
 import { useServiceUser } from "@/v2/hooks/useServiceUser";
 import BigCalendar from "@common/BigCalender";
 import EventUpdateConfirmationModal from "@components/modals/EventUpdateConfirmationModal";
@@ -56,6 +57,7 @@ export const ClientRota: FC = () => {
   };
   const serviceUserId = useServiceUserId();
   const { serviceUser } = useServiceUser();
+  const clientNavbarProps = useClientNavLinkProps();
 
   const { data: rotaEvents, refetch } = useGetEventsQuery(serviceUserId);
   const events = rotaEvents?.map((event) => {
@@ -113,7 +115,10 @@ export const ClientRota: FC = () => {
   };
 
   return (
-    <Layout rightBar={MaintenanceRightBar}>
+    <Layout
+      rightBar={MaintenanceRightBar}
+      sidebarProps={clientNavbarProps}
+    >
       <BigCalendar
         events={events ?? []}
         onEventDrop={onEventDrop}

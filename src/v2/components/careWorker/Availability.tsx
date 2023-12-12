@@ -6,7 +6,8 @@ import {
 } from "@/v2/components/careWorker/AvailabilityTable";
 import { useStaffNavLinkProps } from "@/v2/hooks/useStaffNavLinkProps";
 import ShowShortMessage from "@common/ShortMessage";
-import { Column } from "@common/index";
+import { H1, H3 } from "@common/Typography";
+import { FlexBox, FullColumn } from "@common/index";
 import { Button } from "@mui/material";
 import {
   useCreateCareWorkerAvailabilitiesMutation,
@@ -30,41 +31,36 @@ const getDefaultBlocks = () => {
 };
 
 const getSlotsFromBlocks = (blocks: Array<Array<number>>) => {
-  let prev = -1;
-  let startTime = "";
-  let endTime = "";
-
   const slots: Array<Availability> = [];
   blocks.forEach((value, index) => {
+    let prev = -1;
+    let startTime = "";
+    let endTime = "";
     value.forEach((v, i) => {
       const hour = Math.floor((i * 15) / 60);
       const minute = (i * 15) % 60 === 0 ? "00" : (i * 15) % 60;
 
-      if (prev < 0 && v > 0) {
-        startTime += `${hour}:`;
-        startTime += minute;
+      if (prev === -1) {
+        startTime = `${hour}:${minute}`;
       }
-      if (prev === 0 && v > 0) {
-        startTime += `${hour}:`;
-        startTime += minute;
+      if (prev === 0 && v === 1) {
+        startTime = `${hour}:${minute}:00`;
       }
+
       if (i === value.length - 1 && v === 1) {
-        endTime += `${hour}:`;
-        endTime += minute;
+        endTime = `${hour}:${minute}:00`;
 
         slots.push({
           weekday: dOw[index].toLowerCase(),
           start_time: startTime,
-          end_time: endTime,
+          end_time: endTime === "23:45:00" ? "23:59:00" : endTime,
         });
 
-        startTime = "";
         endTime = "";
       }
 
       if (prev === 1 && v === 0) {
-        endTime += `${hour}:`;
-        endTime += minute;
+        endTime = `${hour}:${minute}:00`;
 
         slots.push({
           weekday: dOw[index].toLowerCase(),
@@ -107,10 +103,14 @@ export const AvailabilityComponent = () => {
   const careWorkerId = useCareWorkerId();
   const [blocks, setBlocks] =
     useState<Array<Array<number>>>(getDefaultBlocks());
+  const [mouseDownId, setMouseDownId] = React.useState<string | null>(null);
+  const [mouseLastOverId, setMouseLastOverId] = React.useState<string | null>(
+    null,
+  );
+
   const [previewBlocks, setPreviewBlocks] =
     useState<Array<Array<number>>>(getDefaultBlocks());
   const [schedule, setSchedule] = useState<Array<Availability>>([]);
-
   const [createAvailabilities] = useCreateCareWorkerAvailabilitiesMutation();
   const { data: availabilities, refetch } = useGetCareWorkerAvailabilitiesQuery(
     careWorkerId ?? 0,
@@ -130,7 +130,7 @@ export const AvailabilityComponent = () => {
         const endHour = Number.parseInt(endTime[0]);
         const endMinute = Number.parseInt(endTime[1]);
         const start = startHour * 4 + Math.floor(startMinute / 15);
-        const end = endHour * 4 + Math.floor(endMinute / 15);
+        const end = endHour * 4 + Math.round(endMinute / 15);
         for (let i = start; i < end; i++) {
           blocks[weekday][i] = 1;
         }
@@ -192,26 +192,48 @@ export const AvailabilityComponent = () => {
 
   return (
     <Layout sidebarProps={navLinkProps}>
-      <Column
+      <FullColumn
         sx={{
           gap: "1em",
           p: 5,
           borderRadius: "1rem",
+          overflow: "auto",
+          width: "auto",
+        }}
+        onMouseUp={(e) => {
+          if (!mouseDownId || !mouseLastOverId) {
+            return;
+          }
+          selectHandler(mouseDownId, mouseLastOverId, e);
+          setMouseDownId(null);
+          setMouseLastOverId(null);
+          setPreviewBlocks(getDefaultBlocks());
         }}
       >
-        <AvailabilityTable
-          blocks={blocks}
-          previewBlocks={previewBlocks}
-          selectHandler={selectHandler}
-          onPreviewHandler={onPreviewHandler}
-        />
-        <Button
-          variant='contained'
-          onClick={saveHandler}
-        >
-          Save
-        </Button>
-      </Column>
+        <H1>Availability</H1>
+        <H3>* Hold shift to deselect a time slot</H3>
+        <FlexBox>
+          <AvailabilityTable
+            blocks={blocks}
+            previewBlocks={previewBlocks}
+            selectHandler={selectHandler}
+            onPreviewHandler={onPreviewHandler}
+            mouseDownId={mouseDownId}
+            setMouseDownId={setMouseDownId}
+            mouseLastOverId={mouseLastOverId}
+            setMouseLastOverId={setMouseLastOverId}
+          />
+        </FlexBox>
+
+        <FlexBox>
+          <Button
+            variant='contained'
+            onClick={saveHandler}
+          >
+            Save
+          </Button>
+        </FlexBox>
+      </FullColumn>
     </Layout>
   );
 };

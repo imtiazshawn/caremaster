@@ -1,4 +1,5 @@
-import { Availability, AvailabilityResponses } from "$types/Availability";
+import { Availability, AvailabilityGet } from "$types/Availability";
+import { ApiResponseArray } from "$types/index";
 import { getBaseQuery } from "@reducers/api/apiUtils";
 import { createApi } from "@reduxjs/toolkit/query/react";
 
@@ -6,12 +7,15 @@ export const careWorkerAvailabilityApi = createApi({
   reducerPath: "careWorkerAvailabilityApi",
   baseQuery: getBaseQuery("care-worker-availabilities"),
   endpoints: (builder) => ({
-    getCareWorkerAvailabilities: builder.query<Availability[], number>({
+    getCareWorkerAvailabilities: builder.query<
+      AvailabilityGet[],
+      number | undefined
+    >({
       query: (id) => ({
-        url: `?care_worker=${id}`,
+        url: id ? `?care_worker=${id}` : "",
         method: "get",
       }),
-      transformResponse: (response: AvailabilityResponses) => {
+      transformResponse: (response: ApiResponseArray<AvailabilityGet>) => {
         return response.response.data;
       },
     }),

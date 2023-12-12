@@ -36,6 +36,7 @@ const DateField: FC<DateFieldProps> = ({
       } else {
         onChange?.(undefined);
       }
+      setIsOpen(false);
     },
     [onChange],
   );

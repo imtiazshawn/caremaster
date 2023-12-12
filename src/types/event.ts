@@ -1,3 +1,5 @@
+import { CareWorker } from "$types/careWorkers";
+import { Event as CalendarEvent } from "react-big-calendar";
 export type Event = {
   id: number;
   title?: string;
@@ -46,4 +48,12 @@ export type RotaEventUpdate = {
   update_type: string;
 };
 
+export type CalenderCellType = {
+  events: ModifiedEvent[];
+  careWorker: CareWorker | null;
+};
+
+export type GridType = CalenderCellType[][];
+
 export type EventDTO = Omit<Event, "id">;
+export type ModifiedEvent = RotaEventGet & CalendarEvent;

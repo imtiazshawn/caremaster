@@ -38,6 +38,7 @@ export const StaffBasicForm = () => {
     if (typeof updatedValue.photo === "string") {
       delete updatedValue.photo;
     }
+    delete updatedValue.applicant;
     await updateCareWorker(updatedValue);
     refetch();
   };

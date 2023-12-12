@@ -1,144 +1,249 @@
-import { RotaEventGet } from "$types/event";
-import { stringToColor } from "@/shared/utils/random";
+import { SxProps } from "$types/index";
 import { Layout } from "@/v2/components/Layout";
-import { DashboardRightBar } from "@/v2/components/rightbars/DashboardRightBar";
-import BigCalendar from "@common/BigCalender";
-import EventUpdateConfirmationModal from "@components/modals/EventUpdateConfirmationModal";
-import { useGetAllEventsQuery } from "@reducers/api/eventApi";
-import dayjs from "dayjs";
-import { FC, useRef, useState } from "react";
-import { CalendarProps, Event } from "react-big-calendar";
+import { EventCard } from "@/v2/components/calendar/EventCard";
+import { useCareWorkerAvailabilitiesMap } from "@/v2/hooks/useCareWorkerAvailabilitiesMap";
 import {
-  EventInteractionArgs,
-  withDragAndDropProps,
-} from "react-big-calendar/lib/addons/dragAndDrop";
+  getAvailabilityRangesInfo,
+  getCareWorkerGrid,
+  getCurrentEventInfo,
+  getCurrentTimeIndicatorInfo,
+  getModifiedEvents,
+} from "@/v2/utils/calendar";
+import { Button } from "@common/Button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from "@common/CommonTable";
+import DateField from "@common/DateField";
+import { Box, Column, FlexBox } from "@common/index";
+import { useGetCareWorkersQuery } from "@reducers/api/careWorkers";
+import { useGetAllEventsQuery } from "@reducers/api/eventApi";
+import { FC, useState } from "react";
 
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 export const Calendar: FC = () => {
-  const [, setIsOpenEditCreateModal] = useState(false);
+  const { data: rotaEvents } = useGetAllEventsQuery();
+  const { data: careWorkers } = useGetCareWorkersQuery();
+  const events = getModifiedEvents(rotaEvents);
 
-  const [, setCurrentEvent] = useState<Event | null>(null);
+  const [currentDate, setCurrentDate] = useState(
+    new Date(new Date().setHours(0, 0, 0, 0)),
+  );
 
-  // const [_] = useUpdateEventMutation();
-  const [updateModalOpen, setUpdateModalOpen] = useState(false);
-  const updateEventRef = useRef<EventInteractionArgs<Event> | null>(null);
+  const availabilitiesMap = useCareWorkerAvailabilitiesMap();
 
-  // const actuallyUpdateEvent = async (update_type: string) => {
-  //   if (updateEventRef.current) {
-  //     const event = updateEventRef.current;
-  //     await updateEvent({
-  //       id: event.event.resource.id,
-  //       date: formatDateForBackend(new Date(event.start)),
-  //       start_time: formatTimeForBackend(new Date(event.start)),
-  //       end_time: formatTimeForBackend(new Date(event.end)),
-  //       update_type: update_type,
-  //     });
-  //   }
-  // };
+  const grid = getCareWorkerGrid(currentDate, events, careWorkers ?? []);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onUpdateEvent = (event: EventInteractionArgs<Event>) => {
-    updateEventRef.current = event;
-    setUpdateModalOpen(true);
-  };
-  const { data: rotaEvents, refetch } = useGetAllEventsQuery();
-  const events = rotaEvents?.map((event) => {
-    const startDate = dayjs(
-      `${event.date} ${event.start_time}`,
-      "YYYY-MM-DD HH:mm:ss",
-    ).toDate();
-
-    const endTime = dayjs(
-      `${event.date} ${event.end_time}`,
-      "YYYY-MM-DD HH:mm:ss",
-    ).toDate();
-
-    return {
-      ...event,
-      start_date: startDate,
-      start: startDate,
-      end: endTime,
-      end_date: "",
-      end_time: endTime,
-      resource: {
-        id: event.id,
-      },
-    } as RotaEventGet & Event;
-  });
-
-  const onEventResize: withDragAndDropProps["onEventResize"] = (data) => {
-    onUpdateEvent(data);
+  const nameColumStyle: SxProps = {
+    minWidth: "120px",
+    padding: "10px",
+    fontSize: "1.1em",
+    fontWeight: "medium",
   };
 
-  const onEventDrop: withDragAndDropProps["onEventDrop"] = (data) => {
-    onUpdateEvent(data);
-  };
+  const hourWidth = 50;
+  const cellHeight = hourWidth * 2;
+  const hourPixel = `${hourWidth}px`;
 
-  const onSelectSlot: CalendarProps["onSelectSlot"] = (data) => {
-    setCurrentEvent({
-      title: "",
-      start: data.start,
-      end: data.end,
-      // @ts-ignore
-      start_date: dayjs(data.start).toDate(),
-      end_date: dayjs(data.end).toDate(),
-      end_time: dayjs(data.end).toDate(),
-      end_type: "Never",
-      resource: {
-        id: "new",
-      },
-    });
-    setIsOpenEditCreateModal(true);
-  };
-
-  const onSelectEvent: CalendarProps["onSelectEvent"] = (data) => {
-    setCurrentEvent(data);
-    setIsOpenEditCreateModal(true);
+  const normalCellStyle: SxProps = {
+    minWidth: hourPixel,
+    maxWidth: hourPixel,
+    height: cellHeight,
   };
 
   return (
-    <Layout rightBar={DashboardRightBar}>
-      <BigCalendar
-        events={events ?? []}
-        onEventDrop={onEventDrop}
-        onEventResize={onEventResize}
-        onSelectSlot={onSelectSlot}
-        onSelectEvent={onSelectEvent}
-        eventPropGetter={(event) => {
-          return {
-            style: {
-              backgroundColor: stringToColor(event.title as string),
-            },
-          };
+    <Layout>
+      <Column
+        sx={{
+          p: 3,
+          borderRadius: "10px",
         }}
-      />
-      <EventUpdateConfirmationModal
-        isOpen={updateModalOpen}
-        title='Update Event'
-        description='Are you sure you want to update this event?'
-        onUpdate={async () => {
-          // await actuallyUpdateEvent(value);
-          refetch();
-          setUpdateModalOpen(false);
-        }}
-        onCancel={() => {
-          setUpdateModalOpen(false);
-        }}
-      />
-      {/* <EditCreateModal
-        open={isOpenEditCreateModal}
-        selectedEvent={currentEvent}
-        setOpen={setIsOpenEditCreateModal}
-        onClose={(shouldRefetch) => {
-          setIsOpenEditCreateModal(false);
-          setCurrentEvent(null);
-          if (shouldRefetch) {
-            refetch();
-          }
-        }}
-      /> */}
+      >
+        <FlexBox>
+          <DateField
+            value={currentDate}
+            sx={{
+              maxWidth: "200px",
+            }}
+            onChange={(date) => setCurrentDate(date?.toDate() ?? new Date())}
+          />
+
+          <Button
+            variant='outlined'
+            onClick={() => {
+              setCurrentDate(
+                new Date(currentDate.setDate(currentDate.getDate() - 1)),
+              );
+            }}
+          >
+            Previous
+          </Button>
+          <Button
+            variant='outlined'
+            onClick={() => {
+              setCurrentDate(
+                new Date(currentDate.setDate(currentDate.getDate() + 1)),
+              );
+            }}
+          >
+            Next
+          </Button>
+        </FlexBox>
+
+        <FlexBox>
+          <Table
+            sx={{
+              position: "relative",
+              width: "auto",
+            }}
+          >
+            <TableHead>
+              <TableRow>
+                <TableCell sx={nameColumStyle}>Care Worker</TableCell>
+                {Array.from({ length: 24 }, (_, i) => i).map((i) => {
+                  const { shouldShowTimeHere, marginLeft } =
+                    getCurrentTimeIndicatorInfo(currentDate, hourWidth, i);
+
+                  return (
+                    <TableCell
+                      sx={{
+                        textAlign: "left",
+                        pl: 0,
+                        ...normalCellStyle,
+                      }}
+                      key={i}
+                    >
+                      {i % 24}:00
+                      {shouldShowTimeHere && (
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            width: "1px",
+                            height: "100%",
+                            backgroundColor: "#000000",
+                            marginLeft,
+                            zIndex: 1000,
+                          }}
+                        />
+                      )}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {grid.map((row, i) => {
+                const isUnassigned =
+                  row?.[0]?.events?.[0]?.care_workers?.length === 0;
+                const rowName = row?.[0]?.careWorker?.user?.name;
+                const careWorker = row?.[0]?.careWorker;
+                const availRanges = careWorker
+                  ? getAvailabilityRangesInfo(
+                      availabilitiesMap[careWorker.id ?? 0] ?? [],
+                      currentDate,
+                      hourWidth,
+                    )
+                  : [];
+
+                return (
+                  <TableRow
+                    sx={{
+                      ...(isUnassigned
+                        ? {
+                            height: "100px",
+                          }
+                        : {}),
+
+                      position: "relative",
+                    }}
+                    key={i}
+                  >
+                    <TableCell sx={nameColumStyle}>
+                      {isUnassigned ? "Unassigned" : rowName}
+                    </TableCell>
+
+                    {row.map((col, j) => {
+                      const eventCards = getCurrentEventInfo(
+                        col.events,
+                        currentDate,
+                        hourWidth,
+                        j,
+                      );
+
+                      return (
+                        <TableCell
+                          sx={{
+                            width: hourPixel,
+                            borderRight: "1px solid #bebebe",
+                            borderLeft: "1px solid #bebebe",
+                            p: 0,
+                            ...normalCellStyle,
+                          }}
+                          key={j}
+                        >
+                          {eventCards.map(
+                            ({ event, marginLeft, width }, index) => (
+                              <EventCard
+                                key={event.id}
+                                event={event}
+                                otherProps={{
+                                  marginLeft,
+                                  width,
+                                  marginTop: `${index * 10}px`,
+                                }}
+                              />
+                            ),
+                          )}
+                        </TableCell>
+                      );
+                    })}
+
+                    {!isUnassigned && (
+                      <Box
+                        sx={{
+                          position: "relative",
+                          display: "grid",
+                        }}
+                      >
+                        <FlexBox
+                          sx={{
+                            position: "absolute",
+                            left: -hourWidth * 24,
+                            top: cellHeight - 5,
+                            height: "5px",
+                            width: hourWidth * 24,
+                            gap: 0,
+                          }}
+                        >
+                          {availRanges.map(
+                            ({ start, end, isAvailable }, index) => (
+                              <Box
+                                sx={{
+                                  width: end - start,
+                                  height: "100%",
+                                  backgroundColor: isAvailable
+                                    ? "#5ab75a"
+                                    : "#ffc0c0",
+                                }}
+                                key={index}
+                              />
+                            ),
+                          )}
+                        </FlexBox>
+                      </Box>
+                    )}
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
+        </FlexBox>
+      </Column>
     </Layout>
   );
 };

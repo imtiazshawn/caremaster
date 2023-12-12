@@ -146,15 +146,6 @@ export const Clients = () => {
                       flex: 1,
                     }}
                   />
-                  <Tab
-                    label='All'
-                    value='3'
-                    disableRipple
-                    sx={{
-                      width: "33%",
-                      flex: 1,
-                    }}
-                  />
                 </Tabs>
                 <TabPanel
                   value='1'
@@ -183,24 +174,6 @@ export const Clients = () => {
                 >
                   <Column sx={{ gap: 1, overflow: "auto", height: "100%" }}>
                     {preAdmittedClients?.map((serviceUser) => (
-                      <Box key={serviceUser.id}>
-                        <ClientCard
-                          key={serviceUser.id}
-                          client={serviceUser}
-                        />
-                      </Box>
-                    ))}
-                  </Column>
-                </TabPanel>
-                <TabPanel
-                  value='3'
-                  sx={{
-                    height: "100%",
-                    overflow: "auto",
-                  }}
-                >
-                  <Column sx={{ gap: 1, overflow: "scroll", height: "100%" }}>
-                    {serviceUsers?.map((serviceUser) => (
                       <Box key={serviceUser.id}>
                         <ClientCard
                           key={serviceUser.id}
