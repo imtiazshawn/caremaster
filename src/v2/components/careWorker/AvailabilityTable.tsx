@@ -50,7 +50,7 @@ const weekDayCellStyle: SxProps = {
   fontWeight: "medium",
   userSelect: "none",
 };
-const blockWidth = 35;
+const blockWidth = 16;
 // const cellToTime = (cell: number) => {
 //   const hour = String(Math.floor((cell * 15) / 60)).padStart(2, "0");
 //   const minute = String(
