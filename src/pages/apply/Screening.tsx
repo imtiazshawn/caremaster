@@ -55,11 +55,21 @@ export const ApplicantScreening = () => {
         <Routes>
           <Route
             path='/'
-            element={<Introduction description={introDescription} />}
+            element={
+              <Introduction
+                nextUrl={`/care-worker/screening/personal-details?uid=${uid}`}
+                description={introDescription}
+              />
+            }
           />
           <Route
             path='/introduction'
-            element={<Introduction description={introDescription} />}
+            element={
+              <Introduction
+                nextUrl={`/care-worker/screening/personal-details?uid=${uid}`}
+                description={introDescription}
+              />
+            }
           />
           <Route
             path='/personal-details'

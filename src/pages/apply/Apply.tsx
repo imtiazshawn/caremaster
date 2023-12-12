@@ -58,11 +58,21 @@ export const Apply = () => {
         <Routes>
           <Route
             path='/'
-            element={<Introduction description={introDescription} />}
+            element={
+              <Introduction
+                nextUrl={`/care-worker/apply/questionnaire?uid=${uid}`}
+                description={introDescription}
+              />
+            }
           />
           <Route
             path='/introduction'
-            element={<Introduction description={introDescription} />}
+            element={
+              <Introduction
+                nextUrl={`/care-worker/apply/questionnaire?uid=${uid}`}
+                description={introDescription}
+              />
+            }
           />
           <Route
             path='/personal-details'

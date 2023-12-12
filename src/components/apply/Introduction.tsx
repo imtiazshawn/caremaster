@@ -1,13 +1,11 @@
 import { Button } from "@common/Button";
 import { FlexBox, FullColumn } from "@common/index";
-import { useSearchParams } from "react-router-dom";
 
 type Props = {
   description: string;
+  nextUrl: string;
 };
-export const Introduction = ({ description }: Props) => {
-  const [searchParams] = useSearchParams();
-  const uid = searchParams.get("uid");
+export const Introduction = ({ description, nextUrl }: Props) => {
   return (
     <div>
       <FullColumn className='p-4'>
@@ -16,7 +14,7 @@ export const Introduction = ({ description }: Props) => {
           <Button
             variant='contained'
             className='rounded-md'
-            href={`/care-worker/apply/personal-details?uid=${uid}`}
+            href={nextUrl}
           >
             Start
           </Button>
