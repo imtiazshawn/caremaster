@@ -19,8 +19,7 @@ export const NavLinkComponent = ({
       <FlexBox
         sx={{
           width: "100%",
-          my: 5,
-          borderTop: "1px solid #E3E3E3",
+          my: 2,
         }}
       />
     );
@@ -95,8 +94,8 @@ export const NavLinkComponent = ({
           key={route}
           disableRipple
           sx={{
-            p: "0.75rem",
-            px: "2.5rem",
+            p: "0.2rem",
+            px: "4.5rem",
             borderRadius: 2,
             borderTopLeftRadius: 0,
             borderBottomLeftRadius: 0,
@@ -113,11 +112,11 @@ export const NavLinkComponent = ({
           <Grid
             sx={{
               gap: 1.5,
-              justifyContent: "left",
+              justifyContent: "center",
               alignItems: "center",
               width: "100%",
               fontSize: "1.2rem",
-              gridTemplateColumns: "2rem 1fr auto",
+              gridTemplateColumns: hasChildren ? "2rem 1fr auto" : "2rem 1fr",
             }}
           >
             {iconComponent}

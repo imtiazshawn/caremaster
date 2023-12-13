@@ -101,15 +101,17 @@ const getCoordFromIds = (mouseDownId: string, mouseUpId: string) => {
 export const AvailabilityComponent = () => {
   const navLinkProps = useStaffNavLinkProps();
   const careWorkerId = useCareWorkerId();
-  const [blocks, setBlocks] =
-    useState<Array<Array<number>>>(getDefaultBlocks());
+  const [blocks, setBlocks] = useState<Array<Array<number>>>(
+    getDefaultBlocks(),
+  );
   const [mouseDownId, setMouseDownId] = React.useState<string | null>(null);
   const [mouseLastOverId, setMouseLastOverId] = React.useState<string | null>(
     null,
   );
 
-  const [previewBlocks, setPreviewBlocks] =
-    useState<Array<Array<number>>>(getDefaultBlocks());
+  const [previewBlocks, setPreviewBlocks] = useState<Array<Array<number>>>(
+    getDefaultBlocks(),
+  );
   const [schedule, setSchedule] = useState<Array<Availability>>([]);
   const [createAvailabilities] = useCreateCareWorkerAvailabilitiesMutation();
   const { data: availabilities, refetch } = useGetCareWorkerAvailabilitiesQuery(

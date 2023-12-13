@@ -26,18 +26,23 @@ export const Layout: React.FC<LayoutProps> = ({
   const SidebarComponent = sidebar;
   const RightBarComponent = rightBar;
   return (
-    <FullColumn sx={{ height: "100vh", backgroundColor: COLORS.BACKGROUND }}>
+    <FullColumn
+      sx={{
+        height: "100vh",
+        backgroundColor: COLORS.BACKGROUND,
+        overflow: "hidden",
+        gap: 0,
+      }}
+    >
+      {applyTopHeader ? <TopHeader /> : <></>}
       <Grid
         sx={{
-          gridTemplateColumns: "24rem 1fr",
+          gridTemplateColumns: "22rem 1fr",
           height: "100%",
-          gap: "2rem",
-          marginRight: "2rem",
         }}
       >
         <SidebarComponent {...sidebarProps} />
-        <FullColumn sx={{ gap: "1rem", height: "100vh", marginBottom: "5em" }}>
-          {applyTopHeader ? <TopHeader /> : <></>}
+        <FullColumn sx={{ height: "100vh", marginBottom: "5em", p: 3 }}>
           <Box
             sx={{
               overflowY: "auto",
@@ -49,6 +54,7 @@ export const Layout: React.FC<LayoutProps> = ({
                 gridTemplateColumns:
                   RightBarComponent !== "none" ? "1fr auto" : "1fr",
                 height: "100%",
+                mt: 3,
                 gap: 3,
               }}
             >

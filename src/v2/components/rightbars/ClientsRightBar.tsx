@@ -13,7 +13,6 @@ export const ClientRightBar = () => {
     <Column
       sx={{
         gap: 3,
-        marginTop: "2.5rem",
         width: ["30rem", "30rem", "30rem", "30rem", "40rem"],
       }}
     >

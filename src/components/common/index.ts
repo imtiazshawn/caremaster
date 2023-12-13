@@ -21,6 +21,11 @@ export const Row = styled(FlexBox)({
   flexDirection: "row",
 });
 
+export const CenteredRow = styled(FlexBox)({
+  flexDirection: "row",
+  alignItems: "center",
+});
+
 export const FullColumn = styled(Column)({
   height: "100%",
   gap: "1em",

@@ -15,6 +15,7 @@ export enum COLORS {
   LIGHT_GREY = "#585858",
   RED = "#990000",
   DARK_RED = "#800000",
+  TOPHEADER_BACKGROUND = "#082F3C",
 }
 
 export const EnrollmentStatusColors: Record<ENROLLMENT_STATUS, string> = {
