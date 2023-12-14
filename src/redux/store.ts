@@ -15,6 +15,7 @@ import { referenceApi } from "@reducers/api/reference";
 import { sendEmail } from "@reducers/api/sendEmail";
 import { serviceUserRecordsApi } from "@reducers/api/serviceUserRecords";
 import { serviceUsersApi } from "@reducers/api/serviceUsers";
+import { staffProfileApi } from "@reducers/api/staffProfile";
 import { templateCategoriesApi } from "@reducers/api/templateCategories";
 import { templateFieldsApi } from "@reducers/api/templateFields";
 import { templateSectionsApi } from "@reducers/api/templateSections";
@@ -53,6 +54,7 @@ const rootReducer = combineReducers({
   [careWorkerAvailabilityApi.reducerPath]: careWorkerAvailabilityApi.reducer,
   [templateValuesApi.reducerPath]: templateValuesApi.reducer,
   [referenceApi.reducerPath]: referenceApi.reducer,
+  [staffProfileApi.reducerPath]: staffProfileApi.reducer,
 });
 
 const store = configureStore({
@@ -81,6 +83,7 @@ const store = configureStore({
       templateCategoriesApi.middleware,
       careWorkerAvailabilityApi.middleware,
       templateValuesApi.middleware,
+      staffProfileApi.middleware,
     ]),
   devTools: import.meta.env.NODE_ENV !== "production",
 });

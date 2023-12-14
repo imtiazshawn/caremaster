@@ -70,7 +70,7 @@ export const NavLinkComponent = ({
   let iconComponent = null;
   if (icon) {
     const Icon = icon;
-    iconComponent = <Icon color={isActive ? "#000" : "inherit"} />;
+    iconComponent = <Icon style={{ color: isActive ? "#000" : "inherit" }} />;
   }
   if (image) {
     const Image = image.component;

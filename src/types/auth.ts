@@ -9,14 +9,25 @@ export type User = {
   updatedAt: string;
 };
 
+export enum LoginResponseStatus {
+  success = "success",
+  error = "error",
+}
+
 export type LoginResponse = {
-  user: User | null;
-  token: string;
+  status: LoginResponseStatus;
+  response: string;
 };
+
+export enum UserType {
+  staff = "staff",
+  care_worker = "care_worker",
+}
 
 export type LoginCredentials = {
   email: string;
   password: string;
+  user_type: UserType;
 };
 
 export type RegisterResponse = {

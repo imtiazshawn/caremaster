@@ -1,8 +1,7 @@
-import dummyProfilePic from "@assets/dummy-profile-pic.png";
+import { TopProfileCard } from "@/v2/components/TopProfileCard";
 import { ReactComponent as Logo } from "@assets/logo.svg";
 import { ReactComponent as Notifications } from "@assets/notifications.svg";
 import { Box, CenteredRow, Column, FlexBox } from "@common/index";
-import { ExpandMore } from "@mui/icons-material";
 import { COLORS } from "@shared/constants/colors";
 import { Link, useLocation } from "react-router-dom";
 
@@ -106,48 +105,7 @@ export const TopHeader = () => {
               height: "2rem",
             }}
           ></Box>
-          <CenteredRow
-            sx={{
-              gap: 1,
-              marginRight: "1rem",
-            }}
-          >
-            <img
-              className='h-12  rounded-full'
-              src={dummyProfilePic}
-              alt='profile'
-            />
-
-            <Column
-              sx={{
-                color: "white",
-                gap: 0,
-              }}
-            >
-              <span
-                style={{
-                  fontSize: "1.2rem",
-                  fontWeight: 600,
-                }}
-              >
-                John Doe
-              </span>
-              <span
-                style={{
-                  fontSize: "1rem",
-                  fontWeight: 400,
-                  opacity: 0.5,
-                }}
-              >
-                Manager
-              </span>
-            </Column>
-            <ExpandMore
-              sx={{
-                color: "#858D9D",
-              }}
-            />
-          </CenteredRow>
+          <TopProfileCard />
         </CenteredRow>
       </FlexBox>
     </Column>

@@ -1,9 +1,6 @@
 import { config } from "@config/index";
+import { getTokenFromLocalStorage } from "@redux/localStore/token";
 import { fetchBaseQuery } from "@reduxjs/toolkit/query";
-
-const getTokenFromLocalStorage = () => {
-  return localStorage.getItem("token") || "";
-};
 
 export const getBaseQuery = (url: string, accept?: string) => {
   const token = getTokenFromLocalStorage();
@@ -12,7 +9,7 @@ export const getBaseQuery = (url: string, accept?: string) => {
     baseUrl,
     prepareHeaders: (headers) => {
       headers.set("accept", accept ?? "application/json");
-      headers.set("Authorization", `Bearer ${token}`);
+      headers.set("Authorization", `Token ${token}`);
       return headers;
     },
   });

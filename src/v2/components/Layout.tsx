@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { COLORS } from "@/shared/constants/colors";
 
 import { Box, FullColumn, Grid } from "@common/index";
+import { useAuthentication } from "../hooks/useAuthentication";
 import { Navbar, NavbarProps } from "./Navbar/Navbar";
 import { TopHeader } from "./TopHeader";
 
@@ -25,6 +26,10 @@ export const Layout: React.FC<LayoutProps> = ({
 }) => {
   const SidebarComponent = sidebar;
   const RightBarComponent = rightBar;
+  const isAuthenticated = useAuthentication();
+  if (!isAuthenticated) {
+    return <></>;
+  }
   return (
     <FullColumn
       sx={{

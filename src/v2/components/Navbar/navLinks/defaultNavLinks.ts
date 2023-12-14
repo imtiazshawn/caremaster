@@ -5,6 +5,7 @@ import { ReactComponent as ServiceUser } from "@assets/service-user.svg";
 import { ReactComponent as Settings } from "@assets/settings.svg";
 import { ReactComponent as TickSquare } from "@assets/tick-square.svg";
 import { ReactComponent as Training } from "@assets/training.svg";
+import { Logout } from "@mui/icons-material";
 import { NavLink } from "../../../types/navLink";
 
 export const settingsNavLink: NavLink = {
@@ -63,4 +64,9 @@ export const defaultNavLinks: (NavLink | "separator" | "spacer")[] = [
     label: "Help and Support",
   },
   settingsNavLink,
+  {
+    route: "/logout",
+    icon: Logout,
+    label: "Logout",
+  },
 ];

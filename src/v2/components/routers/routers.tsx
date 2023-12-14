@@ -23,8 +23,10 @@ import { CarePlanPage } from "@/v2/pages/CarePlan";
 import ClientRota from "@/v2/pages/ClientRota";
 import { Clients } from "@/v2/pages/Clients";
 import { Dashboard } from "@/v2/pages/Dashboard";
+import { Logout } from "@/v2/pages/Logout";
 import { RecordSettings } from "@/v2/pages/RecordSettings";
 import { RiskAssessmentPage } from "@/v2/pages/RiskAssessment";
+import SignIn from "@/v2/pages/SignIn";
 import { Staff } from "@/v2/pages/Staff";
 import { TemplateSettings } from "@/v2/pages/TemplateSettings";
 import { Route } from "react-router-dom";
@@ -39,6 +41,16 @@ export const v2Routes = [
     key='dashboard'
     path='v2'
     element={<Dashboard />}
+  />,
+  <Route
+    key='sign-in'
+    path='signin'
+    element={<SignIn />}
+  />,
+  <Route
+    key='log-out'
+    path='logout'
+    element={<Logout />}
   />,
   <Route
     key='dashboard'
