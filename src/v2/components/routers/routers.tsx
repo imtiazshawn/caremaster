@@ -63,6 +63,11 @@ export const v2Routes = [
     element={<Dashboard />}
   />,
   <Route
+    key='daily-tasks'
+    path='v2/docs-and-forms'
+    element={<Dashboard />}
+  />,
+  <Route
     key='clients'
     path='v2/clients'
     element={<Clients />}

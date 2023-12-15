@@ -1,5 +1,7 @@
 import { ENROLLMENT_STATUS } from "$types/serviceUsers";
 
+export * as muiColors from "@mui/material/colors";
+
 export enum COLORS {
   BACKGROUND = "#F7F7FB",
   WHITE = "#FFFFFF",

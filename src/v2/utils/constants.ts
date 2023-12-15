@@ -1,5 +1,4 @@
-export const placeholderProfilePicture =
-  "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png";
-
 export const RISK_ASSESSMENT_CATEGORY_SLUG = "risk-assessment";
 export const CARE_PLAN_SLUG = "care-plan";
+
+export { default as placeholderProfilePicture } from "@assets/placeholder-profile-picture.png";

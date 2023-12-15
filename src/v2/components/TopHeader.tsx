@@ -1,8 +1,8 @@
 import { TopProfileCard } from "@/v2/components/TopProfileCard";
 import { ReactComponent as Logo } from "@assets/logo.svg";
 import { ReactComponent as Notifications } from "@assets/notifications.svg";
+import { Badge } from "@common/Badge";
 import { Box, CenteredRow, Column, FlexBox } from "@common/index";
-import { COLORS } from "@shared/constants/colors";
 import { Link, useLocation } from "react-router-dom";
 
 const topLinks = [
@@ -36,15 +36,15 @@ export const TopHeader = () => {
           width: "100vw",
           height: "8vh",
           fontSize: "1.2rem",
-          backgroundColor: COLORS.TOPHEADER_BACKGROUND,
+          backgroundColor: "primary.dark",
         }}
       >
-        <Box
+        <FlexBox
           sx={{
-            display: "flex",
-            justifyContent: "center",
+            pl: "4.5rem",
             alignItems: "center",
-            width: "16vw",
+            width: "21rem",
+            gap: 0.6,
           }}
         >
           <Box
@@ -63,7 +63,7 @@ export const TopHeader = () => {
           >
             CareMaster
           </Box>
-        </Box>
+        </FlexBox>
         <FlexBox sx={{ flex: 1, justifyContent: "start" }}>
           {topLinks.map((link) => {
             const isActive = location.pathname === link.path;
@@ -75,9 +75,9 @@ export const TopHeader = () => {
                 <Box
                   sx={{
                     cursor: "pointer",
-                    color: "#F0F1F3",
+                    color: "text.secondary",
                     p: 2,
-                    fontWeight: 600,
+                    fontWeight: "bold",
                     height: "8vh",
                     display: "flex",
                     justifyContent: "center",
@@ -85,7 +85,8 @@ export const TopHeader = () => {
                     ...(isActive && {
                       color: "#F0F1F3",
                       backgroundColor: "#051D25",
-                      borderBottom: "4px #1E6069 solid",
+                      borderBottom: "4px #fff solid",
+                      borderColor: "primary.main",
                     }),
                   }}
                 >
@@ -97,7 +98,18 @@ export const TopHeader = () => {
         </FlexBox>
         <CenteredRow sx={{ gap: 1 }}>
           <CenteredRow>
-            <Notifications height={36} />
+            <Badge
+              badgeContent={4}
+              color='error'
+              sx={{
+                "& .MuiBadge-badge": {
+                  right: 6,
+                  top: 6,
+                },
+              }}
+            >
+              <Notifications height={36} />
+            </Badge>
           </CenteredRow>
           <Box
             sx={{

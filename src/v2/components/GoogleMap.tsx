@@ -1,7 +1,6 @@
-import flagIcon from "@assets/flag.svg";
 import { FlexBox } from "@common/index";
 import { config } from "@config/index";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { GoogleMap, LoadScript } from "@react-google-maps/api";
 import { useGetServiceUsersQuery } from "@reducers/api/serviceUsers";
 import { useEffect, useState } from "react";
 
@@ -79,12 +78,7 @@ const GoogleMapComponent = () => {
             zoom={10}
             onLoad={renderMarkers}
             key={mapKey}
-          >
-            <Marker
-              position={{ lat: centerLatLong[0], lng: centerLatLong[1] }}
-              icon={flagIcon}
-            />
-          </GoogleMap>
+          ></GoogleMap>
         )}
       </LoadScript>
     </FlexBox>

@@ -25,10 +25,12 @@ export const ClientRightBar = () => {
       />
       <Button
         variant='contained'
+        color='primary'
         sx={{
           height: "4.5rem",
           fontSize: "1.2rem",
           borderRadius: ".8rem",
+          backgroundColor: "secondary",
         }}
         onClick={() => {
           setOpenServiceUserModal(true);

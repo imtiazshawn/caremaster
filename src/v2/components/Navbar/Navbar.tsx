@@ -4,7 +4,7 @@ import { NavLinkComponent } from "@/v2/components/Navbar/NavLink";
 import { NavBarProfile } from "@/v2/components/Navbar/Profile";
 import { NavLink } from "@/v2/types/navLink";
 import { LoadingButton } from "@common/LoadingButton";
-import { Column, FlexBox } from "@common/index";
+import { Column, FlexBox, FullColumn } from "@common/index";
 import { defaultNavLinks } from "./navLinks/defaultNavLinks";
 
 export type NavbarProps = {
@@ -72,14 +72,20 @@ export const Navbar: React.FC<NavbarProps> = ({
           </LoadingButton>
         </FlexBox>
       )}
-      {navLinks.map((navLink, index) => {
-        return (
-          <NavLinkComponent
-            key={index}
-            navLink={navLink}
-          />
-        );
-      })}
+      <FullColumn
+        sx={{
+          gap: 0,
+        }}
+      >
+        {navLinks.map((navLink, index) => {
+          return (
+            <NavLinkComponent
+              key={index}
+              navLink={navLink}
+            />
+          );
+        })}
+      </FullColumn>
     </Column>
   );
 };

@@ -28,8 +28,6 @@ export const NavBarProfile: React.FC<Props> = ({ name, photo, mobile }) => {
         className='h-[125px] w-[125px] rounded-full'
         style={{
           objectFit: "cover",
-          //   border: "2px solid rgb(25 118 210)",
-          //   boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)",
         }}
       />
       <H2 color={COLORS.GREY}>{name}</H2>

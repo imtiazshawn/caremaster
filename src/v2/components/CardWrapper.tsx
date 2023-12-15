@@ -21,7 +21,8 @@ export const CardWrapper = (props: Props) => {
       <Box
         sx={{
           width: "100%",
-          backgroundColor: "#1E6069",
+          backgroundColor: "primary.main",
+          color: "primary.contrastText",
           padding: "15px",
           borderTopLeftRadius: "5px",
           borderTopRightRadius: "5px",
@@ -30,9 +31,7 @@ export const CardWrapper = (props: Props) => {
           alignItems: "center",
         }}
       >
-        <Typography sx={{ color: "white", fontSize: "18px" }}>
-          {props.title}
-        </Typography>
+        <Typography sx={{ fontSize: "18px" }}>{props.title}</Typography>
         {props.actionButtons}
       </Box>
       {props.children}

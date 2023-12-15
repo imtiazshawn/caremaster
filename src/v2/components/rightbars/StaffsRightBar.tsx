@@ -14,7 +14,6 @@ export const StaffsRightBar = () => {
     <Column
       sx={{
         gap: 3,
-        marginTop: "2.5rem",
         width: ["20rem", "23rem", "23rem", "23rem", "23rem"],
       }}
     >

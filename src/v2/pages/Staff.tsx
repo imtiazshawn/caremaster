@@ -38,7 +38,6 @@ export const Staff = () => {
             width: "100%",
             height: "100%",
             maxWidth: "70rem",
-            p: 4,
           }}
         >
           <FullRow>

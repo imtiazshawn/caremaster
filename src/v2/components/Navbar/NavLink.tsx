@@ -2,6 +2,7 @@ import { NavLink } from "@/v2/types/navLink";
 import { MIconButton } from "@common/IconButton";
 import { Column, FlexBox, Grid } from "@common/index";
 import { ChevronRight, ExpandMore } from "@mui/icons-material";
+import { muiColors } from "@shared/constants/colors";
 import { Link, useLocation, useParams } from "react-router-dom";
 
 export const NavLinkComponent = ({
@@ -70,7 +71,9 @@ export const NavLinkComponent = ({
   let iconComponent = null;
   if (icon) {
     const Icon = icon;
-    iconComponent = <Icon style={{ color: isActive ? "#000" : "inherit" }} />;
+    iconComponent = (
+      <Icon style={{ color: isActive ? "text.primary" : "inherit" }} />
+    );
   }
   if (image) {
     const Image = image.component;
@@ -96,13 +99,13 @@ export const NavLinkComponent = ({
           sx={{
             p: "0.2rem",
             px: "4.5rem",
-            borderRadius: 2,
-            borderTopLeftRadius: 0,
-            borderBottomLeftRadius: 0,
+            borderRadius: 0,
             width: "100%",
             backgroundColor: "transparent",
+            py: 2,
             ...(isActive && {
-              color: "#000000",
+              color: "text.primary",
+              backgroundColor: muiColors.grey[200],
             }),
             ...(isActive && {
               fontWeight: "800",

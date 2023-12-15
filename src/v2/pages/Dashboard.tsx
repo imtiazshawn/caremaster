@@ -8,8 +8,7 @@ import {
 import { MIconButton } from "@common/IconButton";
 import { H4 } from "@common/Typography";
 import { CenteredRow, Column } from "@common/index";
-import { SupervisedUserCircle } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { FilterAlt, SupervisedUserCircle } from "@mui/icons-material";
 
 export const Dashboard = () => {
   return (
@@ -28,16 +27,18 @@ export const Dashboard = () => {
         <CardWrapper
           title='Unassigned Appointments'
           actionButtons={[
-            <Button
-              variant='contained'
+            <MIconButton
               key='1'
               sx={{
-                backgroundColor: "white",
-                color: "#1F6D6B",
+                borderRadius: "5px",
+                backgroundColor: "secondary.main",
+                color: "secondary.contrastText",
+                gap: 1,
               }}
             >
-              Call
-            </Button>,
+              <FilterAlt />
+              <H4>Filter</H4>
+            </MIconButton>,
           ]}
         >
           <UnassignedAppointments />
@@ -49,8 +50,8 @@ export const Dashboard = () => {
               <MIconButton
                 key='1'
                 sx={{
-                  backgroundColor: "#1F6D6B",
-                  color: "white",
+                  backgroundColor: "secondary.main",
+                  color: "secondary.contrastText",
                   borderRadius: "5px",
                   gap: 1,
                 }}
@@ -61,14 +62,10 @@ export const Dashboard = () => {
               <MIconButton
                 key='1'
                 sx={{
-                  backgroundColor: "white",
-                  color: "#1F6D6B",
                   borderRadius: "5px",
+                  backgroundColor: "secondary.main",
+                  color: "secondary.contrastText",
                   gap: 1,
-                  ":hover": {
-                    backgroundColor: "#1F6D6B",
-                    color: "white",
-                  },
                 }}
               >
                 <SupervisedUserCircle />

@@ -1,5 +1,3 @@
-import "@/App.css";
-
 import store from "@redux/store";
 import { Provider } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -18,19 +16,20 @@ import ProvideReference from "@components/ProvideReference";
 import Finished from "@components/apply/Finished";
 import InitialForm from "@components/apply/InitialForm";
 import { ErrorFallbackComponent } from "@components/error/ErrorFallbackComponent";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ErrorBoundary } from "react-error-boundary";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ThemeProvider } from "styled-components";
 import Dashboard from "./pages/DashBoard";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
             <BrowserRouter>
               <Routes>
                 {...v2Routes}
@@ -89,10 +88,10 @@ function App() {
                 />
               </Routes>
             </BrowserRouter>
-          </ThemeProvider>
-        </QueryClientProvider>
-      </Provider>
-    </ErrorBoundary>
+          </QueryClientProvider>
+        </Provider>
+      </ErrorBoundary>
+    </ThemeProvider>
   );
 }
 

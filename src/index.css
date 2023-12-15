@@ -22,11 +22,6 @@
   -webkit-text-size-adjust: 100%;
 }
 
-body {
-  background-color: white;
-  color: black;
-}
-
 ::-webkit-scrollbar {
   display: none;
 }
