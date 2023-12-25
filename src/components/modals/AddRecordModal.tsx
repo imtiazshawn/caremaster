@@ -1,20 +1,15 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  Switch,
-} from "@mui/material";
+import { Switch } from "@mui/material";
 import { useForm } from "react-hook-form";
 
 import { RecordWithFields, RecordWithFieldsDTO } from "$types/record";
 
-import { Button, XButton } from "@common/Button";
+import { Button } from "@common/Button";
 import { LoadingButton } from "@common/LoadingButton";
+import { Modal } from "@common/Modal";
 import Select from "@common/Select";
 import { FormTemplate, SmartForm } from "@common/SmartForm";
 import TextField from "@common/TextField";
-import { H3, ModalTitle } from "@common/Typography";
+import { H3 } from "@common/Typography";
 import { Column, FlexBox } from "@common/index";
 import { recordFieldsApi } from "@reducers/api/recordFields";
 import { recordsApi, useCreateRecordMutation } from "@reducers/api/records";
@@ -273,50 +268,30 @@ const AddRecordModal: React.FC<Props> = ({ isOpen, onClose, record }) => {
   const submitText = record ? "Update Record" : "Create Record";
 
   return (
-    <Dialog
-      open={isOpen}
-      sx={{
-        "& .MuiPaper-root": {
-          maxWidth: "100%",
-          width: "650px",
-          maxHeight: "600px",
-        },
-      }}
-      onClose={onCloseHandler}
+    <Modal
+      title='Add a record configuration for service users'
+      onCloseHandler={onCloseHandler}
+      isOpen={isOpen}
     >
-      <DialogTitle sx={{ flexDirection: "row" }}>
-        <ModalTitle>Add a record configuration for service users</ModalTitle>
-      </DialogTitle>
-      <XButton
-        onClick={onCloseHandler}
-        sx={{
-          position: "absolute",
-          right: 24,
-          top: 10,
-        }}
-      />
-      <Divider />
-      <DialogContent>
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <Column>
-            <SmartForm
-              template={recordFormTemplate}
-              control={control}
-              labelPosition='top'
-            />
-            <FlexBox sx={{ justifyContent: "flex-end" }}>
-              <LoadingButton
-                type='submit'
-                variant='contained'
-                loading={isLoading}
-              >
-                {submitText}
-              </LoadingButton>
-            </FlexBox>
-          </Column>
-        </form>
-      </DialogContent>
-    </Dialog>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <Column>
+          <SmartForm
+            template={recordFormTemplate}
+            control={control}
+            labelPosition='top'
+          />
+          <FlexBox sx={{ justifyContent: "flex-end" }}>
+            <LoadingButton
+              type='submit'
+              variant='contained'
+              loading={isLoading}
+            >
+              {submitText}
+            </LoadingButton>
+          </FlexBox>
+        </Column>
+      </form>
+    </Modal>
   );
 };
 

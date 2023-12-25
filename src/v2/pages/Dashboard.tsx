@@ -25,6 +25,8 @@ export const Dashboard = () => {
         }}
       >
         <CardWrapper
+          color='secondary.main'
+          textColor='secondary.contrastText'
           title='Unassigned Appointments'
           actionButtons={[
             <MIconButton
@@ -45,6 +47,8 @@ export const Dashboard = () => {
         </CardWrapper>
         <CardWrapper
           title='REALTIME MAP'
+          color='secondary.main'
+          textColor='secondary.contrastText'
           actionButtons={
             <CenteredRow>
               <MIconButton

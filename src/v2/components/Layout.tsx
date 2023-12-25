@@ -47,7 +47,7 @@ export const Layout: React.FC<LayoutProps> = ({
         }}
       >
         <SidebarComponent {...sidebarProps} />
-        <FullColumn sx={{ height: "100vh", marginBottom: "5em", p: 3 }}>
+        <FullColumn sx={{ height: "100vh", marginBottom: "5em", p: 2 }}>
           <Box
             sx={{
               overflowY: "auto",

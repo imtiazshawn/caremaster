@@ -32,7 +32,6 @@ export const Navbar: React.FC<NavbarProps> = ({
         height: "92vh",
         backgroundColor: COLORS.WHITE,
         overflow: "auto",
-        py: 5,
       }}
     >
       {profile && (

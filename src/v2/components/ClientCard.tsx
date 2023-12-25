@@ -3,8 +3,8 @@ import { COLORS } from "@/shared/constants/colors";
 import { useFirstRiskAssessmentLink } from "@/v2/hooks/useClientNavLinkProps";
 import { placeholderProfilePicture } from "@/v2/utils/constants";
 import { H3, H4 } from "@common/Typography";
-import { Column, FlexBox } from "@common/index";
 import { Close } from "@mui/icons-material";
+import { Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 type ClientProps = {
@@ -16,14 +16,14 @@ export const ClientCard: React.FC<ClientProps> = ({ client }) => {
   const getFirstRiskAssessmentLink = useFirstRiskAssessmentLink();
 
   return (
-    <FlexBox
+    <Grid
+      container
       sx={{
         gap: 1,
         padding: 2,
-        borderRadius: "0.5rem",
         justifyContent: "space-between",
         cursor: "pointer",
-        boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.1)",
+        borderBottom: "solid 2px rgba(0, 0, 0, 0.1)",
       }}
       onClick={() => {
         if (isPreAdmitted) {
@@ -33,27 +33,78 @@ export const ClientCard: React.FC<ClientProps> = ({ client }) => {
         }
       }}
     >
-      <FlexBox
-        sx={{
-          alignItems: "center",
-        }}
+      <Grid
+        item
+        xs={1}
+        alignItems='center'
       >
         <img
           style={{
-            width: "3rem",
-            height: "3rem",
+            width: "4rem",
+            height: "4rem",
             borderRadius: "50%",
             objectFit: "cover",
           }}
           src={(client.photo as string) ?? placeholderProfilePicture}
         ></img>
-        <Column>
-          <H3>{client.name}</H3>
-          <H4 color={COLORS.LIGHT_GREY}>{client.address}</H4>
-        </Column>
-      </FlexBox>
+      </Grid>
+      <Grid
+        item
+        xs={2}
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems='start'
+      >
+        <H3>{client.name}</H3>
+        <Typography>Client id: {client.id}</Typography>
+      </Grid>
 
-      <Close />
-    </FlexBox>
+      <Grid
+        item
+        xs={3}
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems='start'
+      >
+        <H4 color={COLORS.LIGHT_GREY}>{client.address}</H4>
+      </Grid>
+
+      <Grid
+        item
+        xs={2}
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems='start'
+      >
+        <Typography>Assigned Carer</Typography>
+        <H4 color='blue'>Perez </H4>
+      </Grid>
+
+      <Grid
+        item
+        xs={2}
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems='start'
+      >
+        <Typography>Weekly Appo</Typography>
+        <H4>13 </H4>
+      </Grid>
+
+      <Grid
+        item
+        xs={1}
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems='start'
+      >
+        <Close />
+      </Grid>
+    </Grid>
   );
 };

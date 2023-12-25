@@ -2,7 +2,8 @@ import { CardWrapper } from "@/v2/components/CardWrapper";
 import { Card } from "@/v2/components/common/Card";
 import { dummyAlerts, unassignedAppointments } from "@/v2/utils/dummy";
 import { Column, FlexBox } from "@common/index";
-import { Close, ErrorOutline, Link } from "@mui/icons-material";
+import { Close, Link } from "@mui/icons-material";
+import { Grid, Typography } from "@mui/material";
 import dayjs from "dayjs";
 
 const Alerts = () => {
@@ -20,7 +21,7 @@ const Alerts = () => {
           sx={{
             width: "100%",
             height: "1px",
-            backgroundColor: "#E5E5E5",
+            backgroundColor: "#FFFFFF",
           }}
         />
         <Column sx={{ overflow: "auto", maxHeight: 500 }}>
@@ -38,18 +39,22 @@ const Alerts = () => {
                 },
               }}
             >
-              <ErrorOutline
-                fontSize='large'
-                color={alert.type}
-              />
-              <Column>
-                <span>{alert.title}</span>
-                <span style={{ maxHeight: "60px", overflow: "hidden" }}>
+              <Column
+                sx={{
+                  height: "50px",
+                }}
+              >
+                <Typography
+                  color='black'
+                  sx={{
+                    overflow: "hidden",
+                  }}
+                >
                   {alert.description}
-                </span>
-                <span>
+                </Typography>
+                <Typography color='gray'>
                   {dayjs(new Date(alert.time)).format("hh:mm A, DD MMM")}
-                </span>
+                </Typography>
               </Column>
 
               <Close />
@@ -62,6 +67,8 @@ const Alerts = () => {
 };
 
 export const UnassignedAppointments = () => {
+  const dummyTime = ["8:00-9:30", "12:30-13:30", "15:30-16:30"];
+
   return (
     <Card
       sx={{
@@ -84,9 +91,8 @@ export const UnassignedAppointments = () => {
             key={index}
             sx={{
               gap: 1,
-              padding: 1,
-              border: "1px solid #E5E5E5",
-              borderRadius: "0.5rem",
+              p: "3px",
+              borderBottom: "1px solid #E5E5E5",
               justifyContent: "space-between",
               cursor: "pointer",
               ":hover": {
@@ -94,9 +100,74 @@ export const UnassignedAppointments = () => {
               },
             }}
           >
-            <Column>
-              <span>{appointment.title}</span>
-            </Column>
+            <Grid
+              container
+              sx={{
+                display: "flex",
+              }}
+            >
+              <Grid
+                item
+                xs={4}
+                display='flex'
+                flexDirection='column'
+                justifyContent='center'
+                alignItems='start'
+              >
+                <Typography color='black'>{appointment.title}</Typography>
+              </Grid>
+              <Grid
+                item
+                xs={2}
+                display='flex'
+                flexDirection='column'
+                justifyContent='center'
+                alignItems='center'
+              >
+                <Typography color='black'>Today</Typography>
+              </Grid>
+              <Grid
+                item
+                xs={2}
+                display='flex'
+                flexDirection='column'
+                justifyContent='center'
+                alignItems='center'
+              >
+                <Typography color='black'>{dummyTime[index]}</Typography>
+              </Grid>
+              <Grid
+                item
+                xs={2}
+                display='flex'
+                flexDirection='column'
+                justifyContent='center'
+                alignItems='center'
+              >
+                <Typography
+                  sx={{
+                    backgroundColor: "#FFF5EB",
+                    border: "2px solid #FED5AF",
+                    borderRadius: "8px",
+                    py: "3px",
+                    px: "8px",
+                  }}
+                  color='#FC9736'
+                >
+                  Unassigned
+                </Typography>
+              </Grid>
+              <Grid
+                item
+                xs={2}
+                display='flex'
+                flexDirection='column'
+                justifyContent='center'
+                alignItems='center'
+              >
+                <Typography color='#F48282'>Edit Roster</Typography>
+              </Grid>
+            </Grid>
 
             <Link />
           </FlexBox>
@@ -113,7 +184,11 @@ export const DashboardRightBar = () => {
         width: ["16rem", "18rem", "20rem", "25rem", "40rem"],
       }}
     >
-      <CardWrapper title='Alerts'>
+      <CardWrapper
+        color='secondary.main'
+        textColor='secondary.contrastText'
+        title='Alerts'
+      >
         <Alerts />
       </CardWrapper>
     </Column>

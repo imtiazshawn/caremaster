@@ -1,14 +1,12 @@
-import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
 import { useForm } from "react-hook-form";
 
 import { Column, FlexBox } from "@components/common";
-import { XButton } from "@components/common/Button";
 import { LoadingButton } from "@components/common/LoadingButton";
 import { FormTemplate, SmartForm } from "@components/common/SmartForm";
-import { ModalTitle } from "@components/common/Typography";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { applicantSchema } from "@/formSchemas/aplicants";
+import { Modal } from "@common/Modal";
 import ShowShortMessage from "@common/ShortMessage";
 import { PostCodeComponent } from "@components/PostCodeComponent";
 import {
@@ -107,49 +105,35 @@ const AddCareWorkerModal: React.FC<Props> = ({ isOpen, onClose }) => {
   // };
 
   return (
-    <Dialog
-      open={isOpen}
-      sx={{
-        "& .MuiPaper-root": {
-          maxWidth: "100%",
-          width: "650px",
-        },
-      }}
-      onClose={onCloseHandler}
+    <Modal
+      title='Add Careworker'
+      onCloseHandler={onCloseHandler}
+      isOpen={isOpen}
     >
-      <DialogTitle sx={{ flexDirection: "row" }}>
-        <ModalTitle>Care Worker</ModalTitle>
-      </DialogTitle>
-      <XButton
-        onClick={onCloseHandler}
-        sx={{
-          position: "absolute",
-          right: 24,
-          top: 10,
-        }}
-      />
-      <Divider />
-      <DialogContent>
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <Column>
-            <SmartForm
-              template={careWorkerFormTemplate}
-              control={control}
-              labelPosition='top'
-            />
-            <FlexBox sx={{ justifyContent: "flex-end" }}>
-              <LoadingButton
-                type='submit'
-                variant='contained'
-                loading={isLoading}
-              >
-                Create A New Applicant
-              </LoadingButton>
-            </FlexBox>
-          </Column>
-        </form>
-      </DialogContent>
-    </Dialog>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <Column>
+          <SmartForm
+            template={careWorkerFormTemplate}
+            control={control}
+            labelPosition='top'
+          />
+          <FlexBox sx={{ justifyContent: "center", width: "100%" }}>
+            <LoadingButton
+              type='submit'
+              variant='contained'
+              loading={isLoading}
+              sx={{
+                backgroundColor: "#082F3C",
+                width: "100%",
+                p: "5px",
+              }}
+            >
+              Create A New Applicant
+            </LoadingButton>
+          </FlexBox>
+        </Column>
+      </form>
+    </Modal>
   );
 };
 

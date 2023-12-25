@@ -1,3 +1,4 @@
+import { CardWrapper } from "@/v2/components/CardWrapper";
 import { MaintenanceRightBar } from "@/v2/components/rightbars/MaintenanceRightBar";
 import { Button } from "@common/Button";
 import { Column } from "@common/index";
@@ -25,12 +26,11 @@ export const ClientRightBar = () => {
       />
       <Button
         variant='contained'
-        color='primary'
         sx={{
           height: "4.5rem",
           fontSize: "1.2rem",
           borderRadius: ".8rem",
-          backgroundColor: "secondary",
+          backgroundColor: "#349572",
         }}
         onClick={() => {
           setOpenServiceUserModal(true);
@@ -38,14 +38,22 @@ export const ClientRightBar = () => {
       >
         + New Client
       </Button>
-      <MaintenanceRightBar
-        sx={{
-          width: "100%",
-          height: "100%",
-          maxWidth: "50rem",
-          p: 4,
-        }}
-      />
+      <CardWrapper
+        color='secondary.main'
+        textColor='secondary.contrastText'
+        title='Maintenance'
+      >
+        <MaintenanceRightBar
+          sx={{
+            width: "100%",
+            height: "100%",
+            maxWidth: "50rem",
+            borderTopLeftRadius: "0px",
+            borderTopRightRadius: "0px",
+            p: 4,
+          }}
+        />
+      </CardWrapper>
     </Column>
   );
 };

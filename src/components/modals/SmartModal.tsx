@@ -1,12 +1,10 @@
-import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
 import { DefaultValues, FieldValues, useForm } from "react-hook-form";
 
 import { Column, FlexBox } from "@components/common";
-import { XButton } from "@components/common/Button";
 import { LoadingButton } from "@components/common/LoadingButton";
 import { FormTemplate, SmartForm } from "@components/common/SmartForm";
-import { ModalTitle } from "@components/common/Typography";
 
+import { Modal } from "@common/Modal";
 import { useEffect } from "react";
 
 type Props<T extends FieldValues> = {
@@ -56,51 +54,32 @@ const SmartModal: SmartModalProps = ({
   };
 
   return (
-    <Dialog
-      open={isOpen}
-      sx={{
-        "& .MuiPaper-root": {
-          maxWidth: "100%",
-          width: "650px",
-        },
-      }}
-      onClose={onCloseHandler}
+    <Modal
+      title={title}
+      onCloseHandler={onCloseHandler}
+      isOpen={isOpen}
     >
-      <DialogTitle sx={{ flexDirection: "row" }}>
-        <ModalTitle>{title}</ModalTitle>
-      </DialogTitle>
-      <XButton
-        onClick={onCloseHandler}
-        sx={{
-          position: "absolute",
-          right: 24,
-          top: 10,
-        }}
-      />
-      <Divider />
-      <DialogContent>
-        <form onSubmit={handleSubmit(handler)}>
-          <Column>
-            <SmartForm
-              template={formTemplate}
-              control={control}
-              watch={watch}
-              setValue={setValue}
-              labelPosition='top'
-            />
-            <FlexBox sx={{ justifyContent: "flex-end" }}>
-              <LoadingButton
-                type='submit'
-                variant='contained'
-                loading={isLoading}
-              >
-                Save
-              </LoadingButton>
-            </FlexBox>
-          </Column>
-        </form>
-      </DialogContent>
-    </Dialog>
+      <form onSubmit={handleSubmit(handler)}>
+        <Column>
+          <SmartForm
+            template={formTemplate}
+            control={control}
+            watch={watch}
+            setValue={setValue}
+            labelPosition='top'
+          />
+          <FlexBox sx={{ justifyContent: "flex-end" }}>
+            <LoadingButton
+              type='submit'
+              variant='contained'
+              loading={isLoading}
+            >
+              Save
+            </LoadingButton>
+          </FlexBox>
+        </Column>
+      </form>
+    </Modal>
   );
 };
 

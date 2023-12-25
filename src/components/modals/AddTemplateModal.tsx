@@ -1,13 +1,11 @@
-import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
 import { useForm } from "react-hook-form";
 
 import { Column, FlexBox } from "@components/common";
-import { XButton } from "@components/common/Button";
 import { LoadingButton } from "@components/common/LoadingButton";
 import { FormTemplate, SmartForm } from "@components/common/SmartForm";
-import { ModalTitle } from "@components/common/Typography";
 
 import { Template, TemplateDTO } from "$types/template";
+import { Modal } from "@common/Modal";
 import ConfirmationDialog from "@components/modals/ConfirmationModal";
 import {
   useCreateTemplateMutation,
@@ -108,72 +106,53 @@ const AddTemplateModal: React.FC<Props> = ({
   const submitButtonText = isEditing ? "Update Template" : "Create Template";
   const [isConfirmationOpen, setIsConfirmationOpen] = React.useState(false);
   return (
-    <Dialog
-      open={isOpen}
-      sx={{
-        "& .MuiPaper-root": {
-          maxWidth: "100%",
-          width: "650px",
-        },
-      }}
-      onClose={onCloseHandler}
+    <Modal
+      title='Template Form'
+      isOpen={isOpen}
+      onCloseHandler={onCloseHandler}
     >
-      <DialogTitle sx={{ flexDirection: "row" }}>
-        <ModalTitle>Template Form</ModalTitle>
-      </DialogTitle>
-      <XButton
-        onClick={onCloseHandler}
-        sx={{
-          position: "absolute",
-          right: 24,
-          top: 10,
-        }}
-      />
-      <Divider />
-      <DialogContent>
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <Column>
-            <SmartForm
-              template={templateFormTemplate}
-              control={control}
-              labelPosition='top'
-            />
-            <ConfirmationDialog
-              isOpen={isConfirmationOpen}
-              onCancel={() => setIsConfirmationOpen(false)}
-              onOk={async () => {
-                setIsConfirmationOpen(false);
-                await deleteTemplate(template?.id ?? 0);
-                refetch();
-                refetchTemplate();
-                onCloseHandler();
-              }}
-              title='Are you sure you want to delete?'
-              description='All forms created will be deleted! Be super sure before doing this.'
-            />
-            <FlexBox sx={{ justifyContent: "flex-end" }}>
-              {isEditing && (
-                <LoadingButton
-                  variant='contained'
-                  color='error'
-                  loading={isLoading}
-                  onClick={() => setIsConfirmationOpen(true)}
-                >
-                  Delete
-                </LoadingButton>
-              )}
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <Column>
+          <SmartForm
+            template={templateFormTemplate}
+            control={control}
+            labelPosition='top'
+          />
+          <ConfirmationDialog
+            isOpen={isConfirmationOpen}
+            onCancel={() => setIsConfirmationOpen(false)}
+            onOk={async () => {
+              setIsConfirmationOpen(false);
+              await deleteTemplate(template?.id ?? 0);
+              refetch();
+              refetchTemplate();
+              onCloseHandler();
+            }}
+            title='Are you sure you want to delete?'
+            description='All forms created will be deleted! Be super sure before doing this.'
+          />
+          <FlexBox sx={{ justifyContent: "flex-end" }}>
+            {isEditing && (
               <LoadingButton
-                type='submit'
                 variant='contained'
+                color='error'
                 loading={isLoading}
+                onClick={() => setIsConfirmationOpen(true)}
               >
-                {submitButtonText}
+                Delete
               </LoadingButton>
-            </FlexBox>
-          </Column>
-        </form>
-      </DialogContent>
-    </Dialog>
+            )}
+            <LoadingButton
+              type='submit'
+              variant='contained'
+              loading={isLoading}
+            >
+              {submitButtonText}
+            </LoadingButton>
+          </FlexBox>
+        </Column>
+      </form>
+    </Modal>
   );
 };
 

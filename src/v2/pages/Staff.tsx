@@ -49,7 +49,7 @@ export const Staff = () => {
             <Select
               sx={{
                 borderRadius: ".5rem",
-                width: "50%",
+                width: "25%",
                 height: "100%",
                 "& .MuiInputBase-root": {
                   height: "100%",

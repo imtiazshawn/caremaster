@@ -34,7 +34,7 @@ export const TopHeader = () => {
           justifyContent: "flex-end",
           alignItems: "center",
           width: "100vw",
-          height: "8vh",
+          height: "10vh",
           fontSize: "1.2rem",
           backgroundColor: "primary.dark",
         }}
@@ -58,11 +58,6 @@ export const TopHeader = () => {
               }}
             />
           </Box>
-          <Box
-            sx={{ color: "#F0F1F3", fontSize: "20px", pointerEvents: "none" }}
-          >
-            CareMaster
-          </Box>
         </FlexBox>
         <FlexBox sx={{ flex: 1, justifyContent: "start" }}>
           {topLinks.map((link) => {
@@ -75,18 +70,18 @@ export const TopHeader = () => {
                 <Box
                   sx={{
                     cursor: "pointer",
-                    color: "text.secondary",
-                    p: 2,
-                    fontWeight: "bold",
-                    height: "8vh",
+                    color: "#ECECEC",
+                    p: 3,
+                    height: "10vh",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                     ...(isActive && {
-                      color: "#F0F1F3",
+                      color: "#FFFFFF",
                       backgroundColor: "#051D25",
                       borderBottom: "4px #fff solid",
                       borderColor: "primary.main",
+                      fontWeight: "bold",
                     }),
                   }}
                 >
@@ -97,7 +92,7 @@ export const TopHeader = () => {
           })}
         </FlexBox>
         <CenteredRow sx={{ gap: 1 }}>
-          <CenteredRow>
+          <CenteredRow sx={{ mr: "20px" }}>
             <Badge
               badgeContent={4}
               color='error'
@@ -114,6 +109,7 @@ export const TopHeader = () => {
           <Box
             sx={{
               borderLeft: "1px solid #C2C6CE",
+              pl: "20px",
               height: "2rem",
             }}
           ></Box>

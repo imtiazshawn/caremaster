@@ -1,4 +1,3 @@
-import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
 import { useForm } from "react-hook-form";
 
 import {
@@ -7,10 +6,9 @@ import {
   ServiceUserDto,
 } from "$types/serviceUsers";
 import { serviceUserSchema } from "@/formSchemas/serviceUsers";
-import { XButton } from "@common/Button";
 import { LoadingButton } from "@common/LoadingButton";
+import { Modal } from "@common/Modal";
 import { FormTemplate, SmartForm } from "@common/SmartForm";
-import { ModalTitle } from "@common/Typography";
 import { Column, FlexBox } from "@common/index";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
@@ -84,49 +82,34 @@ const AddServiceUserModal: React.FC<Props> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Dialog
-      open={isOpen}
-      sx={{
-        "& .MuiPaper-root": {
-          maxWidth: "100%",
-          width: "40rem",
-        },
-      }}
-      onClose={() => onCloseHandler(false)}
+    <Modal
+      onCloseHandler={onCloseHandler}
+      title='Add New Client'
+      isOpen={isOpen}
     >
-      <DialogTitle sx={{ flexDirection: "row" }}>
-        <ModalTitle>Add new client</ModalTitle>
-      </DialogTitle>
-      <XButton
-        onClick={() => onCloseHandler(false)}
-        sx={{
-          position: "absolute",
-          right: 24,
-          top: 10,
-        }}
-      />
-      <Divider />
-      <DialogContent>
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <Column>
-            <SmartForm
-              template={ServiceUsersApplyForm}
-              control={control}
-              labelPosition='top'
-            />
-            <FlexBox sx={{ justifyContent: "flex-end" }}>
-              <LoadingButton
-                type='submit'
-                variant='contained'
-                loading={isLoading}
-              >
-                Create Client
-              </LoadingButton>
-            </FlexBox>
-          </Column>
-        </form>
-      </DialogContent>
-    </Dialog>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <Column>
+          <SmartForm
+            template={ServiceUsersApplyForm}
+            control={control}
+            labelPosition='top'
+          />
+          <FlexBox sx={{ justifyContent: "center", width: "100%" }}>
+            <LoadingButton
+              type='submit'
+              variant='contained'
+              loading={isLoading}
+              sx={{
+                width: "100%",
+                backgroundColor: "#082F3C",
+              }}
+            >
+              Create Client
+            </LoadingButton>
+          </FlexBox>
+        </Column>
+      </form>
+    </Modal>
   );
 };
 

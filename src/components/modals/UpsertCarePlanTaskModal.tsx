@@ -6,13 +6,11 @@ import {
 } from "$types/carePlanTasks";
 import { removeUndefined } from "@/Utils";
 import { carePlanTaskSchema } from "@/formSchemas/carePlanTask";
-import { XButton } from "@common/Button";
 import { LoadingButton } from "@common/LoadingButton";
+import { Modal } from "@common/Modal";
 import { FormTemplate, SmartForm } from "@common/SmartForm";
-import { ModalTitle } from "@common/Typography";
 import { Column, FlexBox } from "@common/index";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
 import { useGetCarePlanCategoriesQuery } from "@reducers/api/carePlanCategories";
 import {
   useCreateCarePlanTaskMutation,
@@ -113,51 +111,32 @@ const UpsertCarePlanTaskModal: React.FC<Props> = ({
   };
 
   return (
-    <Dialog
-      open={isOpen}
-      sx={{
-        "& .MuiPaper-root": {
-          maxWidth: "100%",
-          width: "650px",
-        },
-      }}
-      onClose={onCloseHandler}
+    <Modal
+      title='Care Worker'
+      onCloseHandler={onCloseHandler}
+      isOpen={isOpen}
     >
-      <DialogTitle sx={{ flexDirection: "row" }}>
-        <ModalTitle>Care Worker</ModalTitle>
-      </DialogTitle>
-      <XButton
-        onClick={onCloseHandler}
-        sx={{
-          position: "absolute",
-          right: 24,
-          top: 10,
-        }}
-      />
-      <Divider />
-      <DialogContent>
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
-          <Column>
-            <SmartForm
-              template={careWorkerFormTemplate}
-              control={control}
-              labelPosition='left'
-            />
-            <FlexBox sx={{ justifyContent: "flex-end" }}>
-              <LoadingButton
-                type='submit'
-                variant='contained'
-                loading={
-                  isLoadingCreateCarePlanTask || isLoadingUpdateCarePlanTask
-                }
-              >
-                {initialCarePlanTask ? "Update" : "Create"} Care Worker
-              </LoadingButton>
-            </FlexBox>
-          </Column>
-        </form>
-      </DialogContent>
-    </Dialog>
+      <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <Column>
+          <SmartForm
+            template={careWorkerFormTemplate}
+            control={control}
+            labelPosition='left'
+          />
+          <FlexBox sx={{ justifyContent: "flex-end" }}>
+            <LoadingButton
+              type='submit'
+              variant='contained'
+              loading={
+                isLoadingCreateCarePlanTask || isLoadingUpdateCarePlanTask
+              }
+            >
+              {initialCarePlanTask ? "Update" : "Create"} Care Worker
+            </LoadingButton>
+          </FlexBox>
+        </Column>
+      </form>
+    </Modal>
   );
 };
 

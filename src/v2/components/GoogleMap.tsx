@@ -53,7 +53,7 @@ const GoogleMapComponent = () => {
   return (
     <FlexBox
       style={{
-        height: "70vh",
+        height: "50vh",
         width: "100%",
         justifyContent: "center",
         alignItems: "center",
@@ -73,7 +73,7 @@ const GoogleMapComponent = () => {
       >
         {reloadMap && (
           <GoogleMap
-            mapContainerStyle={{ height: "70vh", width: "100%" }}
+            mapContainerStyle={{ height: "50vh", width: "100%" }}
             center={{ lat: centerLatLong[0], lng: centerLatLong[1] }}
             zoom={10}
             onLoad={renderMarkers}

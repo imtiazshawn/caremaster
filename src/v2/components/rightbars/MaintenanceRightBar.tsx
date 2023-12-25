@@ -1,7 +1,7 @@
 import { Card } from "@/v2/components/common/Card";
-import { H2 } from "@common/Typography";
 import { Column, FlexBox } from "@common/index";
 import { Close } from "@mui/icons-material";
+import { Typography } from "@mui/material";
 import { SxProps } from "@mui/system";
 
 type Props = {
@@ -12,7 +12,6 @@ export const MaintenanceRightBar: React.FC<Props> = ({ sx }) => {
   return (
     <Card sx={{ width: "25rem", p: 3, ...sx }}>
       <Column sx={{ gap: 1 }}>
-        <H2>Maintenance</H2>
         <FlexBox
           sx={{
             width: "100%",
@@ -26,15 +25,13 @@ export const MaintenanceRightBar: React.FC<Props> = ({ sx }) => {
             sx={{
               gap: 1,
               padding: 1,
-              border: "1px solid #E5E5E5",
-              borderRadius: "0.5rem",
+              borderBottom: "1px solid #E5E5E5",
               justifyContent: "space-around",
             }}
           >
-            <Column>
-              <span>Maintenance {index + 1}</span>
-              <span>Maintenance description</span>
-            </Column>
+            <Typography color='black'>Maintenance {index + 1}</Typography>
+            <Typography color='black'>Maintenance description</Typography>
+            <Typography color='red'>Required</Typography>
 
             <Close />
           </FlexBox>

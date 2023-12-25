@@ -1,7 +1,7 @@
 import { placeholderProfilePicture } from "@/v2/utils/constants";
-import { H3, H5 } from "@common/Typography";
-import { Column, FlexBox } from "@common/index";
+import { H3 } from "@common/Typography";
 import { Close } from "@mui/icons-material";
+import { Grid, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 type CareWorkerProps = {
@@ -60,7 +60,8 @@ export const CareWorkerCard: React.FC<CareWorkerProps> = ({
   }
 
   return (
-    <FlexBox
+    <Grid
+      container
       sx={{
         gap: 1,
         padding: 2,
@@ -78,59 +79,100 @@ export const CareWorkerCard: React.FC<CareWorkerProps> = ({
         navigate(`/v2/staff/${careWorker.id}/basic`);
       }}
     >
-      <FlexBox
-        sx={{
-          alignItems: "center",
-          width: "100%",
-        }}
+      <Grid
+        item
+        xs={1}
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems='end'
       >
         <img
           style={{
-            width: "3rem",
-            height: "3rem",
+            width: "4rem",
+            height: "4rem",
             borderRadius: "50%",
             objectFit: "cover",
           }}
           src={(careWorker.photo as string) ?? placeholderProfilePicture}
         ></img>
-        <Column>
-          <H3>{careWorker.user.name}</H3>
-          {careWorker.user?.phone && <H5>{careWorker.user?.phone}</H5>}
-          <H5>{careWorker.user.email}</H5>
-        </Column>
+      </Grid>
 
-        {total != undefined && completedCount != undefined && (
+      <Grid
+        item
+        xs={3}
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems='start'
+      >
+        <H3>{careWorker.user.name}</H3>
+        {total === undefined && completedCount === undefined && (
+          <Typography fontSize='12px'>Employee Id: {careWorker.id}</Typography>
+        )}
+      </Grid>
+      <Grid
+        item
+        xs={3}
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems='center'
+      >
+        <Typography>{careWorker?.address}</Typography>
+        <Typography>C B Memorials, 20a The Warren, London, E12 5HY</Typography>
+      </Grid>
+      <Grid
+        item
+        xs={1}
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems='center'
+      >
+        <Typography>Role</Typography>
+        <Typography>Admin</Typography>
+      </Grid>
+      {total != undefined && completedCount != undefined && (
+        <Grid
+          style={{
+            // padding: "1rem ",
+            marginLeft: "auto",
+            marginTop: "1rem",
+            alignContent: "flex-end",
+          }}
+        >
           <div
+            className={bgcolorClass}
             style={{
-              // padding: "1rem ",
-              marginLeft: "auto",
-              marginTop: "1rem",
-              alignContent: "flex-end",
+              height: "2rem",
+              borderRadius: "0.5rem",
+              overflow: "hidden",
             }}
           >
             <div
-              className={bgcolorClass}
+              className={colorClass}
               style={{
-                height: "2rem",
-                borderRadius: "0.5rem",
-                overflow: "hidden",
+                height: "100%",
+                width: `${progress * 100}%`,
+                transition: "width 0.5s ease-in-out",
               }}
-            >
-              <div
-                className={colorClass}
-                style={{
-                  height: "100%",
-                  width: `${progress * 100}%`,
-                  transition: "width 0.5s ease-in-out",
-                }}
-              ></div>
-            </div>
-            <p>{`${completedCount} out of ${total} completed`}</p>
+            ></div>
           </div>
-        )}
-      </FlexBox>
+          <p>{`${completedCount} out of ${total} completed`}</p>
+        </Grid>
+      )}
 
-      {children ?? <Close />}
-    </FlexBox>
+      <Grid
+        item
+        xs={2}
+        display='flex'
+        flexDirection='column'
+        justifyContent='center'
+        alignItems='end'
+      >
+        {children ?? <Close />}
+      </Grid>
+    </Grid>
   );
 };

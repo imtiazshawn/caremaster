@@ -71,4 +71,7 @@ export const unassignedAppointments = [
   {
     title: "ANNAH KANTONO",
   },
+  {
+    title: "Kaiser Brown",
+  },
 ];

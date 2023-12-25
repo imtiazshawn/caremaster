@@ -36,7 +36,6 @@ export const Search: React.FC<{
         endAdornment: (
           <ISearch
             sx={{
-              mr: "10px",
               fontSize: "2.2rem",
               color: "rgb(177 177 177 / 87%)",
             }}

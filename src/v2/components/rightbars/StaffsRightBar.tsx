@@ -1,3 +1,4 @@
+import { CardWrapper } from "@/v2/components/CardWrapper";
 import { MaintenanceRightBar } from "@/v2/components/rightbars/MaintenanceRightBar";
 import { Button } from "@common/Button";
 import { Column } from "@common/index";
@@ -14,7 +15,7 @@ export const StaffsRightBar = () => {
     <Column
       sx={{
         gap: 3,
-        width: ["20rem", "23rem", "23rem", "23rem", "23rem"],
+        width: ["30rem", "30rem", "30rem", "30rem", "40rem"],
       }}
     >
       <AddCareWorkerModal
@@ -30,6 +31,7 @@ export const StaffsRightBar = () => {
           height: "4.5rem",
           fontSize: "1.2rem",
           borderRadius: ".8rem",
+          backgroundColor: "#349572",
         }}
         onClick={() => {
           setOpenCareWorkerModal(true);
@@ -37,14 +39,22 @@ export const StaffsRightBar = () => {
       >
         + New Staff
       </Button>
-      <MaintenanceRightBar
-        sx={{
-          width: "100%",
-          height: "100%",
-          maxWidth: "50rem",
-          p: 4,
-        }}
-      />
+      <CardWrapper
+        color='secondary.main'
+        textColor='secondary.contrastText'
+        title='Maintenance'
+      >
+        <MaintenanceRightBar
+          sx={{
+            width: "100%",
+            height: "100%",
+            maxWidth: "50rem",
+            borderTopLeftRadius: "0px",
+            BorderTopRightRadius: "0px",
+            p: 4,
+          }}
+        />
+      </CardWrapper>
     </Column>
   );
 };

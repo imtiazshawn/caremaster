@@ -16,6 +16,7 @@ export const XButton: React.FC<ButtonProps> = ({ sx, ...rest }) => {
         width: "2.5rem",
         minWidth: "2.5rem",
         backgroundColor: "#F8FAFC",
+        color: "white",
         ...sx,
       }}
     >

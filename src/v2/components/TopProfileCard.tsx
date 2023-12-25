@@ -22,6 +22,7 @@ export const TopProfileCard = () => {
         sx={{
           color: "white",
           gap: 0,
+          ml: "5px",
         }}
       >
         <span
@@ -44,6 +45,7 @@ export const TopProfileCard = () => {
       </Column>
       <ExpandMore
         sx={{
+          ml: "5px",
           color: "#858D9D",
         }}
       />
