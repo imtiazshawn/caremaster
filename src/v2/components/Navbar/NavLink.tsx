@@ -102,7 +102,7 @@ export const NavLinkComponent = ({
             borderRadius: 0,
             width: "100%",
             backgroundColor: "transparent",
-            py: 2,
+            py: 1.2,
             ...(isActive && {
               color: "text.primary",
               backgroundColor: muiColors.grey[200],

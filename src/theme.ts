@@ -12,7 +12,7 @@ export const theme = createTheme({
     secondary: {
       main: "#F4F4F4",
       dark: "#082F00",
-      contrastText: "#082F3C",
+      contrastText: "#000",
     },
     text: {
       primary: "#082F00",
@@ -23,3 +23,8 @@ export const theme = createTheme({
     fontFamily: "Plus Jakarta Sans, sans-serif",
   },
 });
+
+export const COLOR = {
+  redText: "#F16363",
+  yellowText: "#FC9736",
+};

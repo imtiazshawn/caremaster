@@ -34,34 +34,34 @@ export const dummyAlerts: Alert[] = [
     description:
       "MERCIRINER NABIRYO did not clock in to their 10 AM shift with Care solutions Recruitment Agency Ltd Care solutions Recruitment Agency Ltd.",
   },
-  {
-    title: "Trevor Norman Mutebe",
-    type: "error",
-    time: "2023-11-27 10:16",
-    description:
-      "Trevor Norman Mutebe did not clock in to their 10 AM shift with Care solutions Recruitment Agency Ltd Care solutions Recruitment Agency Ltd.",
-  },
-  {
-    title: "ANNAH KANTONO",
-    type: "error",
-    time: "2023-11-27 09:16",
-    description:
-      "ANNAH KANTONO did not clock in to their 9 AM shift with Catherine Evans.",
-  },
-  {
-    title: "Priscilla Kisakye",
-    type: "error",
-    time: "2023-11-27 09:16",
-    description:
-      "Priscilla Kisakye did not clock in to their 9 AM shift with Catherine Evans.",
-  },
-  {
-    title: "Halima Dilara",
-    type: "error",
-    time: "2023-11-27 07:16",
-    description:
-      "Halima Dilara did not clock in to their 7 AM shift with Favour Abiodun.",
-  },
+  // {
+  //   title: "Trevor Norman Mutebe",
+  //   type: "error",
+  //   time: "2023-11-27 10:16",
+  //   description:
+  //     "Trevor Norman Mutebe did not clock in to their 10 AM shift with Care solutions Recruitment Agency Ltd Care solutions Recruitment Agency Ltd.",
+  // },
+  // {
+  //   title: "ANNAH KANTONO",
+  //   type: "error",
+  //   time: "2023-11-27 09:16",
+  //   description:
+  //     "ANNAH KANTONO did not clock in to their 9 AM shift with Catherine Evans.",
+  // },
+  // {
+  //   title: "Priscilla Kisakye",
+  //   type: "error",
+  //   time: "2023-11-27 09:16",
+  //   description:
+  //     "Priscilla Kisakye did not clock in to their 9 AM shift with Catherine Evans.",
+  // },
+  // {
+  //   title: "Halima Dilara",
+  //   type: "error",
+  //   time: "2023-11-27 07:16",
+  //   description:
+  //     "Halima Dilara did not clock in to their 7 AM shift with Favour Abiodun.",
+  // },
 ];
 
 export const unassignedAppointments = [

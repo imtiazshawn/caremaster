@@ -38,7 +38,11 @@ export const CardWrapper = (props: Props) => {
           borderBottom: "1px solid #ECECEC",
         }}
       >
-        <Typography sx={{ fontSize: "18px" }}>{props.title}</Typography>
+        <Typography
+          sx={{ fontSize: "18px", fontWeight: "bold", color: "primary.dark" }}
+        >
+          {props.title}
+        </Typography>
         {props.actionButtons}
       </Box>
       {props.children}
