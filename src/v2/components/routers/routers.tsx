@@ -174,7 +174,7 @@ export const v2Routes = [
   />,
   <Route
     key='client/calendar'
-    path='v2/calendar'
+    path='v2/roaster'
     element={<Calendar />}
   />,
   <Route

@@ -11,8 +11,8 @@ const topLinks = [
     path: "/v2/dashboard",
   },
   {
-    label: "Calendar",
-    path: "/v2/calendar",
+    label: "Roaster",
+    path: "/v2/roaster",
   },
   {
     label: "Client",

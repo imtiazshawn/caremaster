@@ -112,7 +112,7 @@ const UpsertCarePlanTaskModal: React.FC<Props> = ({
 
   return (
     <Modal
-      title='Care Worker'
+      title='Planned Activity'
       onCloseHandler={onCloseHandler}
       isOpen={isOpen}
     >
