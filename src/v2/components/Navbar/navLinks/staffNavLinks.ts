@@ -8,12 +8,12 @@ import { settingsNavLink } from "@/v2/components/Navbar/navLinks/defaultNavLinks
 import { NavLink } from "@/v2/types/navLink";
 
 export const staffNavLinks: (NavLink | "separator" | "spacer")[] = [
-  {
-    route: `/v2/staff/:${STAFF_ID_PARAM_KEY}/profile`,
-    paramKey: STAFF_ID_PARAM_KEY,
-    icon: ProfileUser,
-    label: "Profile",
-  },
+  // {
+  //   route: `/v2/staff/:${STAFF_ID_PARAM_KEY}/profile`,
+  //   paramKey: STAFF_ID_PARAM_KEY,
+  //   icon: ProfileUser,
+  //   label: "Profile",
+  // },
   {
     route: `/v2/staff/:${STAFF_ID_PARAM_KEY}/basic`,
     paramKey: STAFF_ID_PARAM_KEY,

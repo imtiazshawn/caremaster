@@ -46,25 +46,20 @@ export const PersonalDetails = ({
   }
   const personalDetailsFormTemplate: FormTemplate<PersonalDetailsForm>[] = [
     {
-      type: "text",
-      label: "Title",
-      name: "title",
-      required: true,
-    },
-    {
       type: "column",
       items: [
+        {
+          type: "text",
+          label: "Title",
+          name: "title",
+          required: true,
+        },
         {
           type: "text",
           label: "First Name",
           name: "first_name",
           isDisabled: true,
           required: true,
-        },
-        {
-          type: "text",
-          label: "Middle Name",
-          name: "middle_name",
         },
         {
           type: "text",

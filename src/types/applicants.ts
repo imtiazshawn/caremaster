@@ -28,7 +28,6 @@ export type Applicant = {
   post?: string;
   title?: string;
   first_name: string;
-  middle_name?: string;
   last_name?: string;
   surname?: string;
   email: string;
@@ -98,7 +97,6 @@ export type PersonalDetailsForm = {
   title: string;
   first_name: string;
   surname: string;
-  middle_name?: string;
   address: string;
   telephone: string;
   phone: string;
@@ -120,7 +118,6 @@ export type PersonalDetailsForm = {
 export const PersonalDetailsFormItemsOptional: (keyof PersonalDetailsForm)[] = [
   "pin",
   "expiry_date",
-  "middle_name",
 ];
 export const PersonalDetailsFormItemsCompulsory: (keyof PersonalDetailsForm)[] =
   [
